@@ -46,15 +46,16 @@ body {
   font-family: var(--font-pretendard), sans-serif;
 }
 
-/*기본폰트 10px*/
 body,
 th,
 td,
 input,
 select,
 textarea,
+em,
 button {
   font-family: var(--font-pretendard), sans-serif;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   word-break: keep-all;

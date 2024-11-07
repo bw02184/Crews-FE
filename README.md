@@ -9,6 +9,18 @@ npm install
 npm run dev
 ```
 
+## Navigation이 없는 페이지의 경우
+
+```js
+const { setNavVisible } = useNavStore();
+useEffect(() => {
+  setNavVisible(false);
+  return () => setNavVisible(true);
+}, []);
+```
+
+`/app/service/payment/page.jsx`를 참고해서 해당 코드 추가하면 Navigation이 사라집니다. 컴포넌트가 `unmount`되면 자동으로 다시 보여지게끔 해두었으니 참고!!
+
 ## 🗂️ 폴더구조
 
 ```
