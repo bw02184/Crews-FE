@@ -1,6 +1,6 @@
 'use client';
 
-import Navigation from '@/components/service/common/Navigation';
+import Navigation from '@/components/service/common/Navigation/Navigation';
 import { Flex } from '@radix-ui/themes';
 
 export default function Layout({ children }) {
