@@ -22,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable}`}>
+      <body className={`${pretendard.variable}`} style={{ overflowY: 'scroll' }}>
         <Theme>
           <div className="wrapper">{children}</div>
         </Theme>

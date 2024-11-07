@@ -7,8 +7,7 @@
 
 /* service */
 .service {
-  height: 100vh;
-  overflow-y: scroll;
+  min-height: 100vh;
   background-color: var(--point-yello-1);
 }
 .service .size {
@@ -23,10 +22,21 @@
   width: 100%;
 }
 .service .webview {
+  position: relative;
   flex: none;
   width: 100%;
   max-width: 430px;
+  flex-grow: 1;
+  padding-bottom: 60px;
+  min-height: 100vh;
   background-color: #fff;
+  border: 1px solid var(--gray-br);
+  box-sizing: border-box;
+}
+.service .webview .content {
+  padding: 20px;
+
+  box-sizing: border-box;
 }
 
 /* admin */
