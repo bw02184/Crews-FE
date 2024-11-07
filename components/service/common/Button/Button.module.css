@@ -16,7 +16,7 @@
 .button_m li {
   width: 50%;
 }
-.button_s {
+.button_s button {
   width: 100px;
   height: 30px;
   border-radius: 24px;
