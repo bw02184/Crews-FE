@@ -1,0 +1,32 @@
+.wrapper {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* service */
+.service {
+  height: 100vh;
+  overflow-y: scroll;
+  background-color: var(--point-yello-1);
+}
+.service .size {
+  max-width: 1024px;
+  height: 100%;
+  margin: 0 auto;
+}
+.service .size > div {
+  height: 100%;
+}
+.service .landing {
+  width: 100%;
+}
+.service .webview {
+  flex: none;
+  width: 100%;
+  max-width: 430px;
+  background-color: #fff;
+}
+
+/* admin */
