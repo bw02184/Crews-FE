@@ -13,6 +13,7 @@
         "endOfLine": "auto"
       }
     ],
-    "func-style": ["error", "expression"]
+    "func-style": ["error", "expression"],
+    "no-unused-vars": "warn"
   }
 }
