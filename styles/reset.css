@@ -65,6 +65,7 @@ button {
 
 body > .radix-themes {
   --default-font-family: var(--font-pretendard), sans-serif !important;
+  color: #000;
 }
 
 caption {
