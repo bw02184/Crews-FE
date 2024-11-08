@@ -1,12 +1,13 @@
 .tab_menu ul {
+  padding: 0 20px;
   box-shadow: none;
 }
 .tab_menu ul::before {
   content: '';
   display: block;
   position: absolute;
-  left: -20px;
-  right: -20px;
+  left: 0;
+  right: 0;
   bottom: 0;
   height: 1px;
   background-color: var(--gray-br);
