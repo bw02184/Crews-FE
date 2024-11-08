@@ -1,0 +1,41 @@
+.header {
+  position: relative;
+  padding: 0 20px;
+  height: 60px;
+  line-height: 60px;
+  border-bottom: 1px solid var(--gray-br);
+  box-sizing: border-box;
+}
+.header > div {
+  height: 60px;
+}
+.header > div::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  height: 5px;
+  background-color: var(--point-lime-3);
+}
+.header > div.left::after {
+  left: 20px;
+}
+.header > div.center::after {
+  left: 50%;
+  margin-left: -50px;
+}
+.header > div h2 {
+  font-size: 20px;
+  line-height: 60px;
+}
+.header > div.left h2 {
+  width: 100px;
+  display: inline-block;
+}
+.header > div button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -9.5px;
+}

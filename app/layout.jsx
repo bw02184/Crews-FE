@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import '@radix-ui/themes/styles.css';
 import '@/styles/reset.css';
 import '@/styles/layout.css';
+import '@/styles/common.css';
 
 import { Theme } from '@radix-ui/themes';
 

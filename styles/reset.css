@@ -2,9 +2,9 @@
 :root {
   --bg-color: #fbfbfb;
 
-  --point-yello-1: #ffffec;
-  --point-yello-2: #a1a14c;
-  --point-yello-3: #fcec4f;
+  --point-yellow-1: #ffffec;
+  --point-yellow-2: #a1a14c;
+  --point-yellow-3: #fcec4f;
 
   --point-lime-1: #e7fbc6;
   --point-lime-2: #d1f88f;
@@ -66,6 +66,7 @@ button {
 body > .radix-themes {
   --default-font-family: var(--font-pretendard), sans-serif !important;
   color: #000;
+  line-height: 1.5;
 }
 
 caption {

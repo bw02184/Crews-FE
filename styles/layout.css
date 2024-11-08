@@ -8,7 +8,7 @@
 /* service */
 .service {
   min-height: 100vh;
-  background-color: var(--point-yello-1);
+  background-color: var(--point-yellow-1);
 }
 .service .size {
   max-width: 1024px;
@@ -34,6 +34,7 @@
   box-sizing: border-box;
 }
 .service .webview .content {
+  padding-bottom: 25px;
   box-sizing: border-box;
 }
 

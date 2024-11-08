@@ -18,3 +18,7 @@
 .tab_menu ul a {
   padding: 0 5px;
 }
+
+.tab_menu [data-active] p {
+  font-weight: 700;
+}

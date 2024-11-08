@@ -24,9 +24,9 @@
   font-weight: bold;
 }
 .deepYellow {
-  background-color: var(--point-yello-3);
+  background-color: var(--point-yellow-3);
 }
 .lightYellow {
-  background-color: var(--point-yello-1);
-  color: var(--point-yello-2);
+  background-color: var(--point-yellow-1);
+  color: var(--point-yellow-2);
 }
