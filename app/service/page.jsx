@@ -1,3 +1,5 @@
+'use client';
+
 import ButtonL from '@/components/service/common/Button/ButtonL';
 import ButtonM from '@/components/service/common/Button/ButtonM';
 import ButtonS from '@/components/service/common/Button/ButtonS';
@@ -6,11 +8,54 @@ import { Box, Checkbox, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes'
 import { tabMenuList } from '@/data/tabMenuList/service';
 import styles from './page.module.css';
 import Header from '@/components/service/common/Header/Header';
+import Toast from '@/components/service/common/Toast/Toast';
+import useToast from '@/hooks/useToast';
 
 export default function Service() {
+  const { toast, setToast, toastMessage, showToast } = useToast();
+
   return (
     <div>
       <Flex direction="column" gap="10px" className={styles.container}>
+        <Toast
+          as="alert"
+          isActive={toast}
+          onClose={() => {
+            setToast(false);
+          }}
+        >
+          {toastMessage}
+        </Toast>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <div className={styles.title}>
+              <Strong>/components/service/common/Toast</Strong>
+            </div>
+            <div className={styles.content}>
+              <Box>
+                <Text as="p" weight="medium" mb="2">
+                  버튼을 눌러보세요!
+                </Text>
+                <ButtonL
+                  style="deepYellow"
+                  onClick={() => {
+                    showToast('토스트 버튼1');
+                  }}
+                >
+                  토스트 버튼1
+                </ButtonL>
+                <ButtonL
+                  style="lightYellow"
+                  onClick={() => {
+                    showToast('토스트 버튼2');
+                  }}
+                >
+                  토스트 버튼2
+                </ButtonL>
+              </Box>
+            </div>
+          </section>
+        </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>

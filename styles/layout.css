@@ -32,6 +32,7 @@
   background-color: #fff;
   border: 1px solid var(--gray-br);
   box-sizing: border-box;
+  overflow: hidden;
 }
 .service .webview .content {
   padding-bottom: 25px;
