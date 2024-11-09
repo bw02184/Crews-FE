@@ -1,8 +1,8 @@
 'use client';
 
 import styles from './page.module.css';
-import { Box, Checkbox, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
-import { ButtonL, ButtonM, ButtonS, Header, ImageCard, TabMenu, Toast } from '@/components/common';
+import { Box, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
+import { ButtonL, ButtonM, ButtonS, CheckBox, Header, ImageCard, TabMenu, Toast } from '@/components/common';
 import useToast from '@/hooks/useToast';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 export default function Service() {
@@ -125,46 +125,16 @@ export default function Service() {
             </div>
             <div className={styles.content}>
               <Flex direction="column" gap="2">
-                <Box className="checkbox">
-                  <Text as="label" size="2">
-                    <Flex as="p" gap="2">
-                      <Checkbox />
-                      <Text as="span" weight="medium">
-                        Not checked
-                      </Text>
-                    </Flex>
-                  </Text>
-                </Box>
-                <Box className="checkbox">
-                  <Text as="label" size="2">
-                    <Flex as="p" gap="2">
-                      <Checkbox defaultChecked />
-                      <Text as="span" weight="medium">
-                        Checked
-                      </Text>
-                    </Flex>
-                  </Text>
-                </Box>
-                <Box className="checkbox">
-                  <Text as="label" size="2">
-                    <Flex as="p" gap="2">
-                      <Checkbox disabled />
-                      <Text as="span" weight="medium">
-                        Not checked
-                      </Text>
-                    </Flex>
-                  </Text>
-                </Box>
-                <Box className="checkbox">
-                  <Text as="label" size="2">
-                    <Flex as="p" gap="2">
-                      <Checkbox disabled defaultChecked />
-                      <Text as="span" weight="medium">
-                        Checked
-                      </Text>
-                    </Flex>
-                  </Text>
-                </Box>
+                <CheckBox value="1">테스트</CheckBox>
+                <CheckBox value="2" defaultChecked={true}>
+                  테스트
+                </CheckBox>
+                <CheckBox value="3" disabled={true}>
+                  테스트
+                </CheckBox>
+                <CheckBox value="4" defaultChecked={true} disabled={true}>
+                  테스트
+                </CheckBox>
               </Flex>
             </div>
           </section>
