@@ -1,16 +1,10 @@
 'use client';
 
-import ButtonL from '@/components/service/common/Button/ButtonL';
-import ButtonM from '@/components/service/common/Button/ButtonM';
-import ButtonS from '@/components/service/common/Button/ButtonS';
-import TabMenu from '@/components/service/common/TabMenu/TabMenu';
-import { Box, Checkbox, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
-import { tabMenuList } from '@/data/tabMenuList/service';
 import styles from './page.module.css';
-import Header from '@/components/service/common/Header/Header';
-import Toast from '@/components/service/common/Toast/Toast';
+import { Box, Checkbox, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
+import { ButtonL, ButtonM, ButtonS, Header, ImageCard, TabMenu, Toast } from '@/components/common';
 import useToast from '@/hooks/useToast';
-
+import { tabMenuList } from '@/constants/tabMenuList/service';
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
 
@@ -53,6 +47,29 @@ export default function Service() {
                   토스트 버튼2
                 </ButtonL>
               </Box>
+            </div>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <div className={styles.title}>
+              <Strong>/components/service/common/Button</Strong>
+            </div>
+            <div className={styles.content}>
+              <Flex direction="column" gap="20px">
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    아지트 카드
+                  </Text>
+                  <ImageCard type="agits"></ImageCard>
+                </Box>
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    정모 카드
+                  </Text>
+                  <ImageCard type="meeting"></ImageCard>
+                </Box>
+              </Flex>
             </div>
           </section>
         </Flex>
