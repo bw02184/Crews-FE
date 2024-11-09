@@ -2,7 +2,18 @@
 
 import styles from './page.module.css';
 import { Box, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
-import { ButtonL, ButtonM, ButtonS, CheckBox, Header, ImageCard, TabMenu, Toast } from '@/components/common';
+import {
+  ButtonL,
+  ButtonM,
+  ButtonS,
+  CheckBox,
+  Header,
+  ImageCard,
+  SelectFilter,
+  SelectHeader,
+  TabMenu,
+  Toast,
+} from '@/components/common';
 import useToast from '@/hooks/useToast';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 export default function Service() {
@@ -23,7 +34,7 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>
-              <Strong>/components/service/common/Toast</Strong>
+              <Strong>/components/common/Toast</Strong>
             </div>
             <div className={styles.content}>
               <Box>
@@ -53,7 +64,30 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>
-              <Strong>/components/service/common/Button</Strong>
+              <Strong>/components/common/Select</Strong>
+            </div>
+            <div className={styles.content}>
+              <Flex direction="column" gap="20px">
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    헤더 셀렉트
+                  </Text>
+                  <SelectHeader></SelectHeader>
+                </Box>
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    필터 셀렉트
+                  </Text>
+                  <SelectFilter></SelectFilter>
+                </Box>
+              </Flex>
+            </div>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <div className={styles.title}>
+              <Strong>/components/common/Button</Strong>
             </div>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
@@ -76,7 +110,7 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>
-              <Strong>/components/service/common/Button</Strong>
+              <Strong>/components/common/Button</Strong>
             </div>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
@@ -107,7 +141,7 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>
-              <Strong>/components/service/common/TabMenu</Strong>
+              <Strong>/components/common/TabMenu</Strong>
             </div>
             <div className={styles.content}>
               <TabMenu tabMenuList={tabMenuList} />
@@ -168,7 +202,7 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <div className={styles.title}>
-              <Strong>/components/service/common/Header</Strong>
+              <Strong>/components/common/Header</Strong>
             </div>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
