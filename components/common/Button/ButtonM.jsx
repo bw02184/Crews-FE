@@ -7,10 +7,10 @@ export default function ButtonM({ leftText, rightText }) {
       <Flex asChild gap="10px">
         <ul>
           <li>
-            <button className={styles.deepYellow}>{leftText}</button>
+            <button className={styles.light}>{leftText}</button>
           </li>
           <li>
-            <button className={styles.lightYellow}>{rightText}</button>
+            <button className={styles.deep}>{rightText}</button>
           </li>
         </ul>
       </Flex>

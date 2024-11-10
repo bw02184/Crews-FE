@@ -16,9 +16,12 @@ import {
 import useToast from '@/hooks/useToast';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/location';
+import Modal from '@/components/common/Modal/Modal';
+import useModal from '@/hooks/useModal';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
+  const { isOpen, openModal, closeModal } = useModal();
 
   return (
     <div>
@@ -43,7 +46,7 @@ export default function Service() {
                   버튼을 눌러보세요!
                 </Text>
                 <ButtonL
-                  style="deepYellow"
+                  style="deep"
                   onClick={() => {
                     showToast('토스트 버튼1');
                   }}
@@ -51,7 +54,7 @@ export default function Service() {
                   토스트 버튼1
                 </ButtonL>
                 <ButtonL
-                  style="lightYellow"
+                  style="light"
                   onClick={() => {
                     showToast('토스트 버튼2');
                   }}
@@ -59,6 +62,28 @@ export default function Service() {
                   토스트 버튼2
                 </ButtonL>
               </Box>
+            </div>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <div className={styles.title}>
+              <Strong>/components/common/Modal</Strong>
+            </div>
+            <div className={styles.content}>
+              <Flex direction="column" gap="20px">
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    버튼을 눌러보세요!
+                  </Text>
+                  <ButtonL style="deep" onClick={openModal}>
+                    모달 열기
+                  </ButtonL>
+                  <Modal isOpen={isOpen} closeModal={closeModal}>
+                    내용물
+                  </Modal>
+                </Box>
+              </Flex>
             </div>
           </section>
         </Flex>
@@ -124,8 +149,8 @@ export default function Service() {
                   <Text as="p" weight="medium" mb="2">
                     버튼L
                   </Text>
-                  <ButtonL style="deepYellow">버튼1</ButtonL>
-                  <ButtonL style="lightYellow">버튼2</ButtonL>
+                  <ButtonL style="deep">버튼1</ButtonL>
+                  <ButtonL style="light">버튼2</ButtonL>
                 </Box>
                 <Box>
                   <Text as="p" weight="medium" mb="2">
@@ -137,8 +162,8 @@ export default function Service() {
                   <Text as="p" weight="medium" mb="2">
                     버튼S
                   </Text>
-                  <ButtonS style="deepYellow">s1</ButtonS>
-                  <ButtonS style="lightYellow">s2</ButtonS>
+                  <ButtonS style="deep">s1</ButtonS>
+                  <ButtonS style="light">s2</ButtonS>
                 </Box>
               </Flex>
             </div>
