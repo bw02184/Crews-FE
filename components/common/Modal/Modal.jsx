@@ -25,7 +25,7 @@ export default function Modal({ isOpen, closeModal, children }) {
           </Box>
           <Box className={`${styles.modal_body}`}>{children}</Box>
           <Box className={styles.modal_footer}>
-            <ButtonM leftText="취소" rightText="확인" />
+            <ButtonM leftText="취소" rightText="확인" leftOnClick={closeModal} rightOnClick={closeModal} />
           </Box>
         </Flex>
       </Dialog.Content>

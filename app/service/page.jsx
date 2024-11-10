@@ -9,15 +9,15 @@ import {
   CheckBox,
   Header,
   ImageCard,
+  Modal,
   SelectFilter,
   TabMenu,
   Toast,
 } from '@/components/common';
 import useToast from '@/hooks/useToast';
+import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/location';
-import Modal from '@/components/common/Modal/Modal';
-import useModal from '@/hooks/useModal';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
