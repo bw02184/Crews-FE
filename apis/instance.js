@@ -5,9 +5,10 @@ const fetchInstance = async (url, options) => {
   };
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL + 'api/vi';
+  const SAMPLE_URL = 'http://lmrdb.duckdns.org:8080';
 
   try {
-    const response = await fetch(`${BASE_URL}${url}`, {
+    const response = await fetch(`${SAMPLE_URL}${url}`, {
       ...options,
       headers,
     });
