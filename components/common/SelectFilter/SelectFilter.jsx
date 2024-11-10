@@ -18,7 +18,12 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
     const selectParams = new URLSearchParams(new URL(href, process.env.NEXT_PUBLIC_BASE_URL).search);
 
     currentParams.set(filter, selectParams.get(filter));
-    url.search = currentParams.toString();
+    const sortedParams = new URLSearchParams();
+    Array.from(currentParams.entries())
+      .sort(([keyA], [keyB]) => (keyA > keyB ? 1 : -1))
+      .forEach(([key, value]) => sortedParams.append(key, value));
+
+    url.search = sortedParams.toString();
     return url.toString();
   };
 
