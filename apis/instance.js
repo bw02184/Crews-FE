@@ -16,17 +16,15 @@ const fetchInstance = async (url, options) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       if (response.status === 403) {
-        console.error('Token Expired');
+        throw new Error('토큰 만료');
       }
-      console.error('Fetch Error:', errorResponse);
-      return response;
+      throw new Error(`fetch error [${errorResponse}]`);
     }
 
     if (response.headers.get('Content-Type')?.includes('application/json')) await response.json();
     else return await response.text();
   } catch (error) {
-    console.log('Fetch Error:', error);
-    throw error;
+    throw new Error(`fetch error [${error}]`);
   }
 };
 
