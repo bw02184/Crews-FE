@@ -18,10 +18,20 @@ import useToast from '@/hooks/useToast';
 import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/location';
+import { useForm } from 'react-hook-form';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
   const { isOpen, openModal, closeModal } = useModal();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div>
@@ -83,6 +93,46 @@ export default function Service() {
                     내용물
                   </Modal>
                 </Box>
+              </Flex>
+            </div>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <div className={styles.title}>
+              <Strong>React-hook-form</Strong>
+            </div>
+            <div className={styles.content}>
+              <Flex direction="column" gap="20px">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Box className="row">
+                    <Text as="label" mb="2" htmlFor="user_pw" className="require" size="2" weight="bold">
+                      비밀번호
+                    </Text>
+                    <Box className="input" mb="2">
+                      <input
+                        type="password"
+                        id="user_pw"
+                        placeholder="비밀번호를 입력해주세요!"
+                        {...register('user_pw', {
+                          pattern: {
+                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
+                            message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
+                          },
+                        })}
+                        className={errors.user_pw ? 'error' : ''}
+                      />
+                    </Box>
+                    {errors.user_pw && (
+                      <Text as="p" my="1" className="error" size="1" weight="medium">
+                        {errors.user_pw.message}
+                      </Text>
+                    )}
+                  </Box>
+                  <ButtonL style="deep" type="submit">
+                    제출
+                  </ButtonL>
+                </form>
               </Flex>
             </div>
           </section>

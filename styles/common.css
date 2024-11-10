@@ -47,3 +47,26 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* form */
+/* row */
+.row {
+  font-size: 0;
+}
+.row label {
+  position: relative;
+  display: inline-block;
+  padding-right: 8px;
+  line-height: 1;
+}
+.row label::after{
+  content: "*";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #ea0000;
+}
+.row p.error {
+  color: #ea0000;
+}
