@@ -10,12 +10,13 @@ import {
   Header,
   ImageCard,
   SelectFilter,
-  SelectHeader,
   TabMenu,
   Toast,
 } from '@/components/common';
 import useToast from '@/hooks/useToast';
 import { tabMenuList } from '@/constants/tabMenuList/service';
+import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/location';
+
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
 
@@ -72,13 +73,18 @@ export default function Service() {
                   <Text as="p" weight="medium" mb="2">
                     헤더 셀렉트
                   </Text>
-                  <SelectHeader></SelectHeader>
+                  <SelectFilter
+                    isHeader={true}
+                    selectList={locationSelectMenuList}
+                    filter="location"
+                    defaultParams="sangam"
+                  ></SelectFilter>
                 </Box>
                 <Box>
                   <Text as="p" weight="medium" mb="2">
                     필터 셀렉트
                   </Text>
-                  <SelectFilter></SelectFilter>
+                  <SelectFilter filter="sort" selectList={sortSelectMenuList} defaultParams="asc"></SelectFilter>
                 </Box>
               </Flex>
             </div>
