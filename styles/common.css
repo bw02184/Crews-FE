@@ -1,3 +1,15 @@
+/* color style */
+.deep {
+  background-color: var(--point-yellow-3);
+}
+.light {
+  background-color: var(--point-yellow-1);
+  color: var(--point-yellow-2);
+}
+.lime {
+  background-color: var(--point-lime-3);
+}
+
 /* radix Radio group */
 .radio_group > div {
   flex-direction: row;
@@ -64,7 +76,7 @@
   line-height: 1;
 }
 .row label::after {
-  content: "*";
+  content: '*';
   display: block;
   position: absolute;
   right: 0;
@@ -94,6 +106,9 @@
 .error_page .txt p {
   color: var(--gray-txt-2);
 }
-.error_page .button button{
-  
+
+/* body_scroll_hide */
+.scroll_hide {
+  overflow-y: hidden !important;
+  padding-right: var(--body-scroll-bar-size);
 }

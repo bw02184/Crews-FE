@@ -15,7 +15,7 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
   const createLink = (href) => {
     const url = new URL(window.location.href);
     const currentParams = new URLSearchParams(url.search);
-    const selectParams = new URLSearchParams(new URL(href, process.env.NEXT_PUBLIC_BASE_URL).search);
+    const selectParams = new URLSearchParams(new URL(href, process.env.NEXT_PUBLIC_CLIENT_URL).search);
 
     currentParams.set(filter, selectParams.get(filter));
     const sortedParams = new URLSearchParams();
@@ -28,11 +28,11 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
   };
 
   const [current] = selectList.filter((menu) => {
-    return new URL(menu.href, process.env.NEXT_PUBLIC_BASE_URL).searchParams.get(filter) == currentParams;
+    return new URL(menu.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter) == currentParams;
   });
 
   const isActive = (select) => {
-    const selectParams = new URL(select.href, process.env.NEXT_PUBLIC_BASE_URL).searchParams.get(filter);
+    const selectParams = new URL(select.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter);
 
     if (currentParams && selectParams) {
       return currentParams == selectParams;

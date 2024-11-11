@@ -7,12 +7,12 @@ export default function ButtonM({ leftText, rightText, leftOnClick, rightOnClick
       <Flex asChild gap="10px">
         <ul>
           <li>
-            <button className={styles.light} onClick={leftOnClick}>
+            <button className="light" onClick={leftOnClick}>
               {leftText}
             </button>
           </li>
           <li>
-            <button className={styles.deep} onClick={rightOnClick}>
+            <button className="deep" onClick={rightOnClick}>
               {rightText}
             </button>
           </li>

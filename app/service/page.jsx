@@ -1,6 +1,5 @@
 'use client';
 
-import styles from './page.module.css';
 import { Box, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
 import {
   ButtonL,
@@ -9,9 +8,11 @@ import {
   CheckBox,
   Header,
   ImageCard,
+  Label,
   Modal,
   SelectFilter,
   TabMenu,
+  Title,
   Toast,
 } from '@/components/common';
 import useToast from '@/hooks/useToast';
@@ -35,7 +36,7 @@ export default function Service() {
 
   return (
     <div>
-      <Flex direction="column" gap="10px" className={styles.container}>
+      <Flex direction="column" gap="10px" className="container">
         <Toast
           as="alert"
           isActive={toast}
@@ -47,10 +48,8 @@ export default function Service() {
         </Toast>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Toast</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/Toast</Title>
+            <div className="content">
               <Box>
                 <Text as="p" weight="medium" mb="2">
                   버튼을 눌러보세요!
@@ -77,10 +76,8 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Modal</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/Modal</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
                   <Text as="p" weight="medium" mb="2">
@@ -99,10 +96,29 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>React-hook-form</Strong>
+            <Title>/components/common/Label</Title>
+            <div className="content">
+              <Flex direction="column" gap="20px">
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    라벨...
+                  </Text>
+                  <Label style="deep">라벨...</Label>
+                </Box>
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    라벨...
+                  </Text>
+                  <Label style="lime">라벨...</Label>
+                </Box>
+              </Flex>
             </div>
-            <div className={styles.content}>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <Title>React-hook-form</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Box className="row">
@@ -139,10 +155,8 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Select</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/Select</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
                   <Text as="p" weight="medium" mb="2">
@@ -167,10 +181,8 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Button</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/ImageCard</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
                   <Text as="p" weight="medium" mb="2">
@@ -190,10 +202,8 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Button</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/Button</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
                   <Text as="p" weight="medium" mb="2">
@@ -221,24 +231,20 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/TabMenu</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/TabMenu</Title>
+            <div className="content">
               <TabMenu tabMenuList={tabMenuList} />
             </div>
           </section>
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>
-                <a href="https://www.radix-ui.com/themes/docs/components/checkbox" target="_blank">
-                  Radix Checkbox
-                </a>
-              </Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>
+              <a href="https://www.radix-ui.com/themes/docs/components/checkbox" target="_blank">
+                Radix Checkbox
+              </a>
+            </Title>
+            <div className="content">
               <Flex direction="column" gap="2">
                 <CheckBox value="1">테스트</CheckBox>
                 <CheckBox value="2" defaultChecked={true}>
@@ -256,14 +262,12 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>
-                <a href="https://www.radix-ui.com/themes/docs/components/radio-group" target="_blank">
-                  Radix Radio-group
-                </a>
-              </Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>
+              <a href="https://www.radix-ui.com/themes/docs/components/radio-group" target="_blank">
+                Radix Radio-group
+              </a>
+            </Title>
+            <div className="content">
               <Box className="radio_group">
                 <RadioGroup.Root size="3" defaultValue="1" name="sample">
                   <Box className="radio">
@@ -282,10 +286,8 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Header</Strong>
-            </div>
-            <div className={styles.content}>
+            <Title>/components/common/Header</Title>
+            <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
                   <Text as="p" weight="medium" mb="2">

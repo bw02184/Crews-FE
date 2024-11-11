@@ -19,6 +19,8 @@
   --blue-1: #3658c7;
   --crimson-1: #feebec;
   --crimson-2: #ce292e;
+
+  --body-scroll-bar-size: 17px;
 }
 
 /* reset */
@@ -199,12 +201,11 @@ input[type='number'].error {
   border: 1px solid #ea0000;
 }
 
-
 input[type='text'].error:focus,
 input[type='password'].error:focus,
 input[type='tel'].error:focus,
 input[type='email'].error:focus,
-input[type='number'].error:focus{
+input[type='number'].error:focus {
   outline-color: #ea0000;
   box-sizing: border-box;
 }
