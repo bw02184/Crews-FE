@@ -6,6 +6,20 @@ import { Modal } from './Modal';
 import { Navigation } from './Navigation';
 import { SelectFilter } from './SelectFilter';
 import { TabMenu } from './TabMenu';
+import { Title } from './Title';
 import { Toast } from './Toast';
 
-export { ButtonL, ButtonM, ButtonS, CheckBox, Header, ImageCard, Modal, Navigation, SelectFilter, TabMenu, Toast };
+export {
+  ButtonL,
+  ButtonM,
+  ButtonS,
+  CheckBox,
+  Header,
+  ImageCard,
+  Modal,
+  Navigation,
+  SelectFilter,
+  TabMenu,
+  Title,
+  Toast,
+};

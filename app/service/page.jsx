@@ -12,6 +12,7 @@ import {
   Modal,
   SelectFilter,
   TabMenu,
+  Title,
   Toast,
 } from '@/components/common';
 import useToast from '@/hooks/useToast';
@@ -47,9 +48,7 @@ export default function Service() {
         </Toast>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Toast</Strong>
-            </div>
+            <Title>/components/common/Toast</Title>
             <div className={styles.content}>
               <Box>
                 <Text as="p" weight="medium" mb="2">
@@ -77,9 +76,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Modal</Strong>
-            </div>
+            <Title>/components/common/Modal</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <Box>
@@ -99,9 +96,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>React-hook-form</Strong>
-            </div>
+            <Title>React-hook-form</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,9 +134,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Select</Strong>
-            </div>
+            <Title>/components/common/Select</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <Box>
@@ -167,9 +160,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Button</Strong>
-            </div>
+            <Title>/components/common/ImageCard</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <Box>
@@ -190,9 +181,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Button</Strong>
-            </div>
+            <Title>/components/common/Button</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <Box>
@@ -221,9 +210,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/TabMenu</Strong>
-            </div>
+            <Title>/components/common/TabMenu</Title>
             <div className={styles.content}>
               <TabMenu tabMenuList={tabMenuList} />
             </div>
@@ -256,13 +243,11 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>
-                <a href="https://www.radix-ui.com/themes/docs/components/radio-group" target="_blank">
-                  Radix Radio-group
-                </a>
-              </Strong>
-            </div>
+            <Title>
+              <a href="https://www.radix-ui.com/themes/docs/components/radio-group" target="_blank">
+                Radix Radio-group
+              </a>
+            </Title>
             <div className={styles.content}>
               <Box className="radio_group">
                 <RadioGroup.Root size="3" defaultValue="1" name="sample">
@@ -282,9 +267,7 @@ export default function Service() {
         </Flex>
         <Flex direction="column" gap="10px" asChild>
           <section>
-            <div className={styles.title}>
-              <Strong>/components/common/Header</Strong>
-            </div>
+            <Title>/components/common/Header</Title>
             <div className={styles.content}>
               <Flex direction="column" gap="20px">
                 <Box>

@@ -1,4 +1,4 @@
-.toast{
+.toast {
   position: absolute;
   left: 20px;
   right: 20px;
@@ -7,15 +7,15 @@
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.25, 1.35);
   z-index: 100;
 }
-.toast.active{
+.toast.active {
   transform: translateY(0);
 }
-.toast.info > div{
-  background-color: #EDF2FE;
+.toast.info > div {
+  background-color: #edf2fe;
 }
-.toast.alert > div{
-  background-color: #FEEBEC;
+.toast.alert > div {
+  background-color: var(--crimson-1);
 }
-.toast p{
+.toast p {
   font-weight: 500;
 }
