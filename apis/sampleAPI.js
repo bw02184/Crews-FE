@@ -1,4 +1,7 @@
+'use server';
+
 import instance from './instance';
+import { revalidatePath } from 'next/cache';
 
 export const getPosts = async () => {
   const response = await instance.get('posts');
@@ -10,5 +13,6 @@ export const postPosts = async (title, content) => {
     body: JSON.stringify({ title, content }),
   });
 
+  revalidatePath('/sample');
   return response;
 };
