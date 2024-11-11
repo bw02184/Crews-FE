@@ -5,6 +5,7 @@ import localFont from 'next/font/local';
 import '@radix-ui/themes/styles.css';
 import '@/styles/reset.css';
 import '@/styles/layout.css';
+import '@/styles/common.css';
 
 import { Theme } from '@radix-ui/themes';
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <body className={`${pretendard.variable}`} style={{ overflowY: 'scroll' }}>
         <Theme>
           <div className="wrapper">{children}</div>
+          <div id="portal"></div>
         </Theme>
       </body>
     </html>

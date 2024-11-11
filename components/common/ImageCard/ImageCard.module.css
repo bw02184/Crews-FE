@@ -1,0 +1,82 @@
+.card {
+  position: relative;
+  padding: 15px;
+  border: 1px solid var(--gray-br);
+  contain: initial;
+  overflow: visible;
+}
+.card::before,
+.card::after {
+  display: none;
+}
+.card .category {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: var(--point-lime-3);
+  border-radius: 0 0 0 5px;
+  font-size: 0;
+}
+.card .category i {
+  display: inline-block;
+  padding: 0 15px;
+  height: 23px;
+  line-height: 23px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.card .img_box {
+  width: 65px;
+  flex: none;
+}
+.card .txt_box {
+  width: calc(100% - 80px);
+}
+.card .txt_box .title {
+  padding-right: 80px;
+}
+.card .txt_box .title em {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.card .txt_box .title p {
+  position: relative;
+}
+.card .txt_box .title p::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -9px;
+  top: 7.5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 100%;
+  background-color: #d9d9d9;
+}
+.card .txt_box .title p {
+  line-height: 1.2;
+}
+.card .txt_box .intro {
+  color: #878b8e;
+}
+.card .hashtag ul li {
+  padding: 0 10px;
+  height: 20px;
+  line-height: 18px;
+  color: var(--gray-txt-1);
+  border: 1px solid var(--gray-br);
+  border-radius: 10px;
+  background-color: var(--gray-bg);
+  box-sizing: border-box;
+}
+.card .hashtag ul li > div {
+  height: 100%;
+}
+.card .hashtag ul li span {
+  display: block;
+  line-height: 1;
+}
+.card .hashtag ul li.location span {
+}

@@ -1,3 +1,4 @@
+/* wrapper */
 .wrapper {
   position: relative;
   max-width: 100%;
@@ -8,7 +9,7 @@
 /* service */
 .service {
   min-height: 100vh;
-  background-color: var(--point-yello-1);
+  background-color: var(--point-yellow-1);
 }
 .service .size {
   max-width: 1024px;
@@ -30,13 +31,34 @@
   padding-bottom: 60px;
   min-height: 100vh;
   background-color: #fff;
-  border: 1px solid var(--gray-br);
+  border-left: 1px solid var(--gray-br);
+  border-right: 1px solid var(--gray-br);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.service .webview > .content {
+  padding-bottom: 25px;
   box-sizing: border-box;
 }
-.service .webview .content {
-  padding: 20px;
+@media screen and (max-width: 1240px) {
+  .service .landing {
+    display: none;
+  }
+}
+@media screen and (max-width: 430px) {
+  .service .webview {
+    border: none;
+  }
+}
 
-  box-sizing: border-box;
+/* service - container */
+.container {
+  background-color: var(--gray-br);
+}
+
+.container > section {
+  padding: 20px;
+  background-color: #fff;
 }
 
 /* admin */

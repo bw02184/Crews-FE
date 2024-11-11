@@ -1,0 +1,25 @@
+.tab_menu ul {
+  padding: 0 20px;
+  box-shadow: none;
+}
+.tab_menu ul::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--gray-br);
+}
+.tab_menu [data-active]::before {
+  background-color: var(--point-lime-3);
+}
+
+.tab_menu ul a {
+  padding: 0 5px;
+}
+
+.tab_menu [data-active] p {
+  font-weight: 700;
+}

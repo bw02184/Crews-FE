@@ -2,16 +2,16 @@
 :root {
   --bg-color: #fbfbfb;
 
-  --point-yello-1: #ffffec;
-  --point-yello-2: #a1a14c;
-  --point-yello-3: #fcec4f;
+  --point-yellow-1: #ffffec;
+  --point-yellow-2: #a1a14c;
+  --point-yellow-3: #fcec4f;
 
   --point-lime-1: #e7fbc6;
   --point-lime-2: #d1f88f;
   --point-lime-3: #a9f921;
 
-  --gray-bg: #fbfbfb;
-  --gray-br: #f0f0f0;
+  --gray-bg: #f9f9f9;
+  --gray-br: #e9ebec;
   --gray-txt-1: #a9a9a9;
   --gray-txt-2: #717171;
   --gray-btn: #798ea3;
@@ -19,6 +19,8 @@
   --blue-1: #3658c7;
   --crimson-1: #feebec;
   --crimson-2: #ce292e;
+
+  --body-scroll-bar-size: 17px;
 }
 
 /* reset */
@@ -65,6 +67,8 @@ button {
 
 body > .radix-themes {
   --default-font-family: var(--font-pretendard), sans-serif !important;
+  color: #000;
+  line-height: 1.5;
 }
 
 caption {
@@ -183,8 +187,26 @@ input[type='number'] {
   height: 50px;
   line-height: 48px;
   font-size: 14px;
+  font-weight: 500;
   border-radius: 5px;
   border: 1px solid var(--gray-br);
+  box-sizing: border-box;
+}
+
+input[type='text'].error,
+input[type='password'].error,
+input[type='tel'].error,
+input[type='email'].error,
+input[type='number'].error {
+  border: 1px solid #ea0000;
+}
+
+input[type='text'].error:focus,
+input[type='password'].error:focus,
+input[type='tel'].error:focus,
+input[type='email'].error:focus,
+input[type='number'].error:focus {
+  outline-color: #ea0000;
   box-sizing: border-box;
 }
 
@@ -194,6 +216,7 @@ input[type='tel']::placeholder,
 input[type='email']::placeholder,
 input[type='number']::placeholder {
   font-size: 14px;
+  font-weight: 500;
   color: var(--gray-txt-1);
 }
 
