@@ -122,10 +122,10 @@ export default function Service() {
               <Flex direction="column" gap="20px">
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Box className="row">
-                    <Text as="label" mb="2" htmlFor="user_pw" className="require" size="2" weight="bold">
+                    <Text as="label" htmlFor="user_pw" className="require">
                       비밀번호
                     </Text>
-                    <Box className="input" mb="2">
+                    <Box className="input">
                       <input
                         type="password"
                         id="user_pw"
@@ -140,7 +140,7 @@ export default function Service() {
                       />
                     </Box>
                     {errors.user_pw && (
-                      <Text as="p" my="1" className="error" size="1" weight="medium">
+                      <Text as="p" className="error">
                         {errors.user_pw.message}
                       </Text>
                     )}

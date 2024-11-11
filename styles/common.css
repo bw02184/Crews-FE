@@ -40,6 +40,10 @@
 }
 
 /* back_img */
+.img img {
+  max-width: 100%;
+  height: auto;
+}
 .back_img {
   background-position: center center;
   background-size: cover;
@@ -68,10 +72,15 @@
 .row label {
   position: relative;
   display: inline-block;
-  padding-right: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1;
+} 
+.row label.require{
+  padding-right: 8px;
 }
-.row label::after {
+.row label.require::after {
   content: '*';
   display: block;
   position: absolute;
@@ -80,7 +89,30 @@
   color: #ea0000;
 }
 .row p.error {
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 500;
   color: #ea0000;
+}
+
+/* error_page */
+.error_page {
+  height: 100vh;
+}
+.error_page > div {
+  height: 100%;
+}
+.error_page .img_box {
+  width: 500px;
+}
+.error_page .txt strong {
+  display: block;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.error_page .txt p {
+  color: var(--gray-txt-2);
 }
 
 /* body_scroll_hide */
