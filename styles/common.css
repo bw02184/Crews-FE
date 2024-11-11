@@ -72,10 +72,15 @@
 .row label {
   position: relative;
   display: inline-block;
-  padding-right: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1;
+} 
+.row label.require{
+  padding-right: 8px;
 }
-.row label::after {
+.row label.require::after {
   content: '*';
   display: block;
   position: absolute;
@@ -84,6 +89,9 @@
   color: #ea0000;
 }
 .row p.error {
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 500;
   color: #ea0000;
 }
 
