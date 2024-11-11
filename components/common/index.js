@@ -2,6 +2,7 @@ import { ButtonL, ButtonM, ButtonS } from './Button';
 import { CheckBox } from './CheckBox';
 import { Header } from './Header';
 import { ImageCard } from './ImageCard';
+import { Label } from './Label';
 import { Modal } from './Modal';
 import { Navigation } from './Navigation';
 import { SelectFilter } from './SelectFilter';
@@ -16,6 +17,7 @@ export {
   CheckBox,
   Header,
   ImageCard,
+  Label,
   Modal,
   Navigation,
   SelectFilter,

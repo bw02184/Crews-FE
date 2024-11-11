@@ -1,3 +1,15 @@
+/* color style */
+.deep {
+  background-color: var(--point-yellow-3);
+}
+.light {
+  background-color: var(--point-yellow-1);
+  color: var(--point-yellow-2);
+}
+.lime {
+  background-color: var(--point-lime-3);
+}
+
 /* radix Radio group */
 .radio_group > div {
   flex-direction: row;

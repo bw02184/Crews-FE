@@ -23,10 +23,3 @@
   font-size: 14px;
   font-weight: bold;
 }
-.deep {
-  background-color: var(--point-yellow-3);
-}
-.light {
-  background-color: var(--point-yellow-1);
-  color: var(--point-yellow-2);
-}

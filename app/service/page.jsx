@@ -9,6 +9,7 @@ import {
   CheckBox,
   Header,
   ImageCard,
+  Label,
   Modal,
   SelectFilter,
   TabMenu,
@@ -89,6 +90,27 @@ export default function Service() {
                   <Modal isOpen={isOpen} closeModal={closeModal}>
                     내용물
                   </Modal>
+                </Box>
+              </Flex>
+            </div>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <Title>/components/common/Label</Title>
+            <div className={styles.content}>
+              <Flex direction="column" gap="20px">
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    라벨...
+                  </Text>
+                  <Label style="deep">라벨...</Label>
+                </Box>
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    라벨...
+                  </Text>
+                  <Label style="lime">라벨...</Label>
                 </Box>
               </Flex>
             </div>
