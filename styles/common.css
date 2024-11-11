@@ -59,8 +59,8 @@
   padding-right: 8px;
   line-height: 1;
 }
-.row label::after{
-  content: "*";
+.row label::after {
+  content: '*';
   display: block;
   position: absolute;
   right: 0;
@@ -69,4 +69,10 @@
 }
 .row p.error {
   color: #ea0000;
+}
+
+/* body_scroll_hide */
+.scroll_hide {
+  overflow-y: hidden !important;
+  padding-right: var(--body-scroll-bar-size);
 }

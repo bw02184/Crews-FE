@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
       <body className={`${pretendard.variable}`} style={{ overflowY: 'scroll' }}>
         <Theme>
           <div className="wrapper">{children}</div>
+          <div id="portal"></div>
         </Theme>
       </body>
     </html>
