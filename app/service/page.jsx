@@ -181,7 +181,7 @@ export default function Service() {
                     필터 셀렉트
                   </Text>
                   <SelectFilter filter="sort" selectList={sortSelectMenuList}>
-                    정렬
+                    오름차순
                   </SelectFilter>
                 </Box>
               </Flex>

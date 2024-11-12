@@ -73,7 +73,7 @@ button/submit/link가 아닌데 Button 스타일이라면 `Label`을 사용
 
 ## 🗂️ 폴더구조
 
-````
+```
 
 ├── .next ▶️ Next의 빌드 결과물 폴더
 ├── node_modules ▶️ 프로젝트 관련 JS 라이브러리가 설치된 폴더
@@ -140,5 +140,3 @@ button/submit/link가 아닌데 Button 스타일이라면 `Label`을 사용
 
 예시
 `[feat/#이슈번호]: 타워 추가`
-```
-````
