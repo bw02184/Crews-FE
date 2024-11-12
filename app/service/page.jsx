@@ -86,7 +86,11 @@ export default function Service() {
                   <ButtonL style="deep" onClick={openModal}>
                     모달 열기
                   </ButtonL>
-                  <Modal isOpen={isOpen} closeModal={closeModal}>
+                  <Modal
+                    isOpen={isOpen}
+                    closeModal={closeModal}
+                    header={{ title: '모달 타이틀', text: '소제목이 있을 경우에 여기에 넣습니다.' }}
+                  >
                     내용물
                   </Modal>
                 </Box>

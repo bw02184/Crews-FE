@@ -2,12 +2,12 @@
 
 import styles from './Modal.module.css';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import { ButtonM } from '../Button';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 
-export default function Modal({ isOpen, closeModal, children }) {
+export default function Modal({ isOpen, closeModal, children, header }) {
   const [isMotion, setIsMotion] = useState(false);
 
   useEffect(() => {
@@ -33,11 +33,13 @@ export default function Modal({ isOpen, closeModal, children }) {
             <Box className={styles.modal_header}>
               <header>
                 <Heading as="h3" size="5" align="center">
-                  모임명
+                  {header.title}
                 </Heading>
-                <Text as="p" size="2" weight="medium" align="center">
-                  아지트에 가입하시려면 아래 사항을 확인해주세요.
-                </Text>
+                {header.text && (
+                  <Text as="p" size="2" weight="medium" align="center">
+                    {header.text}
+                  </Text>
+                )}
               </header>
               <button className={styles.btn_close} onClick={closeModal}>
                 <Cross2Icon />
