@@ -59,6 +59,10 @@ body {
   font-family: var(--font-pretendard), sans-serif;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 body,
 th,
 td,
