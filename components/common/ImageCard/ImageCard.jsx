@@ -30,7 +30,7 @@ export default function ImageCard({ type }) {
             </Box>
           </Box>
 
-          <Box className={styles.hashtag} mt="2">
+          <Box className={styles.hashtag}>
             <Flex gap="5px" wrap="wrap" asChild>
               <ul>
                 {type == 'agits' && (

@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Flex, RadioGroup, Text } from '@radix-ui/themes';
+import { Box, Flex, RadioGroup, Text } from '@radix-ui/themes';
 import {
   ButtonL,
   ButtonM,
@@ -18,7 +18,7 @@ import {
 import useToast from '@/hooks/useToast';
 import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
-import { agitsSelectMenuList, locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
+import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
 
 export default function Service() {

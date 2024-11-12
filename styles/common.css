@@ -76,8 +76,8 @@
   font-size: 14px;
   font-weight: 700;
   line-height: 1;
-} 
-.row label.require{
+}
+.row label.require {
   padding-right: 8px;
 }
 .row label.require::after {

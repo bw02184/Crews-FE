@@ -1,8 +1,10 @@
-.select{position: relative;}
-.select > button{
+.select {
+  position: relative;
+}
+.select > button {
   position: relative;
   display: inline-block;
-  padding:0 40px 0 15px;
+  padding: 0 40px 0 15px;
   font-weight: 500;
   height: 28px;
   border-radius: 14px;
@@ -10,28 +12,28 @@
   background-color: var(--gray-bg);
   color: var(--gray-txt-2);
 }
-.select > button::before{
-  content:''; 
+.select > button::before {
+  content: '';
   display: block;
   position: absolute;
   right: 15px;
   top: 50%;
-  margin-top:-3.5px;
+  margin-top: -3.5px;
   border-top: 7px solid var(--gray-txt-2);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
-.select.header > button{
+.select.header > button {
   font-size: 16px;
   height: 32px;
   border-radius: 16px;
   background-color: #f5f5f5;
   color: #000;
 }
-.select.header > button::before{
+.select.header > button::before {
   border-top: 7px solid #000;
 }
-.select > ul{
+.select > ul {
   position: absolute;
   left: 0;
   top: 100%;
@@ -54,10 +56,10 @@
   border-radius: 5px;
   transition: all 0.2s linear;
 }
-.select > ul button:hover{
+.select > ul button:hover {
   background-color: #f5f5f5;
 }
-.select > ul button.active{
+.select > ul button.active {
   background-color: var(--gray-br);
   font-weight: 700;
 }
