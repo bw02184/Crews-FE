@@ -1,7 +1,7 @@
 export const agitsSelectMenuList = [
-  { text: '모임명1', href: '/service/agits/1' },
-  { text: '모임명2', href: '/service/agits/2' },
-  { text: '모임명3', href: '/service/agits/3' },
+  { id: 1, text: '모임명1' },
+  { id: 2, text: '모임명2' },
+  { id: 3, text: '모임명3' },
 ];
 
 export const locationSelectMenuList = [

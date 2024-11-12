@@ -168,13 +168,13 @@ export default function Service() {
                   <Text as="p" weight="medium" mb="2">
                     필터 셀렉트
                   </Text>
-                  <SelectFilter filter="location" selectList={locationSelectMenuList} defaultParams="sangam" />
+                  <SelectFilter filter="location" defaultParams="sangam" selectList={locationSelectMenuList} />
                 </Box>
                 <Box>
                   <Text as="p" weight="medium" mb="2">
                     필터 셀렉트
                   </Text>
-                  <SelectFilter filter="sort" selectList={sortSelectMenuList} defaultParams="asc" />
+                  <SelectFilter filter="sort" defaultParams="asc" selectList={sortSelectMenuList} />
                 </Box>
               </Flex>
             </div>

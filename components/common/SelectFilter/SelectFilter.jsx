@@ -4,11 +4,10 @@ import Link from 'next/link';
 import styles from './SelectFilter.module.css';
 import { Box } from '@radix-ui/themes';
 import { useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-export default function SelectFilter({ isHeader, as = 'params', selectList, filter, defaultParams }) {
+export default function SelectFilter({ isHeader, as = 'params', filter, defaultParams, selectList, pathname }) {
   const [openSelect, setOpenSelect] = useState(false);
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // 현재 filter 값으로 받아올 서치 파라미터가 없을 경우 기본값 설정
@@ -35,7 +34,7 @@ export default function SelectFilter({ isHeader, as = 'params', selectList, filt
   // .select > button 에서 보여줄 현재값 감지
   const [current] = selectList.filter((menu) => {
     if (as == 'link') {
-      return pathname == menu.href;
+      return defaultParams == menu.id;
     } else {
       return new URL(menu.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter) == currentParams;
     }
@@ -44,7 +43,7 @@ export default function SelectFilter({ isHeader, as = 'params', selectList, filt
   // .select > ul 에서 활성화될 현재값 감지
   const isActive = (select) => {
     if (as == 'link') {
-      return pathname == select.href;
+      return defaultParams == select.id;
     }
     const selectParams = new URL(select.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter);
 
@@ -70,7 +69,7 @@ export default function SelectFilter({ isHeader, as = 'params', selectList, filt
             const updateHref = createLink(select.href);
             return (
               <li key={`selectFilter${i}`}>
-                <Link href={as == 'link' ? select.href : updateHref}>
+                <Link href={as == 'link' ? `${pathname}/${select.id}` : updateHref}>
                   <button
                     className={isActive(select) ? styles.active : ''}
                     onClick={() => {

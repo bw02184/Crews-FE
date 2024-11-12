@@ -5,7 +5,13 @@ import { Box } from '@radix-ui/themes';
 export default function Page({ params }) {
   return (
     <Box p="3">
-      <SelectFilter isHeader={true} as="link" selectList={agitsSelectMenuList}></SelectFilter>
+      <SelectFilter
+        isHeader={true}
+        as="link"
+        defaultParams={params.id}
+        pathname="/service/agits"
+        selectList={agitsSelectMenuList}
+      ></SelectFilter>
     </Box>
   );
 }
