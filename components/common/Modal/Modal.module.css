@@ -16,7 +16,6 @@
   opacity: 1;
 }
 .modal_box {
-  padding: 20px;
   margin: auto;
   flex-grow: 1;
 }
@@ -24,7 +23,6 @@
   position: relative;
   width: 100%;
   max-width: 390px;
-  padding: 20px;
   padding-top: 30px;
   margin: auto;
   background-color: #fff;

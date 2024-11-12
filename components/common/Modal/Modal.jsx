@@ -27,8 +27,8 @@ export default function Modal({ isOpen, closeModal, children, header }) {
 
   return createPortal(
     <Box className={`${styles.modal_wrap} ${isMotion ? styles.open : ''}`} onClick={closeModal}>
-      <Box className={styles.modal_box}>
-        <Box className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <Box p="3" className={styles.modal_box}>
+        <Box p="3" className={styles.modal} onClick={(e) => e.stopPropagation()}>
           <Flex direction="column" gap="20px" className="modal_content">
             <Box className={styles.modal_header}>
               <header>

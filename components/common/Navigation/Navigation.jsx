@@ -12,7 +12,7 @@ export default function Navigation() {
 
   return (
     navVisible && (
-      <div className={styles.navigation}>
+      <Box px="3" className={styles.navigation}>
         <Flex asChild align="center" gap="50px">
           <nav>
             <ul>
@@ -116,7 +116,7 @@ export default function Navigation() {
             </ul>
           </nav>
         </Flex>
-      </div>
+      </Box>
     )
   );
 }
