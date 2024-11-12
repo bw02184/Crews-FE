@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, RadioGroup, Strong, Text } from '@radix-ui/themes';
+import { Box, Flex, RadioGroup, Text } from '@radix-ui/themes';
 import {
   ButtonL,
   ButtonM,
@@ -145,7 +145,7 @@ export default function Service() {
                       </Text>
                     )}
                   </Box>
-                  <ButtonL style="deep" type="submit">
+                  <ButtonL type="submit" style="deep">
                     제출
                   </ButtonL>
                 </form>
@@ -216,14 +216,21 @@ export default function Service() {
                   <Text as="p" weight="medium" mb="2">
                     버튼M
                   </Text>
-                  <ButtonM leftText="M1" rightText="M2" />
+                  <ButtonM leftButton={{ text: 'm1' }} rightButton={{ text: 'm2' }} />
                 </Box>
                 <Box>
                   <Text as="p" weight="medium" mb="2">
                     버튼S
                   </Text>
-                  <ButtonS style="deep">s1</ButtonS>
-                  <ButtonS style="light">s2</ButtonS>
+                  <ButtonS style="deep" icon={{ src: '/icons/ico_delete.svg', width: '9', height: '9', alt: '삭제' }}>
+                    s1
+                  </ButtonS>
+                  <ButtonS
+                    style="light"
+                    icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}
+                  >
+                    정보수정
+                  </ButtonS>
                 </Box>
               </Flex>
             </div>

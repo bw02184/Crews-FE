@@ -1,7 +1,7 @@
 import { getPosts } from '@/apis/sampleAPI';
+import { ButtonL, ButtonM } from '@/components/common';
 import PostsList from '@/components/sample/PostsList';
 import { Box, Text } from '@radix-ui/themes';
-import Link from 'next/link';
 
 export default async function Page() {
   const response = await getPosts();
@@ -12,9 +12,9 @@ export default async function Page() {
   return (
     <Box>
       <PostsList posts={response} />
-      <Text as="p" align="right" mt="3">
-        <Link href="/sample/write">작성하기</Link>
-      </Text>
+      <Box mt="3">
+        <ButtonM rightButton={{ as: 'link', href: '/sample/write', text: '작성하기' }} />
+      </Box>
     </Box>
   );
 }

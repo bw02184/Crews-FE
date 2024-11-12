@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './SelectFilter.module.css';
 import { Box } from '@radix-ui/themes';

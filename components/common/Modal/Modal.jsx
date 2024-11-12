@@ -2,7 +2,7 @@
 
 import styles from './Modal.module.css';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
 import { ButtonM } from '../Button';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
@@ -45,7 +45,10 @@ export default function Modal({ isOpen, closeModal, children }) {
             </Box>
             <Box className={`${styles.modal_body}`}>{children}</Box>
             <Box className={styles.modal_footer}>
-              <ButtonM leftText="취소" rightText="확인" leftOnClick={closeModal} rightOnClick={closeModal} />
+              <ButtonM
+                leftButton={{ text: '취소', onClick: closeModal }}
+                rightButton={{ text: '확인', onClick: closeModal }}
+              />
             </Box>
           </Flex>
         </Box>
