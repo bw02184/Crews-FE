@@ -5,12 +5,12 @@ export const agitsSelectMenuList = [
 ];
 
 export const locationSelectMenuList = [
-  { text: '상암동', href: '?location=sangam' },
-  { text: '연희동', href: '?location=yeonhee' },
-  { text: '서교동', href: '?location=seogyo' },
+  { text: '상암동', params: 'sangam' },
+  { text: '연희동', params: 'yeonhee' },
+  { text: '서교동', params: 'seogyo' },
 ];
 
 export const sortSelectMenuList = [
-  { text: '오름차순', href: '?sort=asc' },
-  { text: '내림차순', href: '?sort=desc' },
+  { text: '오름차순', params: 'asc' },
+  { text: '내림차순', params: 'desc' },
 ];
