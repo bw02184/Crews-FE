@@ -1,6 +1,6 @@
 소모임과 통장을 합쳐 한번에 관리할 수 있는 프로젝트 👨‍👩‍👦‍👦➕🏛
 
-## 실행하기
+## 👽 실행하기
 
 ```
 git clone https://github.com/woorifisa-projects-3rd/Crews-FE.git
@@ -9,7 +9,9 @@ npm install
 npm run dev
 ```
 
-## Navigation이 없는 페이지의 경우
+NEXT를 15 → 14 버전으로 낮췄습니다.
+
+## 🌱 Navigation이 없는 페이지의 경우
 
 ```js
 const { setNavVisible } = useNavStore();
@@ -21,9 +23,58 @@ useEffect(() => {
 
 `/app/service/payment/page.jsx`를 참고해서 해당 코드 추가하면 Navigation이 사라집니다. 컴포넌트가 `unmount`되면 자동으로 다시 보여지게끔 해두었으니 참고!!
 
+## 🌿 Button 사용법
+
+### ButtonL `type="button"`
+
+```js
+<ButtonL style="deep">버튼L</ButtonL>
+<ButtonL style="light">버튼L</ButtonL>
+```
+
+### ButtonL `type="submit"`
+
+```js
+<ButtonL style="deep" type="submit">버튼L</ButtonL>
+<ButtonL style="light" type="submit">버튼L</ButtonL>
+```
+
+### ButtonL as `<Link>`
+
+```js
+<ButtonL style="deep" as="link" href="/service/agits/1">
+  버튼을 링크로 사용하기
+</ButtonL>
+```
+
+### ButtonM
+
+```js
+<ButtonM
+  leftButton={{ onClick: closeModal, text: 'm1' }}
+  rightButton={{ as: 'link', href='/service', text: 'm2' }}
+/>
+```
+
+leftButton의 style은 `"light"`로 고정  
+rightButton의 style은 `"deep"`으로 고정  
+만약에 rightButton만 존재한다면 `<ButtonM rightButton={{ type: 'submit', text: '작성' }}/>` 이렇게 선언
+
+### ButtonS
+
+```js
+<ButtonS style="light" icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}>
+  정보수정
+</ButtonS>
+```
+
+ButtonS에는 반드시 아이콘이 필요함  
+button/submit/link가 아닌데 Button 스타일이라면 `Label`을 사용
+
 ## 🗂️ 폴더구조
 
-```
+````
+
 ├── .next ▶️ Next의 빌드 결과물 폴더
 ├── node_modules ▶️ 프로젝트 관련 JS 라이브러리가 설치된 폴더
 ├── public ▶️ 이미지, 폰트와 같은 정적 자원들을 배치하는 폴더
@@ -73,6 +124,7 @@ useEffect(() => {
 ├── next.config.mjs ▶️ 넥스트 설정 파일
 ├── package-lock.json ▶️ 라이브러리 의존 관계 설정 파일
 └── package.json ▶️ NPM 프로젝트 설정 파일
+
 ```
 
 ## 🎈 Commit 방법
@@ -88,3 +140,5 @@ useEffect(() => {
 
 예시
 `[feat/#이슈번호]: 타워 추가`
+```
+````
