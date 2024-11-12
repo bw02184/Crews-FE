@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, RadioGroup, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, RadioGroup, Text } from '@radix-ui/themes';
 import {
   ButtonL,
   ButtonM,
@@ -18,7 +18,7 @@ import {
 import useToast from '@/hooks/useToast';
 import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
-import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/location';
+import { agitsSelectMenuList, locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
 
 export default function Service() {
@@ -131,6 +131,7 @@ export default function Service() {
                         id="user_pw"
                         placeholder="비밀번호를 입력해주세요!"
                         {...register('user_pw', {
+                          required: '비밀번호를 입력해주세요!',
                           pattern: {
                             value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
                             message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
@@ -159,21 +160,21 @@ export default function Service() {
             <div className="content">
               <Flex direction="column" gap="20px">
                 <Box>
-                  <Text as="p" weight="medium" mb="2">
-                    헤더 셀렉트
-                  </Text>
-                  <SelectFilter
-                    isHeader={true}
-                    selectList={locationSelectMenuList}
-                    filter="location"
-                    defaultParams="sangam"
-                  ></SelectFilter>
+                  <ButtonL as="link" href="/service/agits/1" style="deep">
+                    헤더 셀렉트 보러가기
+                  </ButtonL>
                 </Box>
                 <Box>
                   <Text as="p" weight="medium" mb="2">
                     필터 셀렉트
                   </Text>
-                  <SelectFilter filter="sort" selectList={sortSelectMenuList} defaultParams="asc"></SelectFilter>
+                  <SelectFilter filter="location" selectList={locationSelectMenuList} defaultParams="sangam" />
+                </Box>
+                <Box>
+                  <Text as="p" weight="medium" mb="2">
+                    필터 셀렉트
+                  </Text>
+                  <SelectFilter filter="sort" selectList={sortSelectMenuList} defaultParams="asc" />
                 </Box>
               </Flex>
             </div>

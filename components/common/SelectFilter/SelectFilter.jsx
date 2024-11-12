@@ -4,10 +4,11 @@ import Link from 'next/link';
 import styles from './SelectFilter.module.css';
 import { Box } from '@radix-ui/themes';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
-export default function SelectFilter({ isHeader, selectList, filter, defaultParams }) {
+export default function SelectFilter({ isHeader, as = 'params', selectList, filter, defaultParams }) {
   const [openSelect, setOpenSelect] = useState(false);
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // 현재 filter 값으로 받아올 서치 파라미터가 없을 경우 기본값 설정
@@ -21,6 +22,8 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
 
     currentParams.set(filter, selectParams.get(filter));
     const sortedParams = new URLSearchParams();
+
+    // 서치 파라미터 정렬
     Array.from(currentParams.entries())
       .sort(([keyA], [keyB]) => (keyA > keyB ? 1 : -1))
       .forEach(([key, value]) => sortedParams.append(key, value));
@@ -29,11 +32,20 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
     return url.toString();
   };
 
+  // .select > button 에서 보여줄 현재값 감지
   const [current] = selectList.filter((menu) => {
-    return new URL(menu.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter) == currentParams;
+    if (as == 'link') {
+      return pathname == menu.href;
+    } else {
+      return new URL(menu.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter) == currentParams;
+    }
   });
 
+  // .select > ul 에서 활성화될 현재값 감지
   const isActive = (select) => {
+    if (as == 'link') {
+      return pathname == select.href;
+    }
     const selectParams = new URL(select.href, process.env.NEXT_PUBLIC_CLIENT_URL).searchParams.get(filter);
 
     if (currentParams && selectParams) {
@@ -58,7 +70,7 @@ export default function SelectFilter({ isHeader, selectList, filter, defaultPara
             const updateHref = createLink(select.href);
             return (
               <li key={`selectFilter${i}`}>
-                <Link href={updateHref}>
+                <Link href={as == 'link' ? select.href : updateHref}>
                   <button
                     className={isActive(select) ? styles.active : ''}
                     onClick={() => {
