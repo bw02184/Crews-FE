@@ -20,6 +20,7 @@ import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
+import { agits, events } from '@/constants/dummy';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
@@ -182,16 +183,24 @@ export default function Service() {
           <Title>/components/common/ImageCard</Title>
           <Flex direction="column" gap="20px">
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 아지트 카드
               </Text>
-              <ImageCard type="agits"></ImageCard>
+              <Flex direction="column" gap="10px">
+                {agits.map((agit, i) => {
+                  return <ImageCard data={agit} key={`agit${i}`}></ImageCard>;
+                })}
+              </Flex>
             </Box>
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 정모 카드
               </Text>
-              <ImageCard type="meeting"></ImageCard>
+              <Flex direction="column" gap="10px">
+                {events.map((event, i) => {
+                  return <ImageCard type="event" data={event} key={`event${i}`}></ImageCard>;
+                })}
+              </Flex>
             </Box>
           </Flex>
         </section>
