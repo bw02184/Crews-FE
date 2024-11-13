@@ -50,7 +50,7 @@ export default function Service() {
         <section>
           <Title>/components/common/Toast</Title>
           <Box>
-            <Text as="p" weight="medium" mb="2">
+            <Text as="p" weight="medium" mb="1">
               버튼을 눌러보세요!
             </Text>
             <ButtonL
@@ -77,7 +77,7 @@ export default function Service() {
           <Title>/components/common/Modal</Title>
           <Flex direction="column" gap="20px">
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 버튼을 눌러보세요!
               </Text>
               <ButtonL style="deep" onClick={openModal}>
@@ -99,13 +99,13 @@ export default function Service() {
           <Title>/components/common/Label</Title>
           <Flex direction="column" gap="20px">
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 라벨...
               </Text>
               <Label style="deep">라벨...</Label>
             </Box>
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 라벨...
               </Text>
               <Label style="lime">라벨...</Label>
@@ -290,13 +290,13 @@ export default function Service() {
           <Title>/components/common/Header</Title>
           <Flex direction="column" gap="20px">
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 side left
               </Text>
               <Header side="left">마이페이지</Header>
             </Box>
             <Box>
-              <Text as="p" weight="medium" mb="2">
+              <Text as="p" weight="medium" mb="1">
                 side center
               </Text>
               <Header side="center">아지트 생성</Header>
