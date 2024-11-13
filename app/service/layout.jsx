@@ -10,7 +10,7 @@ export default function Layout({ children }) {
         <Flex justify="center">
           <section className="landing">랜딩영역</section>
           <section className="webview">
-            <div className="content">{children}</div>
+            <div className="container">{children}</div>
             <Navigation />
           </section>
         </Flex>

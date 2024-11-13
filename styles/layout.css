@@ -36,7 +36,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-.service .webview > .content {
+.service .webview > .container {
   padding-bottom: 25px;
   box-sizing: border-box;
 }
@@ -51,12 +51,12 @@
   }
 }
 
-/* service - container */
-.container {
+/* service - page */
+.page .content {
   background-color: var(--gray-br);
 }
 
-.container > section {
+.page .content > section {
   padding: 20px;
   background-color: #fff;
 }
