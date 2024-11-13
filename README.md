@@ -23,6 +23,36 @@ useEffect(() => {
 
 `/app/service/payment/page.jsx`를 참고해서 해당 코드 추가하면 Navigation이 사라집니다. 컴포넌트가 `unmount`되면 자동으로 다시 보여지게끔 해두었으니 참고!!
 
+## 🥨 page.jsx 컨벤션
+
+```js
+// 최상위 div는 "page"로 고정
+<div className="page">
+    // 타이틀 영역 [방법 1]
+    <Header side="left">마이페이지</Header>
+    // 타이틀 영역 [방법 2]
+    // <Header /> 컴포넌트를 쓰지 않는 페이지라면 아래와 같은 <header />로 감싼 무언가
+    <header>
+      <SelectFilter />
+      <TabMenu />
+    </header>
+
+    // 내용물은 무조건 "content" 안에 <section>으로 감싸기
+    // 컨텐츠 영역 [방법 1]
+    <div className="content">
+      <section>내용물</section>
+    </div>
+    // 디자인에 회색 구분선이 들어가있다면 다음과 같이 선언
+    // 컨텐츠 영역 [방법 2]
+    <Flex direction="column" gap="10px" className="content">
+      <section>내용물</section>
+    </Flex>
+</div>
+```
+
+취합해서 이런 구조를 갖되 page.jsx은 ssr로 남겨놓을 것  
+'use client'를 사용하는 경우 컴포넌트로 분리해서 `/components/도메인명` 폴더아래에 넣음
+
 ## 🌿 Button 사용법
 
 ### ButtonL `type="button"`
