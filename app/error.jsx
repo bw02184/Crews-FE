@@ -19,7 +19,7 @@ export default function Error({ error, reset }) {
             <Text as="p">{error.message}</Text>
           </Box>
           <Box className="button" mt="5">
-            <ButtonL style="deep" onClick={reset}>
+            <ButtonL style="deep" onClick={() => reset()}>
               다시 시도해보세요!
             </ButtonL>
           </Box>

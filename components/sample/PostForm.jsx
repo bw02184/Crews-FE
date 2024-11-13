@@ -6,9 +6,11 @@ import useToast from '@/hooks/useToast';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useSWRConfig } from 'swr';
 
 export default function PostForm() {
   const { toast, setToast, toastMessage, showToast } = useToast();
+  const { mutate } = useSWRConfig();
 
   const {
     register,
@@ -32,6 +34,9 @@ export default function PostForm() {
       alert('게시물이 저장되었습니다!');
       reset();
       router.push('/sample');
+
+      // 'posts' 키와 일치하는 SWR 캐시 갱신
+      mutate('posts');
     }
   };
 
