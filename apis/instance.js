@@ -21,8 +21,7 @@ const fetchInstance = async (url, options) => {
       throw new Error(`fetch error [${errorResponse}]`);
     }
 
-    if (response.headers.get('Content-Type')?.includes('application/json')) return await response.json();
-    else return await response.text();
+    return await response.json();
   } catch (error) {
     throw new Error(`fetch error [${error}]`);
   }

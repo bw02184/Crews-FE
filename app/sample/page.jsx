@@ -1,20 +1,14 @@
 import { getPosts } from '@/apis/sampleAPI';
 import PostsList from '@/components/sample/PostsList';
-import { Box, Text } from '@radix-ui/themes';
-import Link from 'next/link';
 
 export default async function Page() {
-  const response = await getPosts();
-  if (response?.error) {
-    throw new Error(response.error);
+  // 초기 데이터를 sampleAPI를 통해서 ssr로 받아옴
+  const initData = await getPosts();
+
+  // ssr에서 에러 처리
+  if (initData?.error) {
+    throw new Error(initData.error);
   }
 
-  return (
-    <Box>
-      <PostsList posts={response} />
-      <Text as="p" align="right" mt="3">
-        <Link href="/sample/write">작성하기</Link>
-      </Text>
-    </Box>
-  );
+  return <PostsList initData={initData} />;
 }

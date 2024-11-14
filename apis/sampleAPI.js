@@ -13,6 +13,7 @@ export const postPosts = async (title, content) => {
     body: JSON.stringify({ title, content }),
   });
 
+  // 해당 경로 데이터 새로 호출
   revalidatePath('/sample');
   return response;
 };

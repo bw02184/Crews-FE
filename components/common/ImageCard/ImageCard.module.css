@@ -13,13 +13,14 @@
   position: absolute;
   right: 0;
   top: 0;
+  width: 75px;
+  text-align: center;
   background-color: var(--point-lime-3);
   border-radius: 0 0 0 5px;
   font-size: 0;
 }
 .card .category i {
-  display: inline-block;
-  padding: 0 15px;
+  display: block;
   height: 23px;
   line-height: 23px;
   font-size: 12px;
@@ -61,6 +62,9 @@
 .card .txt_box .intro {
   color: #878b8e;
 }
+.card .hashtag {
+  margin-top: 6px;
+}
 .card .hashtag ul li {
   padding: 0 10px;
   height: 20px;
@@ -77,6 +81,4 @@
 .card .hashtag ul li span {
   display: block;
   line-height: 1;
-}
-.card .hashtag ul li.location span {
 }

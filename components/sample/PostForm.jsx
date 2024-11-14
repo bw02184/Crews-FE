@@ -1,12 +1,17 @@
 'use client';
 
 import { postPosts } from '@/apis/sampleAPI';
-import { ButtonL } from '@/components/common';
+import { ButtonL, Toast } from '@/components/common';
+import useToast from '@/hooks/useToast';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useSWRConfig } from 'swr';
 
 export default function PostForm() {
+  const { toast, setToast, toastMessage, showToast } = useToast();
+  const { mutate } = useSWRConfig();
+
   const {
     register,
     handleSubmit,
@@ -16,6 +21,11 @@ export default function PostForm() {
   const router = useRouter();
 
   const onSubmit = async ({ title, content }) => {
+    if (title.length < 5) {
+      showToast('제목을 길게 입력해주세요! 아무튼 토스트 테스트!');
+      return;
+    }
+
     const response = await postPosts(title, content);
 
     if (response?.error) {
@@ -24,11 +34,23 @@ export default function PostForm() {
       alert('게시물이 저장되었습니다!');
       reset();
       router.push('/sample');
+
+      // 'posts' 키와 일치하는 SWR 캐시 갱신
+      mutate('posts');
     }
   };
 
   return (
     <div>
+      <Toast
+        as="alert"
+        isActive={toast}
+        onClose={() => {
+          setToast(false);
+        }}
+      >
+        {toastMessage}
+      </Toast>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex direction="column" gap="15px">
           <Box className="row">

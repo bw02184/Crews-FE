@@ -23,6 +23,17 @@
   --body-scroll-bar-size: 17px;
 }
 
+/* radix-themes */
+.radix-themes {
+  --space-1: 10px;
+  --space-2: 15px;
+  --space-3: 20px;
+
+  --default-font-family: var(--font-pretendard), sans-serif !important;
+  color: #000;
+  line-height: 1.5;
+}
+
 /* reset */
 * {
   text-size-adjust: none;
@@ -48,6 +59,10 @@ body {
   font-family: var(--font-pretendard), sans-serif;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 body,
 th,
 td,
@@ -63,12 +78,6 @@ button {
   word-break: keep-all;
   word-wrap: break-word;
   letter-spacing: -0.5px;
-}
-
-body > .radix-themes {
-  --default-font-family: var(--font-pretendard), sans-serif !important;
-  color: #000;
-  line-height: 1.5;
 }
 
 caption {

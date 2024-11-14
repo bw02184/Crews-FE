@@ -7,7 +7,7 @@ import { ButtonM } from '../Button';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 
-export default function Modal({ isOpen, closeModal, children }) {
+export default function Modal({ isOpen, closeModal, children, header }) {
   const [isMotion, setIsMotion] = useState(false);
 
   useEffect(() => {
@@ -27,17 +27,19 @@ export default function Modal({ isOpen, closeModal, children }) {
 
   return createPortal(
     <Box className={`${styles.modal_wrap} ${isMotion ? styles.open : ''}`} onClick={closeModal}>
-      <Box className={styles.modal_box}>
-        <Box className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <Box p="3" className={styles.modal_box}>
+        <Box p="3" className={styles.modal} onClick={(e) => e.stopPropagation()}>
           <Flex direction="column" gap="20px" className="modal_content">
             <Box className={styles.modal_header}>
               <header>
                 <Heading as="h3" size="5" align="center">
-                  모임명
+                  {header.title}
                 </Heading>
-                <Text as="p" size="2" weight="medium" align="center">
-                  아지트에 가입하시려면 아래 사항을 확인해주세요.
-                </Text>
+                {header.text && (
+                  <Text as="p" size="2" weight="medium" align="center">
+                    {header.text}
+                  </Text>
+                )}
               </header>
               <button className={styles.btn_close} onClick={closeModal}>
                 <Cross2Icon />
@@ -45,7 +47,10 @@ export default function Modal({ isOpen, closeModal, children }) {
             </Box>
             <Box className={`${styles.modal_body}`}>{children}</Box>
             <Box className={styles.modal_footer}>
-              <ButtonM leftText="취소" rightText="확인" leftOnClick={closeModal} rightOnClick={closeModal} />
+              <ButtonM
+                leftButton={{ text: '취소', onClick: closeModal }}
+                rightButton={{ text: '확인', onClick: closeModal }}
+              />
             </Box>
           </Flex>
         </Box>
