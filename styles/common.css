@@ -4,7 +4,7 @@
 }
 .light {
   background-color: var(--point-yellow-1);
-  color: var(--point-yellow-2);
+  color: var(--point-yellow-2) !important;
 }
 .lime {
   background-color: var(--point-lime-3);
@@ -58,6 +58,9 @@
 }
 
 /* txt_line */
+.dpb {
+  display: block;
+}
 .txt_line {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -65,6 +68,11 @@
 }
 
 /* form */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 /* row */
 .row {
   font-size: 0;

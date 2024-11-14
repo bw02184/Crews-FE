@@ -1,13 +1,13 @@
-import LoginForm from '@/components/auth/LoginForm';
+import IdFindForm from '@/components/auth/find/IdFindForm';
 import { Header } from '@/components/common';
 
 export default function Page() {
   return (
     <div className="page">
-      <Header>로그인</Header>
+      <Header side="center">아이디 찾기</Header>
       <div className="content">
         <section>
-          <LoginForm />
+          <IdFindForm />
         </section>
       </div>
     </div>
