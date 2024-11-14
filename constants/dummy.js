@@ -60,3 +60,10 @@ export const events = [
     introduction: '한줄소개3 한줄소개3 한줄소개3',
   },
 ];
+
+export const feeds = [
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+];
