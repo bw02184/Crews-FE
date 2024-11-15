@@ -11,7 +11,6 @@ const fetchInstance = async (url, options) => {
   };
 
   if (accessToken) {
-    console.log(`Bearer 설정 되어있음`, accessToken);
     headers.Authorization = `Bearer ${accessToken}`;
   }
 

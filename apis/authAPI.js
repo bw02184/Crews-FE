@@ -20,8 +20,6 @@ export const login = async ({ email, password }) => {
   const cookie = response.headers.get('Set-Cookie');
   const refreshToken = cookie?.split(';')[0].split('=')[1];
 
-  console.log(`cookie: ${response.headers.get('Set-Cookie')}`);
-
   return { accessToken, refreshToken };
 };
 
@@ -47,7 +45,6 @@ export const credentialSignIn = async (email, password) => {
 
 // 토큰 갱신
 export const reissueToken = async (refresh_token) => {
-  console.log('reissuToken:', refresh_token);
   const response = await fetch(`${BASE_URL}members/reissue`, {
     credentials: 'include',
     headers: {
@@ -75,8 +72,6 @@ export const logout = async () => {
   const response = await instance.post('members/logout', {
     credentials: 'include',
   });
-
-  console.log(`logout ${response.text()}`);
 
   return response;
 };

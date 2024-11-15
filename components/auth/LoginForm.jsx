@@ -28,9 +28,6 @@ export default function LoginForm() {
     } else {
       alert('로그인에 성공했습니다!');
       reset();
-      // router.push('/service');
-      // if (session?.role == 'ROLE_USER') router.push('/service');
-      // else if (session?.role == 'ROLE_ADMIN') router.push('/admin');
     }
   };
   return (
@@ -110,7 +107,7 @@ export default function LoginForm() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="signup">
+                  <Link href="signup/step1">
                     <Text as="p" size="1" weight="medium">
                       회원가입
                     </Text>

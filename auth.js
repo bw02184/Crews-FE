@@ -4,7 +4,6 @@ import { login, reissueToken } from './apis/authAPI';
 import { jwtDecode } from 'jwt-decode';
 
 const refreshAccessToken = async (token) => {
-  console.log(`refreshAccessToken`);
   const { accessToken, refreshToken } = await reissueToken(token.refreshToken);
 
   if (accessToken && refreshToken) {
@@ -56,7 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log('구간0');
         return {
           ...token,
           accessToken: user.accessToken,
@@ -67,17 +65,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
       }
 
-      console.log('구간1');
-      console.log(Date.now() < token.access_exp);
-      console.log('date: ', Date.now());
-      // console.log('token.access_exp: ', token.access_exp);
-      // console.log('Date.now() < token.access_exp', Date.now() < token.access_exp);
-
       if (Date.now() < token.access_exp) {
-        console.log('구간2');
         return token;
       }
-      console.log('구간3');
       return await refreshAccessToken(token);
     },
     async session({ session, token }) {
@@ -92,7 +82,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl, session }) {
-      console.log('redirect');
       if (session?.role) {
         if (session.role == 'ROLE_ADMIN') {
           return `${baseUrl}/admin`;

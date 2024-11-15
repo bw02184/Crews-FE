@@ -10,6 +10,11 @@
   background-color: var(--point-lime-3);
 }
 
+/* text decoration */
+.underline {
+  text-decoration: underline;
+}
+
 /* radix Radio group */
 .radio_group > div {
   flex-direction: row;
@@ -102,7 +107,21 @@
   font-weight: 500;
   color: #ea0000;
 }
-
+.row .input {
+  position: relative;
+}
+.row .input_btn button{
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  width: 88px;
+  height: 32px;
+  border-radius: 5px;
+  background-color: var(--gray-btn);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
 /* error_page */
 .error_page {
   height: 100vh;
