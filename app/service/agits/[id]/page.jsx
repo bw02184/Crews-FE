@@ -1,15 +1,18 @@
-import { ButtonL, ImageCard, SelectFilter, TabMenu, Title } from '@/components/common';
+import { ButtonL, ButtonM, ImageCard, SelectFilter, TabMenu, Title } from '@/components/common';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Callout, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
 
-import { feeds, events } from '@/constants/dummy';
+import { accounts, feeds, events } from '@/constants/dummy';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import Account from '@/components/Account/Account';
+import { getData } from '../../../../apis/accountsAPI';
 
-export default function Page({ params }) {
+export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
-
+  const data = await getData(params.id);
   return (
     <div className="page">
       <header>
@@ -20,6 +23,36 @@ export default function Page({ params }) {
         </Box>
         <TabMenu tabMenuList={tabMenuList} dynamicID={params.id} />
       </header>
+
+      <Flex direction="column" gap="10px" className="content">
+        <section>
+          <section>
+            <Flex direction="column" gap="20px">
+              <Callout.Root color="red">
+                <Callout.Icon>
+                  <InfoCircledIcon />
+                </Callout.Icon>
+                <Callout.Text>회비 납부일이 지났어요! 빨리 0만원을 납부해주세요.</Callout.Text>
+              </Callout.Root>
+
+              <Callout.Root color="green">
+                <Callout.Icon>
+                  <InfoCircledIcon />
+                </Callout.Icon>
+                <Callout.Text>매월 1일은 모임 회비를 납부하는 날입니다.</Callout.Text>
+              </Callout.Root>
+            </Flex>
+          </section>
+          <section>
+            <Flex direction="column" gap="20px">
+              <Title>모임통장</Title>
+              <Account accounts={data} />
+              <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '상세 내역보기' }} />
+            </Flex>
+          </section>
+        </section>
+      </Flex>
+
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">
