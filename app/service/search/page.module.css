@@ -1,0 +1,13 @@
+.search_form {
+  position: relative;
+}
+.search_form input {
+  padding-right: 70px;
+}
+.search_form button[type='submit'] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+}
