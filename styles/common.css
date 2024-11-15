@@ -170,3 +170,38 @@
   line-height: 1;
   color: var(--gray-txt-2);
 }
+
+/* popover */
+.popover{
+  position: relative;
+}
+.popover > ul {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 5px;
+  width: 110px;
+  padding: 7px;
+  border: 1px solid var(--gray-br);
+  border-radius: 5px;
+  background-color: #fff;
+  z-index: 5;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.popover > ul button,
+.popover:not(.header) > ul a {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 14px;
+  text-align: left;
+  font-weight: 500;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+}
+.popover > ul button:hover,
+.popover:not(.header) > ul a:hover {
+  background-color: #f5f5f5;
+}
