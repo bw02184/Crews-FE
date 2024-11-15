@@ -3,13 +3,13 @@ import { Header } from '@/components/common';
 
 export default function Page() {
   return (
-    <div className="page">
+    <>
       <Header side="center">아이디 찾기</Header>
       <div className="content">
         <section>
           <IdFindForm />
         </section>
       </div>
-    </div>
+    </>
   );
 }

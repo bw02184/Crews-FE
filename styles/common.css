@@ -128,3 +128,26 @@
   overflow-y: hidden !important;
   padding-right: var(--body-scroll-bar-size);
 }
+
+/* btm_util */
+.btm_util ul li {
+  position: relative;
+}
+.btm_util ul li::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  margin-top: -6px;
+  width: 1px;
+  height: 12px;
+  background-color: var(--gray-txt-2);
+}
+.btm_util ul li:first-of-type::before {
+  display: none;
+}
+.btm_util ul li p {
+  line-height: 1;
+  color: var(--gray-txt-2);
+}

@@ -1,72 +1,89 @@
 'use client';
 
 import Link from 'next/link';
-import styles from './LoginForm.module.css';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import { ButtonL } from '@/components/common';
+import { credentialSignIn } from '@/apis/authAPI';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  // const { data: session, status } = useSession();
+  // console.log(`loginform session: ${status}`);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async ({ email, password }) => {
+    const response = await credentialSignIn(email, password);
+    if (typeof response === 'object' && response.message) {
+      alert('로그인에 실패했습니다.');
+      reset();
+    } else {
+      alert('로그인에 성공했습니다!');
+      reset();
+      // router.push('/service');
+      // if (session?.role == 'ROLE_USER') router.push('/service');
+      // else if (session?.role == 'ROLE_ADMIN') router.push('/admin');
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" gap="20px">
         <Box className="form_group">
           <Box className="row">
-            <Text as="label" htmlFor="user_id" className="require">
+            <Text as="label" htmlFor="email" className="require">
               이메일
             </Text>
             <Box className="input">
               <input
                 type="email"
-                id="user_id"
+                id="email"
                 placeholder="이메일을 입력해주세요"
-                {...register('user_id', {
+                {...register('email', {
                   required: '이메일을 입력해주세요!',
                   pattern: {
                     value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
                     message: '유효한 이메일 주소를 입력해주세요.',
                   },
                 })}
-                className={errors.user_id ? 'error' : ''}
+                className={errors.email ? 'error' : ''}
               />
             </Box>
-            {errors.user_id && (
+            {errors.email && (
               <Text as="p" className="error">
-                {errors.user_id.message}
+                {errors.email.message}
               </Text>
             )}
           </Box>
           <Box className="row">
-            <Text as="label" htmlFor="user_pw" className="require">
+            <Text as="label" htmlFor="password" className="require">
               비밀번호
             </Text>
             <Box className="input">
               <input
                 type="password"
-                id="user_pw"
-                placeholder="비밀번호를 입력해주세요!"
-                {...register('user_pw', {
+                id="password"
+                placeholder="비밀번호를 입력해주세요"
+                {...register('password', {
                   required: '비밀번호를 입력해주세요!',
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
                     message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
                   },
                 })}
-                className={errors.user_pw ? 'error' : ''}
+                className={errors.password ? 'error' : ''}
               />
             </Box>
-            {errors.user_pw && (
+            {errors.password && (
               <Text as="p" className="error">
-                {errors.user_pw.message}
+                {errors.password.message}
               </Text>
             )}
           </Box>
@@ -75,25 +92,25 @@ export default function LoginForm() {
           <ButtonL type="submit" style="deep">
             로그인
           </ButtonL>
-          <div className={styles.find_list}>
+          <div className="btm_util">
             <Flex justify="center" align="center" gap="20px" mt="1" asChild>
               <ul>
                 <li>
-                  <Link href="/service/idfind">
+                  <Link href="idfind">
                     <Text as="p" size="1" weight="medium">
                       아이디 찾기
                     </Text>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/service/pwfind">
+                  <Link href="pwfind">
                     <Text as="p" size="1" weight="medium">
                       비밀번호 찾기
                     </Text>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/service/signup">
+                  <Link href="signup">
                     <Text as="p" size="1" weight="medium">
                       회원가입
                     </Text>

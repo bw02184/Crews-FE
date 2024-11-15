@@ -1,14 +1,22 @@
+import { auth } from '@/auth';
+import { BASE_URL } from '@/constants/auth';
+
 const fetchInstance = async (url, options) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
   };
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL + 'api/vi';
-  const SAMPLE_URL = 'http://lmrdb.duckdns.org:8080/';
+  if (accessToken) {
+    console.log(`Bearer 설정 되어있음`, accessToken);
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
 
   try {
-    const response = await fetch(`${SAMPLE_URL}${url}`, {
+    const response = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers,
     });
@@ -21,7 +29,17 @@ const fetchInstance = async (url, options) => {
       throw new Error(`fetch error [${errorResponse}]`);
     }
 
-    return await response.json();
+    if (url == 'members/login' || url == 'members/reissue' || url == 'members/logout') {
+      return response;
+    }
+
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      console.log('json.json()');
+      return await response.json();
+    } else {
+      console.log('json.text()');
+      return await response.text();
+    }
   } catch (error) {
     throw new Error(`fetch error [${error}]`);
   }
