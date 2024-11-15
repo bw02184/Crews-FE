@@ -1,5 +1,6 @@
 import { ButtonL, ButtonM, ButtonS } from './Button';
 import { CheckBox } from './CheckBox';
+import { Dropdown } from './Dropdown';
 import { Header } from './Header';
 import { ImageCard } from './ImageCard';
 import { Label } from './Label';
@@ -15,6 +16,7 @@ export {
   ButtonM,
   ButtonS,
   CheckBox,
+  Dropdown,
   Header,
   ImageCard,
   Label,
