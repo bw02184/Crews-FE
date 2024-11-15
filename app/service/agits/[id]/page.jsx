@@ -8,7 +8,7 @@ import { accounts, feeds, events } from '@/constants/dummy';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/Account/Account';
-import { getData } from '../../../../apis/accountsAPI';
+import { getData } from '@/apis/accountsAPI';
 
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);

@@ -70,7 +70,34 @@ export const feeds = [
 
 export const accounts = {
   image: '/imgs/img_bank_kb.jpg',
-  name: 'KB국민ONE통장',
-  number: '123-456-123456',
+  productName: 'KB국민ONE통장',
+  accountNumber: '123-456-123456',
   balance: 339760,
 };
+
+export const accountDetail = [
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'WITHDRAW',
+    withdrawerName: '홍길동',
+  },
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'DEPOSIT',
+    withdrawerName: '홍길동',
+  },
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'DEPOSIT',
+    withdrawerName: '홍길동',
+  },
+];
