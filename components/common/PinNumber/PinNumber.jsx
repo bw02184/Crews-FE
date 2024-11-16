@@ -8,14 +8,18 @@ import { Controller, useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-export default function PinNumber() {
-  const { control, handleSubmit } = useForm();
+export default function PinNumber({ defaultParams }) {
+  // 입력값 관리
+  const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
   const [shuffleNumbers, setShuffleNumbers] = useState([]);
+
+  // stage 관리
   const searchParams = useSearchParams();
-  const step = searchParams.get('stage') || 'enter';
+  const step = searchParams.get('stage') || defaultParams;
   const router = useRouter();
 
+  // 키보드 랜덤 배열
   useEffect(() => {
     const numbers = Array.from({ length: 10 }, (_, i) => i.toString());
     setShuffleNumbers(numbers.sort(() => Math.random() - 0.5));
@@ -42,11 +46,16 @@ export default function PinNumber() {
     setPin(nextPin);
   };
 
+  const resetHandler = () => {
+    setPin(['', '', '', '', '', '']);
+    reset();
+  };
+
   const onSubmit = () => {
     const pinNumber = Number(pin.join(''));
     console.log(pinNumber);
 
-    if (step == 'enter') {
+    if (step == 'enter' || step == 'create') {
       router.push('?stage=confirm');
     }
   };
@@ -110,7 +119,14 @@ export default function PinNumber() {
           </Box>
         </Flex>
         <Box className="btn_group">
-          <ButtonM rightButton={{ type: 'submit', text: '생성' }} />
+          {step == 'create' && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
+          {step == 'confirm' && <ButtonM rightButton={{ type: 'submit', text: '확인' }} />}
+          {step == 'error' && (
+            <ButtonM
+              leftButton={{ type: 'button', text: '재입력', onClick: resetHandler }}
+              rightButton={{ type: 'submit', text: '재설정' }}
+            />
+          )}
         </Box>
       </form>
     </Flex>
