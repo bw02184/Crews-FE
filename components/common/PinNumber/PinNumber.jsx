@@ -5,11 +5,16 @@ import styles from './PinNumber.module.css';
 import { Box, Flex } from '@radix-ui/themes';
 import { ButtonM } from '../Button';
 import { Controller, useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function PinNumber() {
   const { control, handleSubmit } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
   const [shuffleNumbers, setShuffleNumbers] = useState([]);
+  const searchParams = useSearchParams();
+  const step = searchParams.get('stage') || 'enter';
+  const router = useRouter();
 
   useEffect(() => {
     const numbers = Array.from({ length: 10 }, (_, i) => i.toString());
@@ -40,6 +45,10 @@ export default function PinNumber() {
   const onSubmit = () => {
     const pinNumber = Number(pin.join(''));
     console.log(pinNumber);
+
+    if (step == 'enter') {
+      router.push('?stage=confirm');
+    }
   };
 
   return (
