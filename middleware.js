@@ -11,7 +11,6 @@ export default async function middleware(request) {
   if (session?.error === 'RefreshAccessTokenError') {
     console.log('RefreshAccessTokenError()');
     await signOut(); // auth js 로그아웃
-    await logout(); // 백엔드 로그아웃
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

@@ -6,7 +6,6 @@ import { ButtonL, Header, Title } from '@/components/common';
 import { useNavStore } from '@/stores/layoutStore';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
-import styles from './page.module.css';
 
 export default function Page() {
   const { setNavVisible } = useNavStore();
@@ -23,13 +22,13 @@ export default function Page() {
         <section>
           <Flex direction="column" gap="60px">
             <Step activeIdx={3} />
-            <Box className={styles.complete} align="center">
+            <Box align="center">
               <div className="img">
                 <Image src="/imgs/img_complete.png" width={130} height={130} alt="완료" />
               </div>
-              <Box className={styles.txt_box} mt="3">
+              <Flex direction="column" gap="10px" className="txt_box" mt="3">
                 <Title>가입 완료!</Title>
-                <Box className={styles.con} pt="1">
+                <Box className="txt_con">
                   <Text as="p" size="2" weight="medium">
                     회원가입이 완료되었습니다!
                   </Text>
@@ -38,7 +37,7 @@ export default function Page() {
                     생성해주세요.
                   </Text>
                 </Box>
-              </Box>
+              </Flex>
             </Box>
             <Box className="btn_group">
               <ButtonL as="link" href="/service/createPIN" style="deep">

@@ -1,17 +1,25 @@
 'use client';
 
-import { logout } from '@/apis/authAPI';
+import { useSessionStatusStore } from '@/stores/authStore';
 import { signOut } from 'next-auth/react';
 
 export default function Mypage() {
+  const { setSessionStatus } = useSessionStatusStore();
   return (
-    <button
-      onClick={async () => {
-        await signOut();
-        alert('로그아웃 되었습니다!');
-      }}
-    >
-      로그아웃
-    </button>
+    <div className="page">
+      <div className="content">
+        <section>
+          <button
+            onClick={async () => {
+              await signOut();
+              setSessionStatus(false);
+              alert('로그아웃 되었습니다!');
+            }}
+          >
+            로그아웃
+          </button>
+        </section>
+      </div>
+    </div>
   );
 }

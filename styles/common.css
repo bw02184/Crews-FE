@@ -205,3 +205,9 @@
 .popover:not(.header) > ul a:hover {
   background-color: #f5f5f5;
 }
+
+/* txt_box */
+.txt_box .txt_con p{
+  color: #aaa;
+  line-height: 1.3;
+}
