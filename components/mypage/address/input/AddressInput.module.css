@@ -1,0 +1,40 @@
+.rowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 반복되는 인풋 필드 그룹 사이의 간격 설정 */
+}
+
+.inputContainer {
+  position: relative; /* 인풋 필드와 버튼을 상대적으로 배치 */
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inputField {
+  width: 100%;
+  padding: 10px;
+  padding-right: 90px; /* 버튼의 너비 만큼 오른쪽 패딩을 추가하여 공간 확보 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.searchButton {
+  position: absolute;
+  width: 92px;
+  height: 32px;
+  right: 10px;
+  padding: 0 15px;
+  border: none;
+  background-color: #7a869a; /* 버튼의 배경 색상 */
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.searchButton:hover {
+  background-color: #5a647a; /* 호버 시 버튼 색상 */
+}
