@@ -50,6 +50,7 @@ export default function InterestForm() {
       console.log('관심사 전송 성공');
     } catch (error) {
       console.error('관심사 전송 실패 :', error.message);
+      showToast('관심사 전송에 실패하였습니다.');
     } finally {
       setIsLoading(false);
     }
