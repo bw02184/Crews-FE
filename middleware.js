@@ -1,7 +1,6 @@
 import { auth } from './auth';
 import { NextResponse } from 'next/server';
 import { signOut } from 'next-auth/react';
-import { logout } from './apis/authAPI';
 
 export default async function middleware(request) {
   console.log('middleware 접속');
