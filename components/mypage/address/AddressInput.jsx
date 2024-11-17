@@ -1,18 +1,19 @@
 'use client';
-import { Box, Text } from '@radix-ui/themes';
+import { Text, Flex } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Modal from '@/components/common/Modal/Modal';
 import instance from '@/apis/instance';
 import { ButtonL, Toast } from '@/components/common';
+import useToast from '@/hooks/useToast';
 
-export default function AddressInput({}) {
+export default function AddressInput() {
+  const { toast, setToast, toastMessage, showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isToastActive, setIsToastActive] = useState(false);
 
-  // 광역시 배열
-  const majorCities = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];
+  // 광역시 배열을 useMemo로 메모이제이션
+  const majorCities = useMemo(() => ['서울', '부산', '대구', '인천', '광주', '대전', '울산'], []);
 
   // 모달 상태를 3개로 초기화
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
@@ -185,7 +186,7 @@ export default function AddressInput({}) {
     );
 
     if (isEmpty) {
-      setIsToastActive(true);
+      showToast('활동 지역을 최소 1개 이상 설정해주세요!');
       setIsLoading(false);
       return;
     }
@@ -221,8 +222,8 @@ export default function AddressInput({}) {
 
   return (
     <form onSubmit={sendAddressesToBackend}>
-      <Box className={styles.rowContainer}>
-        <Box className={styles.inputWrapper}>
+      <Flex direction="column" gap="10px">
+        <Flex direction="column" gap="5px">
           <Text as="label" htmlFor={`HOME`} className="require">
             <strong>관심지역 #1</strong>
           </Text>
@@ -245,10 +246,10 @@ export default function AddressInput({}) {
             </button>
           </div>
           {renderAddressModal(0)}
-        </Box>
+        </Flex>
 
-        <Box className={styles.inputWrapper}>
-          <Text as="label" htmlFor={`COMPANY`} className="require">
+        <Flex direction="column" gap="5px">
+          <Text as="label" htmlFor={`COMPANY`}>
             <strong>관심지역 #2</strong>
           </Text>
           <div className={styles.inputContainer}>
@@ -270,10 +271,10 @@ export default function AddressInput({}) {
             </button>
           </div>
           {renderAddressModal(1)}
-        </Box>
+        </Flex>
 
-        <Box className={styles.inputWrapper}>
-          <Text as="label" htmlFor={`OTHER`} className="require">
+        <Flex direction="column" gap="5px">
+          <Text as="label" htmlFor={`OTHER`}>
             <strong>관심지역 #3</strong>
           </Text>
           <div className={styles.inputContainer}>
@@ -295,17 +296,17 @@ export default function AddressInput({}) {
             </button>
           </div>
           {renderAddressModal(2)}
-        </Box>
+        </Flex>
 
         {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
         <ButtonL onClick={sendAddressesToBackend} disabled={isLoading} style="deep">
           {isLoading ? '수정 중...' : '수정'}
         </ButtonL>
-      </Box>
+      </Flex>
 
-      <Toast as="error" isActive={isToastActive} onClose={() => setIsToastActive(false)}>
-        <Text>활동 지역을 최소 1개 이상 설정해주세요!</Text>
+      <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
+        <Text>{toastMessage}</Text>
       </Toast>
     </form>
   );

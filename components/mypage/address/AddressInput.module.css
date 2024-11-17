@@ -1,9 +1,3 @@
-.rowContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 반복되는 인풋 필드 그룹 사이의 간격 설정 */
-}
-
 .inputContainer {
   position: relative; /* 인풋 필드와 버튼을 상대적으로 배치 */
   display: flex;
