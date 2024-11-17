@@ -6,11 +6,12 @@ import styles from './NicknameForm.module.css';
 import instance from '@/apis/instance';
 import { useEffect, useState } from 'react';
 import BottomButton from '../bottombutton/BootomButton';
+import useToast from '@/hooks/useToast';
 
-export default function NicknameForm(data) {
+export default function NicknameForm() {
   const [nickname, setNickname] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isToastActive, setIsToastActive] = useState(false);
+  const { toast, setToast, toastMessage, showToast } = useToast();
 
   useEffect(() => {
     const fetchNickname = async () => {
@@ -31,7 +32,12 @@ export default function NicknameForm(data) {
     e.preventDefault(); // 폼 제출 기본 동작 방지
 
     if (nickname.trim() === '') {
-      setIsToastActive(true);
+      showToast('닉네임을 입력해주세요');
+      return;
+    }
+
+    if (nickname.length > 13) {
+      showToast('닉네임은 13자 이하로 입력해주세요');
       return;
     }
 
@@ -54,13 +60,9 @@ export default function NicknameForm(data) {
 
   return (
     <Box className="input">
-      <Toast
-        children="닉네임을 입력해주세요!"
-        as="error"
-        isActive={isToastActive}
-        onClose={() => setIsToastActive(false)}
-        autoClose={2000}
-      ></Toast>
+      <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
+        <Text>{toastMessage}</Text>
+      </Toast>
       <form onSubmit={onUpdateNickname}>
         <Flex direction="column" gap="5px">
           <Text as="label" htmlFor="user_nickname" className={styles.label}>

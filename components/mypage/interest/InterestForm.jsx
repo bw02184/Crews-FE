@@ -7,41 +7,16 @@ import { useEffect, useState } from 'react';
 import BottomButton from '../bottombutton/BootomButton';
 import styles from './InterestForm.module.css';
 import useModal from '@/hooks/useModal';
+import useToast from '@/hooks/useToast';
 export default function InterestForm() {
   // TODO: 토큰에서 유저 정보 갖고와서 사용
   const userName = '거북이두루미';
   const [subjects, setSubjects] = useState([]);
   const [interests, setInterests] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isToastActive, setIsToastActive] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const sendinterestsToBackend = async () => {
-    setIsLoading(true);
-    setErrorMessage('');
-
-    if (selectedInterests.length < 3) {
-      setIsToastActive(true);
-      setIsLoading(false);
-      return;
-    }
-
-    const requestBody = { interests: selectedInterests };
-    console.log('전송할 관심사 데이터:', JSON.stringify(requestBody, null, 2));
-
-    try {
-      await instance.post('/members/me/interests', requestBody);
-      console.log('관심사 전송 성공');
-    } catch (error) {
-      console.error('관심사 전송 실패 :', error.message);
-      setErrorMessage('다시 시도해주세요.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  const { toast, setToast, toastMessage, showToast } = useToast();
   useEffect(() => {
     const fetchInterests = async () => {
       try {
@@ -57,6 +32,28 @@ export default function InterestForm() {
     };
     fetchInterests();
   }, []);
+
+  const sendinterestsToBackend = async () => {
+    setIsLoading(true);
+
+    if (selectedInterests.length < 3) {
+      showToast('관심사를 3개 이상 선택해주세요!');
+      setIsLoading(false);
+      return;
+    }
+
+    const requestBody = { interests: selectedInterests };
+    console.log('전송할 관심사 데이터:', JSON.stringify(requestBody, null, 2));
+
+    try {
+      await instance.post('/members/me/interests', requestBody);
+      console.log('관심사 전송 성공');
+    } catch (error) {
+      console.error('관심사 전송 실패 :', error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const toggleInterest = (interestId) => {
     setSelectedInterests((prevSelected) =>
@@ -93,13 +90,9 @@ export default function InterestForm() {
 
   return (
     <Box className="input">
-      <Toast
-        children="관심사를 최소 3개 이상 설정해주세요!"
-        as="error"
-        isActive={isToastActive}
-        onClose={() => setIsToastActive(false)}
-        autoClose={2000}
-      ></Toast>
+      <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
+        <Text>{toastMessage}</Text>
+      </Toast>
       <form onSubmit={onUpdateInterests}>
         <Flex direction="column" gap="5px">
           <Text as="label" className={styles.label}>
