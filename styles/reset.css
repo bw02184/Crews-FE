@@ -46,6 +46,13 @@
   border-radius: 5px;
   overflow: visible;
 }
+.rt-Card.card_link {
+  padding: 0;
+}
+.rt-Card.card_link > a{
+  display: block;
+  padding: 15px;
+}
 .rt-BaseCard::before,
 .rt-BaseCard::after {
   display: none;
