@@ -2,7 +2,7 @@
 import { Box, Text } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
 import { useEffect, useState } from 'react';
-import Modal from '../../../common/Modal/Modal';
+import Modal from '@/components/common/Modal/Modal';
 import instance from '@/apis/instance';
 import { ButtonL, Toast } from '@/components/common';
 
@@ -304,13 +304,9 @@ export default function AddressInput({}) {
         </ButtonL>
       </Box>
 
-      <Toast
-        children="활동 지역을 최소 1개 이상 설정해주세요!"
-        as="error"
-        isActive={isToastActive}
-        onClose={() => setIsToastActive(false)}
-        autoClose={2000}
-      ></Toast>
+      <Toast as="error" isActive={isToastActive} onClose={() => setIsToastActive(false)}>
+        <Text>활동 지역을 최소 1개 이상 설정해주세요!</Text>
+      </Toast>
     </form>
   );
 }
