@@ -1,124 +1,152 @@
 'use client';
 import { Text, Flex } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import Modal from '@/components/common/Modal/Modal';
 import instance from '@/apis/instance';
 import { ButtonL, Toast } from '@/components/common';
 import useToast from '@/hooks/useToast';
+import { useForm } from 'react-hook-form';
 
 export default function AddressInput() {
   const { toast, setToast, toastMessage, showToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const addressForm = useForm({
+    defaultValues: {
+      addresses: [
+        { type: 'HOME', doName: '', siName: '', guName: '', dongName: '' },
+        { type: 'COMPANY', doName: '', siName: '', guName: '', dongName: '' },
+        { type: 'OTHER', doName: '', siName: '', guName: '', dongName: '' },
+      ],
+    },
+  });
+
+  const { register, handleSubmit, setValue, watch } = addressForm;
 
   // 광역시 배열을 useMemo로 메모이제이션
   const majorCities = useMemo(() => ['서울', '부산', '대구', '인천', '광주', '대전', '울산'], []);
-
   // 모달 상태를 3개로 초기화
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
+  const addresses = watch('addresses');
 
-  // 주소 객체 초기 상태
-  const defaultAddresses = [
-    { type: 'HOME', doName: '', siName: '', guName: '', dongName: '' },
-    { type: 'COMPANY', doName: '', siName: '', guName: '', dongName: '' },
-    { type: 'OTHER', doName: '', siName: '', guName: '', dongName: '' },
-  ];
-  // 주소 상태 초기화
-  const [addresses, setAddresses] = useState(defaultAddresses);
+  // 주소 검색 핸들러 메모이제이션
+  const handleAddressSearch = useCallback((index) => {
+    setIsModalOpen((prev) => {
+      const updated = [...prev];
+      updated[index] = true;
+      return updated;
+    });
+  }, []);
 
+  // 모달 닫기 핸들러 메모이제이션
+  const handleModalClose = useCallback((index) => {
+    setIsModalOpen((prev) => {
+      const updated = [...prev];
+      updated[index] = false;
+      return updated;
+    });
+  }, []);
+
+  // 주소 값 가져오기 함수 메모이제이션
+  const getAddressValue = useCallback(
+    (address) => {
+      const { doName, siName, guName, dongName } = address;
+      const hasAddress = doName || siName || guName || dongName;
+      if (!hasAddress) return '';
+
+      const parts = [];
+
+      if (majorCities.includes(doName)) {
+        parts.push(doName);
+        if (guName && guName !== '없음') parts.push(guName);
+        if (dongName && dongName !== '없음') parts.push(dongName);
+      } else {
+        if (doName && doName !== '없음') parts.push(doName);
+        if (siName && siName !== '없음') parts.push(siName);
+        if (guName && guName !== '없음') parts.push(guName);
+        if (dongName && dongName !== '없음') parts.push(dongName);
+      }
+
+      return parts.join(' ');
+    },
+    [majorCities],
+  );
+
+  // 주소 모달 렌더링 함수 메모이제이션
+  const renderAddressModal = useCallback(
+    (index) => {
+      if (typeof window === 'undefined' || !window.daum || !window.daum.Postcode) return null;
+      return (
+        <Modal
+          isOpen={isModalOpen[index]}
+          closeModal={() => handleModalClose(index)}
+          header={{ title: '주소 검색', text: '주소를 검색하고 선택해 주세요.' }}
+        >
+          <div id={`postcodeContainer${index}`} className={styles.postcodeModalContent} />
+        </Modal>
+      );
+    },
+    [isModalOpen, handleModalClose],
+  );
+
+  // 초기 데이터 로딩
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         setIsLoading(true);
         const response = await instance.get('/members/me/addresses');
         const data = response.data.addresses;
-        // API 응답을 주소 객체 배열로 변환
+
         const formattedAddresses = data.map((address) => ({
           type: address.type,
-          doName: address.do,
-          siName: address.si,
-          guName: address.gu,
-          dongName: address.dong,
+          doName: majorCities.includes(address.do) ? address.do : address.do || '없음',
+          siName: address.si || '없음',
+          guName: address.gu || '없음',
+          dongName: address.dong || '없음',
         }));
 
-        // 주소 타입 순서에 따라 정렬: HOME, COMPANY, OTHER
         const sortedAddresses = [
-          formattedAddresses.find((addr) => addr.type === 'HOME') || defaultAddresses[0],
-          formattedAddresses.find((addr) => addr.type === 'COMPANY') || defaultAddresses[1],
-          formattedAddresses.find((addr) => addr.type === 'OTHER') || defaultAddresses[2],
+          formattedAddresses.find((addr) => addr.type === 'HOME') || addresses[0],
+          formattedAddresses.find((addr) => addr.type === 'COMPANY') || addresses[1],
+          formattedAddresses.find((addr) => addr.type === 'OTHER') || addresses[2],
         ];
 
-        // 상태 업데이트
-        setAddresses(sortedAddresses);
+        setValue('addresses', sortedAddresses);
       } catch (error) {
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401) {
           console.error('인증 토큰이 만료되었습니다. 재 로그인 해주세요.');
         } else {
           console.error('주소 가져오기에 실패했습니다:', error.message);
         }
-        // 오류가 발생해도 기본 주소 데이터 유지
-        setAddresses(defaultAddresses);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchInitialData();
 
     // 카카오 주소찾기 API 로드
     const script = document.createElement('script');
     script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     script.async = true;
-    script.onload = () => {
-      console.log('카카오 주소 찾기 API 로드 됨');
-    };
-    script.onerror = () => {
-      console.error('카카오 주소 찾기 API 로드 실패됨');
-    };
+    script.onload = () => console.log('카카오 주소 찾기 API 로드 됨');
+    script.onerror = () => console.error('카카오 주소 찾기 API 로드 실패됨');
     document.head.appendChild(script);
+
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
+  }, [setValue, addresses, majorCities]);
 
-  const handleAddressSearch = (index) => {
-    setIsModalOpen((prev) => {
-      const updated = [...prev];
-      updated[index] = true;
-      return updated;
-    });
-  };
-
-  const handleModalClose = (index) => {
-    setIsModalOpen((prev) => {
-      const updated = [...prev];
-      updated[index] = false;
-      return updated;
-    });
-  };
-
-  const renderAddressModal = (index) => {
-    // SSR일 때 window 객체가 없을 수 있음
-    if (typeof window === 'undefined' || !window.daum || !window.daum.Postcode) return null;
-    return (
-      <Modal
-        isOpen={isModalOpen[index]}
-        closeModal={() => handleModalClose(index)}
-        header={{ title: '주소 검색', text: '주소를 검색하고 선택해 주세요.' }}
-      >
-        <div id={`postcodeContainer${index}`} className={styles.postcodeModalContent} />
-      </Modal>
-    );
-  };
-
+  // 주소 검색 모달 설정
   useEffect(() => {
-    // 주소 검색 API가 준비된 후 실행
     [0, 1, 2].forEach((index) => {
-      if (isModalOpen[index] && window.daum && window.daum.Postcode) {
+      if (isModalOpen[index] && window.daum?.Postcode) {
         new window.daum.Postcode({
           oncomplete: function (data) {
-            if (!data.jibunAddress && !data.roadAddress) {
-              alert('잘못된 주소입니다. 다시 올바른 주소를 선택해주세요.');
+            if (!data.jibunAddress) {
+              showToast('잘못된 주소입니다. 다시 선택해주세요.');
               handleModalClose(index);
               return;
             }
@@ -126,37 +154,34 @@ export default function AddressInput() {
             const fullAddress = data.jibunAddress;
             const addressParts = fullAddress.split(' ');
 
-            // 주요 도시에 따른 포맷팅 적용
-            let doName = addressParts[0] || '';
-            let siName = '';
-            let guName = '';
-            let dongName = '';
+            // 동 이후의 상세주소는 제외
+            const dongIndex = addressParts.findIndex((part) => part.includes('동'));
+            const filteredParts = dongIndex !== -1 ? addressParts.slice(0, dongIndex + 1) : addressParts;
+
+            let doName = filteredParts[0] || '없음';
+            let siName = '없음';
+            let guName = '없음';
+            let dongName = '없음';
 
             if (majorCities.includes(doName)) {
-              // 주요 도시일 경우
               siName = doName;
-              guName = addressParts[1] || '';
-              dongName = addressParts[2] || '';
+              guName = filteredParts[1] || '없음';
+              dongName = filteredParts[2] || '없음';
             } else {
-              // 주요 도시가 아닐 경우
-              siName = addressParts[1] || '';
-              guName = addressParts[2] || '';
-              dongName = addressParts[3] || '';
+              siName = filteredParts[1] || '없음';
+              guName = filteredParts[2] || '없음';
+              dongName = filteredParts[3] || '없음';
             }
 
-            // 상태 업데이트 (해당 인덱스의 주소값만 수정)
-            setAddresses((prev) => {
-              const updatedAddresses = [...prev];
-              updatedAddresses[index] = {
-                ...prev[index],
-                doName,
-                siName,
-                guName,
-                dongName,
-              };
-              return updatedAddresses;
-            });
-
+            const newAddresses = [...addresses];
+            newAddresses[index] = {
+              ...addresses[index],
+              doName,
+              siName,
+              guName,
+              dongName,
+            };
+            setValue('addresses', newAddresses);
             handleModalClose(index);
           },
           width: '100%',
@@ -164,25 +189,23 @@ export default function AddressInput() {
         }).embed(document.getElementById(`postcodeContainer${index}`));
       }
     });
-  }, [isModalOpen, majorCities]);
+  }, [isModalOpen, majorCities, addresses, setValue, handleModalClose, showToast]);
 
-  const formatAddressForBackend = (address) => ({
-    type: address.type,
-    doName: address.doName,
-    siName: address.siName,
-    guName: address.guName,
-    dongName: address.dongName,
-  });
-
-  const sendAddressesToBackend = async () => {
+  // 폼 제출 핸들러
+  const onSubmit = async (data) => {
     setIsLoading(true);
     setErrorMessage('');
 
-    const formattedAddresses = addresses.map(formatAddressForBackend);
-    const requestBody = { addresses: formattedAddresses };
-
-    const isEmpty = addresses.every(
-      (address) => !address.doName || !address.siName || !address.guName || !address.dongName,
+    const isEmpty = data.addresses.every(
+      (address) =>
+        !address.doName ||
+        !address.siName ||
+        !address.guName ||
+        !address.dongName ||
+        (address.doName === '없음' &&
+          address.siName === '없음' &&
+          address.guName === '없음' &&
+          address.dongName === '없음'),
     );
 
     if (isEmpty) {
@@ -191,11 +214,11 @@ export default function AddressInput() {
       return;
     }
 
-    console.log('전송할 주소 데이터:', JSON.stringify(requestBody, null, 2));
+    console.log('전송할 주소 데이터:', JSON.stringify(data, null, 2));
 
     try {
-      await instance.post('/members/me/addresses', requestBody);
-      console.log('주소 전송 성공');
+      await instance.post('/members/me/addresses', { addresses: data.addresses });
+      showToast('주소가 성공적으로 저장되었습니다.');
     } catch (error) {
       console.error('주소 전송 실패 :', error.message);
       setErrorMessage('다시 시도해주세요.');
@@ -204,28 +227,12 @@ export default function AddressInput() {
     }
   };
 
-  const getAddressValue = (address) => {
-    const { doName, siName, guName, dongName } = address;
-    const hasAddress = doName || siName || guName || dongName;
-    if (!hasAddress) {
-      return '';
-    }
-
-    // (광역/특별시인 경우) = doName과 siName이 동일한 경우 -> doName을 한 번만 포함
-    if (doName === siName) {
-      return [doName, guName, dongName].filter(Boolean).join(' ');
-    }
-
-    // doName과 siName이 다른 경우, 모두 포함
-    return [doName, siName, guName, dongName].filter(Boolean).join(' ');
-  };
-
   return (
-    <form onSubmit={sendAddressesToBackend}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" gap="10px">
         <Flex direction="column" gap="5px">
-          <Text as="label" htmlFor={`HOME`} className="require">
-            <strong>관심지역 #1</strong>
+          <Text as="label" htmlFor={`HOME`}>
+            <strong className="require">관심지역 #1</strong>
           </Text>
           <div className={styles.inputContainer}>
             <input
@@ -235,6 +242,8 @@ export default function AddressInput() {
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}
+              onClick={() => handleAddressSearch(0)}
+              {...register('addresses.0')}
             />
             <button
               type="button"
@@ -260,6 +269,8 @@ export default function AddressInput() {
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}
+              onClick={() => handleAddressSearch(1)}
+              {...register('addresses.1')}
             />
             <button
               type="button"
@@ -285,6 +296,8 @@ export default function AddressInput() {
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}
+              onClick={() => handleAddressSearch(2)}
+              {...register('addresses.2')}
             />
             <button
               type="button"
@@ -300,7 +313,7 @@ export default function AddressInput() {
 
         {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
-        <ButtonL onClick={sendAddressesToBackend} disabled={isLoading} style="deep">
+        <ButtonL type="submit" disabled={isLoading} style="deep">
           {isLoading ? '수정 중...' : '수정'}
         </ButtonL>
       </Flex>
