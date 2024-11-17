@@ -1,5 +1,5 @@
 import { Header } from '@/components/common';
-import AddressInput from '@/components/mypage/address/input/AddressInput';
+import AddressInput from '@/components/mypage/address/AddressInput';
 import BottomButton from '@/components/mypage/bottombutton/BootomButton';
 import { Flex } from '@radix-ui/themes';
 
