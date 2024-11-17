@@ -47,7 +47,7 @@ export default function ActivityArea() {
               활동지역 #2
             </Text>
             <Box className="input input_btn">
-              <input type="text" id="area_1" placeholder="활동지역을 추가해주세요" {...register('area_2')} />
+              <input type="text" id="area_2" placeholder="활동지역을 추가해주세요" {...register('area_2')} />
               <button>주소 검색</button>
             </Box>
           </Box>
@@ -56,7 +56,7 @@ export default function ActivityArea() {
               활동지역 #3
             </Text>
             <Box className="input input_btn">
-              <input type="text" id="area_1" placeholder="활동지역을 추가해주세요" {...register('area_3')} />
+              <input type="text" id="area_3" placeholder="활동지역을 추가해주세요" {...register('area_3')} />
               <button>주소 검색</button>
             </Box>
           </Box>

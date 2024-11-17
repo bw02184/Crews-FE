@@ -1,19 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
 import Step from '@/components/auth/signup/Step';
 import { ButtonL, Header, Title } from '@/components/common';
-import { useNavStore } from '@/stores/layoutStore';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
+import { useNavVisible } from '@/hooks/useNavVisible';
 
 export default function Page() {
-  const { setNavVisible } = useNavStore();
-
-  useEffect(() => {
-    setNavVisible(false);
-    return () => setNavVisible(true);
-  }, []);
+  useNavVisible(false);
 
   return (
     <div className="page">

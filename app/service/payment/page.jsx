@@ -1,15 +1,9 @@
 'use client';
 
-import { useNavStore } from '@/stores/layoutStore';
-import { useEffect } from 'react';
+import { useNavVisible } from '@/hooks/useNavVisible';
 
 export default function Payment() {
-  const { setNavVisible } = useNavStore();
-
-  useEffect(() => {
-    setNavVisible(false);
-    return () => setNavVisible(true);
-  }, []);
+  useNavVisible(false);
 
   return <div>결제 페이지</div>;
 }
