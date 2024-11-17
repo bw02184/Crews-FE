@@ -1,6 +1,7 @@
 import { Header } from '@/components/common';
-import AddressInputBox from '@/components/mypage/address/AddressInputBox';
+import AddressInput from '@/components/mypage/address/input/AddressInput';
 import BottomButton from '@/components/mypage/bottombutton/BootomButton';
+import { Flex } from '@radix-ui/themes';
 
 export default function page() {
   return (
@@ -8,7 +9,9 @@ export default function page() {
       <Header side="center">활동지역 수정</Header>
       <div className="content">
         <section>
-          <AddressInputBox />
+          <Flex className="row" direction="column" gap="10px">
+            <AddressInput />
+          </Flex>
           <BottomButton />
         </section>
       </div>
