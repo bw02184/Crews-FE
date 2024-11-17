@@ -10,8 +10,8 @@ export default function PwFindResult() {
           <Text as="p">
             <b>임시 비밀번호</b>가 입력하신 <b>이메일</b>로 <i className="dpb"></i> 전송되었습니다!
           </Text>
-          <Text as="p">
-            <i>로그인 후 비밀번호를 반드시 변경해주세요.</i>
+          <Text as="p" className="underline">
+            로그인 후 비밀번호를 반드시 변경해주세요.
           </Text>
         </div>
       </Card>
