@@ -2,33 +2,42 @@
 
 import { Box, Text, Flex } from '@radix-ui/themes';
 import styles from './ProfileCard.module.css';
-import { ButtonS, Label } from '@/components/common';
+import { ButtonS, Label, Dropdown } from '@/components/common';
 import Image from 'next/image';
 
 export default function ProfileCard({ data }) {
-  const onEditClick = () => {
-    alert('정보 수정 버튼이 클릭되었습니다.');
+  const onEditPhotoClick = () => {
+    alert('사진 수정하기가 클릭되었습니다.');
   };
 
-  const onProfileImageClick = () => {
-    alert('프로필 이미지가 클릭되었습니다.');
+  const onViewLargePhotoClick = () => {
+    alert('이미지 크게보기가 클릭되었습니다.');
   };
+
+  const onDeletePhotoClick = () => {
+    alert('사진 삭제하기가 클릭되었습니다.');
+  };
+
   return (
     <Box>
       {/* 프로필 이미지 및 사용자 정보 */}
-      <Flex justify="between" gap="10px">
+      <Box justify="between" gap="10px" className={styles.user_profile}>
         <Flex align="center" gap="20px">
           <div className={styles.avatarWrapper}>
-            <div
-              className={`${styles.profile_img} back_img`}
-              style={{ backgroundImage: `url(${data.image})` }}
-              onClick={onProfileImageClick}
+            <Dropdown
+              menuList={[
+                { text: '사진 수정하기', onClick: onEditPhotoClick },
+                { text: '이미지 크게보기', onClick: onViewLargePhotoClick },
+                { text: '사진 삭제하기', onClick: onDeletePhotoClick },
+              ]}
             >
-              <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.name} 프로필 이미지`} />
-            </div>
-            <button className={styles.cameraIcon} onClick={onProfileImageClick}>
-              <Image src="/icons/ico_camera.svg" width={9} height={9} alt="프로필 이미지 수정" />
-            </button>
+              <div className={`${styles.profile_img} back_img`} style={{ backgroundImage: `url(${data.image})` }}>
+                <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.name} 프로필 이미지`} />
+              </div>
+              <button className={styles.cameraIcon}>
+                <Image src="/icons/ico_camera.svg" width={9} height={9} alt="프로필 이미지 수정" />
+              </button>
+            </Dropdown>
           </div>
           <div className={styles.textInfo}>
             <Text as="p" size="3">
@@ -40,14 +49,23 @@ export default function ProfileCard({ data }) {
             </Text>
           </div>
         </Flex>
-        <ButtonS
-          onClick={onEditClick}
-          style="light"
-          icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}
-        >
-          정보수정
-        </ButtonS>
-      </Flex>
+        <Box className={styles.btn_setting}>
+          <Dropdown
+            side="right"
+            as="link"
+            menuList={[
+              { text: '닉네임 수정', href: '/service/mypage/nickname' },
+              { text: '관심사 수정', href: '/service/mypage/interest' },
+              { text: '활동지역 수정', href: '/service/mypage/address' },
+              { text: '비밀번호 수정', href: '/service/mypage/myinfo' },
+            ]}
+          >
+            <ButtonS style="light" icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}>
+              설정
+            </ButtonS>
+          </Dropdown>
+        </Box>
+      </Box>
       {/* 관심사 태그 */}
       <div className={styles.tags}>
         {data.interests.length > 0 ? (

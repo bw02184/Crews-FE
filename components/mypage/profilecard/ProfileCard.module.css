@@ -7,6 +7,15 @@
   overflow: hidden;
   cursor: pointer;
 }
+.user_profile {
+  position: relative;
+}
+
+.btn_setting {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
 .avatarImage {
   width: 100%;
