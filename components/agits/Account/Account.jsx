@@ -14,7 +14,7 @@ export default function Account({ accounts }) {
         <Flex gap="10px">
           <Box className={styles.img_box}>
             <div className={`${styles.img} img`}>
-              <Image src="/imgs/dev/img_test_bank.jpg" width={30} height={30} alt={`${accounts.bankName} 이미지`} />
+              <Image src="/imgs/dev/img_bank.jpg" width={30} height={30} alt={`${accounts.bankName} 이미지`} />
             </div>
           </Box>
           <Box className={styles.account_info}>
