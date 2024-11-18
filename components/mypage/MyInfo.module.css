@@ -1,9 +1,0 @@
-.errorMessageBox {
-  min-height: 24px;
-}
-
-.errorMessage {
-  color: var(--crimson-2);
-  font-weight: bold;
-  margin-top: 4px;
-}
