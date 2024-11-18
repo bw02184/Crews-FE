@@ -1,7 +1,6 @@
 import { auth } from './auth';
 import { NextResponse } from 'next/server';
 import { signOut } from 'next-auth/react';
-import { logout } from './apis/authAPI';
 
 export default async function middleware(request) {
   console.log('middleware 접속');
@@ -27,5 +26,5 @@ export default async function middleware(request) {
 
 // 미들웨어가 적용될 경로 설정
 export const config = {
-  matcher: ['/service/payment', '/service/mypage'],
+  matcher: ['/service/agits', '/service/payment', '/service/mypage'],
 };

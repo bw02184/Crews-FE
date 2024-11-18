@@ -9,7 +9,7 @@ export default function IdFindResult() {
         <div className={styles.txt_box}>
           <Text as="p">가나다 회원님의 아이디는</Text>
           <Text as="p">
-            <em>abcedf@naver.com</em> 입니다
+            <em className="underline">abcedf@naver.com</em> 입니다
           </Text>
         </div>
       </Card>

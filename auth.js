@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { login, reissueToken } from './apis/authAPI';
 import { jwtDecode } from 'jwt-decode';
-import { AUTH_SECRET } from './constants/auth';
 
 const refreshAccessToken = async (token) => {
   const { accessToken, refreshToken } = await reissueToken(token.refreshToken);
@@ -24,7 +23,7 @@ const refreshAccessToken = async (token) => {
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: AUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   trustHost: true,
   session: {
     strategy: 'jwt',

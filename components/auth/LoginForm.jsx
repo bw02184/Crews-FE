@@ -5,10 +5,10 @@ import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import { ButtonL } from '@/components/common';
 import { credentialSignIn } from '@/apis/authAPI';
-import { useSessionStatusStore } from '@/stores/authStore';
+import { useSession } from 'next-auth/react';
 
 export default function LoginForm() {
-  const { setSessionStatus } = useSessionStatusStore();
+  const { data: session, update } = useSession();
 
   const {
     register,
@@ -24,7 +24,7 @@ export default function LoginForm() {
       reset();
     } else {
       alert('로그인에 성공했습니다!');
-      setSessionStatus(true);
+      update();
       reset();
     }
   };
