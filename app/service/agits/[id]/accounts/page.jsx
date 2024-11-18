@@ -13,9 +13,10 @@ import { tabMenuList } from '@/constants/tabMenuList/agits';
 import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
-export default async function Page({ data, params }) {
+export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
-  // const data = await getAccount(params.id);
+  const data = await getAccount(params.id);
+  console.log(data);
   return (
     <div className="page">
       <header>
