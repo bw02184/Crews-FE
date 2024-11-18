@@ -2,91 +2,59 @@
 
 import { ButtonL, ButtonS, Label, Modal, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import instance from '@/apis/instance';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BottomButton from '../bottombutton/BootomButton';
 import styles from './InterestForm.module.css';
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
-export default function InterestForm() {
-  // TODO: 토큰에서 유저 정보 갖고와서 사용
-  const userName = '거북이두루미';
-  const [subjects, setSubjects] = useState([]);
-  const [interests, setInterests] = useState([]);
+import mypageAPI from '@/apis/mypageAPI';
+
+export default function InterestForm({ initialInterests, subjects }) {
+  const [interests, setInterests] = useState(initialInterests[0]?.interests || []);
+  const [selectedInterests, setSelectedInterests] = useState(
+    initialInterests[0]?.interests.map((interest) => interest.interestId) || [],
+  );
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
-  const [selectedInterests, setSelectedInterests] = useState([]);
   const { toast, setToast, toastMessage, showToast } = useToast();
-  useEffect(() => {
-    const fetchInterests = async () => {
-      try {
-        setIsLoading(true);
-        const data = await instance.get('/members/me/interests');
-        setInterests(data.interests);
-        setSelectedInterests(data.interests.map((interest) => interest.id));
-      } catch (error) {
-        console.error('관심사 가져오기에 실패했습니다:', error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchInterests();
-  }, []);
+  const userName = initialInterests[0]?.nickName || '사용자';
 
-  const sendinterestsToBackend = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
-
     if (selectedInterests.length < 3) {
       showToast('관심사를 3개 이상 선택해주세요!');
       setIsLoading(false);
       return;
+    } else if (selectedInterests.length > 10) {
+      showToast('관심사를 10개 이하로 선택해주세요!');
+      setIsLoading(false);
+      return;
     }
-
-    const requestBody = { interests: selectedInterests };
-    console.log('전송할 관심사 데이터:', JSON.stringify(requestBody, null, 2));
-
     try {
-      await instance.post('/members/me/interests', requestBody);
-      console.log('관심사 전송 성공');
+      await mypageAPI.updateInterests(selectedInterests);
+      showToast('관심사가 성공적으로 저장되었습니다.');
+      closeModal();
     } catch (error) {
-      console.error('관심사 전송 실패 :', error.message);
-      showToast('관심사 전송에 실패하였습니다.');
+      console.error('관심사 전송 실패:', error);
+      showToast('관심사 저장에 실패했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const toggleInterest = (interestId) => {
-    setSelectedInterests((prevSelected) =>
-      prevSelected.includes(interestId)
-        ? prevSelected.filter((id) => id !== interestId)
-        : [...prevSelected, interestId],
-    );
+    setSelectedInterests((prev) => {
+      const newSelected = prev.includes(interestId) ? prev.filter((id) => id !== interestId) : [...prev, interestId];
+      const selectedInterestObjects = subjects
+        .flatMap((subject) => subject.interests)
+        .filter((interest) => newSelected.includes(interest.interestId));
+      setInterests(selectedInterestObjects);
+      return newSelected;
+    });
   };
-
-  const onUpdateInterests = async (e) => {
-    e.preventDefault(); // 폼 제출 기본 동작 방지
-    sendinterestsToBackend();
-  };
-
-  const getAllInterests = async (e) => {
-    try {
-      setIsLoading(true);
-      const response = await instance.get('/interests', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        console.log('관심사 조회 성공!');
-        // openModal(); // TODO: api 연결 후 주석 해제
-      }
-    } catch (error) {
-      console.error('관심사 조회 실패 :', error.message);
-    } finally {
-      openModal(); // TODO: api 연결 후 삭제
-      setIsLoading(false);
-    }
+  const getAllInterests = () => {
+    openModal();
   };
 
   return (
@@ -94,17 +62,17 @@ export default function InterestForm() {
       <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
         <Text>{toastMessage}</Text>
       </Toast>
-      <form onSubmit={onUpdateInterests}>
+      <form onSubmit={handleSubmit}>
         <Flex direction="column" gap="5px">
-          <Text as="label" className={styles.label}>
+          <Text as="label" weight="bold">
             관심사
           </Text>
-          <Flex direction="column" gapY="20px">
-            <div className={styles.tags}>
+          <Flex direction="column" gapY="40px">
+            <Flex align="center" wrap="wrap" gap="10px">
               {interests.length > 0 ? (
                 interests.map((interest, id) => (
                   <Label key={`interest${id}`} style="deep">
-                    #{interest.interest}
+                    #{interest.interestName}
                   </Label>
                 ))
               ) : (
@@ -123,45 +91,45 @@ export default function InterestForm() {
                 isOpen={isOpen}
                 closeModal={closeModal}
                 header={{
-                  title: `${userName}님의 관심사는 무엇인가요?`,
+                  title: `"${userName}"님의 관심사는 무엇인가요?`,
                   text:
                     '좋아하거나 알아가고 싶은 관심사를 3개 이상 선택해주세요. ' +
                     userName +
                     '님에게 딱 맞는 모임을 추천해드려요.',
                 }}
               >
-                <div>
+                <Flex direction="column" gap="20px" className={styles.modalContent}>
                   {subjects.map((subject) => (
-                    <div key={subject.id} className={styles.subjectContainer}>
-                      <Text className={styles.subjectTitle}>{subject.interest}</Text>
-                      <div className={styles.interestTags}>
-                        {interests
-                          .filter((interest) => interest.subjectId === subject.id)
-                          .map((interest) => (
-                            <div key={interest.id} className={styles.checkboxWrapper}>
+                    <Flex direction="column" gap="10px" key={subject.subjectId} className={styles.subjectContainer}>
+                      <Text weight="bold">{subject.subjectName}</Text>
+                      <Flex gap="10px" wrap="wrap" asChild>
+                        <ul className={styles.tags}>
+                          {subject.interests.map((interest) => (
+                            <li key={interest.interestId} className={styles.checkboxWrapper}>
                               <input
                                 type="checkbox"
-                                id={`interest-${interest.id}`}
-                                checked={selectedInterests.includes(interest.id)}
-                                onChange={() => toggleInterest(interest.id)}
+                                id={`interest-${interest.interestId}`}
+                                checked={selectedInterests.includes(interest.interestId)}
+                                onChange={() => toggleInterest(interest.interestId)}
                                 className={styles.checkboxInput}
                               />
                               <label
-                                htmlFor={`interest-${interest.id}`}
+                                htmlFor={`interest-${interest.interestId}`}
                                 className={`${styles.checkboxLabel} ${
-                                  selectedInterests.includes(interest.id) ? styles.selectedTag : ''
+                                  selectedInterests.includes(interest.interestId) ? styles.selected : ''
                                 }`}
                               >
-                                {interest.interest}
+                                {interest.interestName}
                               </label>
-                            </div>
+                            </li>
                           ))}
-                      </div>
-                    </div>
+                        </ul>
+                      </Flex>
+                    </Flex>
                   ))}
-                </div>
+                </Flex>
               </Modal>
-            </div>
+            </Flex>
             <ButtonL type="submit" style="deep" disabled={isLoading}>
               {isLoading ? '처리 중...' : '수정'}
             </ButtonL>
