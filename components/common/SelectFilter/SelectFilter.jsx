@@ -6,14 +6,14 @@ import { Box } from '@radix-ui/themes';
 import { useState } from 'react';
 
 export default function SelectFilter({ isHeader, as = 'params', filter, pathname, selectList, children }) {
-  const [openSelect, setOpenSelect] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [current, setCurrent] = useState(children);
 
   const selectHandler = (select) => {
     // as = "params" 일때 여기서 fetch 요청
     if (as == 'params') console.log(`filter: ${filter} / params: ${select.params}`);
 
-    setOpenSelect(false);
+    setIsOpen(false);
     setCurrent(select.text);
   };
 
@@ -22,15 +22,15 @@ export default function SelectFilter({ isHeader, as = 'params', filter, pathname
   };
 
   return (
-    <Box className={`${styles.select} ${isHeader ? styles.header : ''}`}>
+    <Box className={`${styles.select} ${isHeader ? `${styles.header} header` : ''} popover`}>
       <button
         onClick={() => {
-          setOpenSelect(!openSelect);
+          setIsOpen(!isOpen);
         }}
       >
         {current}
       </button>
-      {openSelect && (
+      {isOpen && (
         <ul>
           {selectList.map((select, i) => {
             return (

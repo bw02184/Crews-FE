@@ -1,0 +1,10 @@
+.dropdown {
+  display: inline-block;
+}
+.dropdown > ul {
+  width: 150px;
+}
+.dropdown > ul.right {
+  left: auto;
+  right: 0;
+}

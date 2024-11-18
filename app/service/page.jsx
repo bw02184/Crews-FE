@@ -6,6 +6,7 @@ import {
   ButtonM,
   ButtonS,
   CheckBox,
+  Dropdown,
   Header,
   ImageCard,
   Label,
@@ -91,6 +92,54 @@ export default function Service() {
                 >
                   내용물
                 </Modal>
+              </Box>
+            </Flex>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <Title>/components/common/Dropdown</Title>
+            <Flex direction="column" gap="20px">
+              <Box>
+                <Text as="p" weight="medium" mb="1">
+                  버튼
+                </Text>
+                <Dropdown
+                  menuList={[
+                    { text: '사진 수정하기', onClick: () => alert('사진 수정하기') },
+                    { text: '이미지 크게보기', onClick: () => alert('이미지 크게보기') },
+                    { text: '사진 삭제하기', onClick: () => alert('사진 삭제하기') },
+                  ]}
+                >
+                  <ButtonS
+                    style="light"
+                    icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}
+                  >
+                    정보수정
+                  </ButtonS>
+                </Dropdown>
+              </Box>
+              <Box>
+                <Text as="p" weight="medium" mb="1">
+                  링크
+                </Text>
+                <Dropdown
+                  as="link"
+                  side="right"
+                  menuList={[
+                    { text: '닉네임 수정', href: '' },
+                    { text: '관심사 수정', href: '' },
+                    { text: '활동지역 수정', href: '' },
+                    { text: '비밀번호 수정', href: '' },
+                  ]}
+                >
+                  <ButtonS
+                    style="light"
+                    icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}
+                  >
+                    정보수정
+                  </ButtonS>
+                </Dropdown>
               </Box>
             </Flex>
           </section>

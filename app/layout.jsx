@@ -8,6 +8,7 @@ import '@/styles/layout.css';
 import '@/styles/common.css';
 
 import { Theme } from '@radix-ui/themes';
+import { SessionProvider } from 'next-auth/react';
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -23,12 +24,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable}`} style={{ overflowY: 'scroll' }}>
-        <Theme>
-          <div className="wrapper">{children}</div>
-          <div id="portal"></div>
-        </Theme>
-      </body>
+      <SessionProvider>
+        <body className={`${pretendard.variable}`} style={{ overflowY: 'scroll' }}>
+          <Theme>
+            <div className="wrapper">{children}</div>
+            <div id="portal"></div>
+          </Theme>
+        </body>
+      </SessionProvider>
     </html>
   );
 }

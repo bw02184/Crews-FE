@@ -1,5 +1,3 @@
-'use client';
-
 import Navigation from '@/components/common/Navigation/Navigation';
 import { Flex } from '@radix-ui/themes';
 

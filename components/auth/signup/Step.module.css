@@ -1,0 +1,47 @@
+.step_list ul{
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
+  z-index: 1;
+}
+.step_list ul::before{
+  content:'';
+  display: block;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  height: 1px;
+  background-color: #ddd;
+  z-index: -1;
+}
+.step_list ul li{
+  width: 33.3333%;
+  text-align: center;
+}
+.step_list ul li .num{
+  margin: 0 auto;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 100%;
+  background-color: #f0f0f0;
+}
+.step_list ul li.active .num{
+  background-color: var(--point-lime-3);
+}
+.step_list ul li .num i {
+  display: block;
+  font-weight: 700;
+  color: var(--gray-txt-2);
+}
+.step_list ul li.active .num i{
+  color: #fff;
+}
+.step_list ul li p{
+  line-height: 1.2;
+  color: #aaa;
+}
+.step_list ul li.active p{
+  color: #000;
+}

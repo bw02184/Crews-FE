@@ -1,13 +1,9 @@
 .card {
-  position: relative;
-  padding: 15px;
-  border: 1px solid var(--gray-br);
-  contain: initial;
-  overflow: visible;
+  padding: 0;
 }
-.card::before,
-.card::after {
-  display: none;
+.card a {
+  display: block;
+  padding: 15px;
 }
 .card .category {
   position: absolute;

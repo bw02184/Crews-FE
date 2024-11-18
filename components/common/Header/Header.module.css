@@ -7,6 +7,7 @@
   box-sizing: border-box;
 }
 .header > div {
+  position: relative;
   height: 60px;
 }
 .header > div::after {
@@ -19,7 +20,7 @@
   background-color: var(--point-lime-3);
 }
 .header > div.left::after {
-  left: 20px;
+  left: 0;
 }
 .header > div.center::after {
   left: 50%;
@@ -38,4 +39,5 @@
   left: 0;
   top: 50%;
   margin-top: -9.5px;
+  font-size: 0;
 }
