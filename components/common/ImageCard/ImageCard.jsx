@@ -7,7 +7,7 @@ export default function ImageCard({ type = 'agits', data, dynamicId }) {
   const isAgit = type == 'agits';
 
   return (
-    <Card className={styles.card}>
+    <Card className={`${styles.card} card_link`}>
       <Link href={isAgit ? `/service/agits/${data.id}` : `/service/agits/${dynamicId}/event/${data.id}`}>
         <Flex gap="15px">
           <Box className={styles.img_box}>
