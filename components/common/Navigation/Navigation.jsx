@@ -5,10 +5,12 @@ import Link from 'next/link';
 import styles from './Navigation.module.css';
 import { Box, Flex } from '@radix-ui/themes';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function Navigation() {
   const pathname = usePathname();
   const { navVisible } = useNavStore();
+  const { data: session } = useSession();
 
   return (
     navVisible && (
@@ -94,8 +96,12 @@ export default function Navigation() {
               </li>
               <li>
                 <Link
-                  href="/service/mypage"
-                  className={pathname.startsWith('/service/mypage') ? `${styles.active}` : ''}
+                  href={!session ? '/service/login' : '/service/mypage'}
+                  className={
+                    pathname.startsWith('/service/mypage') || pathname.startsWith('/service/login')
+                      ? `${styles.active}`
+                      : ''
+                  }
                 >
                   <Box className={styles.svg} align="center">
                     <svg width="20" height="25" viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +116,7 @@ export default function Navigation() {
                       />
                     </svg>
                   </Box>
-                  <em>마이페이지</em>
+                  <em>{!session ? '로그인' : '마이페이지'}</em>
                 </Link>
               </li>
             </ul>

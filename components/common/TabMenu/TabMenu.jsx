@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import styles from './TabMenu.module.css';
 import { TabNav, Text } from '@radix-ui/themes';
 
-export default function TabMenu({ tabMenuList }) {
+export default function TabMenu({ tabMenuList, dynamicID }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -16,6 +16,9 @@ export default function TabMenu({ tabMenuList }) {
     <div className={styles.tab_menu}>
       <TabNav.Root>
         {tabMenuList.map((tab) => {
+          if (tab.href.includes(':id')) {
+            tab.href = tab.href.replace(':id', dynamicID);
+          }
           return (
             <TabNav.Link asChild active={url === tab.href} key={`tab_${tab.text}`}>
               <Link href={tab.href}>

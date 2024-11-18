@@ -1,0 +1,27 @@
+.img_box .img{
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.txt_box p {
+  position: relative;
+  color: var(--gray-txt-1);
+}
+.txt_box p::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -9px;
+  top: 6px;
+  width: 3px;
+  height: 3px;
+  background-color: var(--gray-txt-1);
+  border-radius: 100%;
+}
+.txt_box p:first-of-type::before {
+  display: none;
+}
+.txt_box b {
+  display: block;
+  line-height: 1.2;
+}
