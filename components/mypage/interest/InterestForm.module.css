@@ -1,14 +1,3 @@
-.label {
-  font-weight: bold;
-  font-size: 14px;
-}
-.tags {
-  margin-top: 16px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
 .gray_1 {
   color: var(--gray-txt-1);
 }
@@ -20,18 +9,23 @@
 .checkboxWrapper {
   display: inline-flex;
   align-items: center;
-  margin: 5px;
 }
 
 .checkboxLabel {
-  padding: 10px 15px;
+  position: relative;
+  display: block;
+  padding: 4px 15px;
   border-radius: 20px;
-  border: 1px solid var(--gray-txt-1);
+  border: 1px solid #dbdbdb;
   cursor: pointer;
   font-weight: bold;
-  position: relative;
+  font-size: 14px;
+  box-sizing: border-box;
   transition: color 0.3s ease;
-  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .checkboxInput {

@@ -4,10 +4,9 @@ import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import useToast from '@/hooks/useToast';
-import instance from '@/apis/instance';
+import mypageAPI from '@/apis/mypageAPI';
 import BottomButton from '@/components/mypage/bottombutton/BootomButton';
 import { useState } from 'react';
-import styles from './MyInfo.module.css';
 
 export default function MyInfo() {
   const {
@@ -21,17 +20,12 @@ export default function MyInfo() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast, setToast, toastMessage, showToast } = useToast();
-
   const newPassword = watch('new_password');
-
-  const onUpdatePassword = async (data) => {
+  const onUpdatePassword = async ({ current_password, new_password }) => {
     try {
       setIsLoading(true);
-      const response = await instance.post('/members/me/password', {
-        currentPassword: data.current_password,
-        newPassword: data.new_password,
-      });
-      if (response.status === 200) {
+      const response = await mypageAPI.updatePassword(current_password, new_password);
+      if (response) {
         showToast('비밀번호가 성공적으로 수정되었습니다!');
         reset();
       }
@@ -50,7 +44,7 @@ export default function MyInfo() {
       </Toast>
       <form onSubmit={handleSubmit(onUpdatePassword)}>
         <Flex direction="column" gap="10px">
-          <Flex direction="column" gap="5px">
+          <Box className="row">
             <Text as="label" htmlFor="current_password" className="require">
               현재 비밀번호
             </Text>
@@ -70,16 +64,14 @@ export default function MyInfo() {
                 className={`${errors.current_password ? 'error' : ''}`}
               />
             </Box>
-            <Box className={styles.errorMessageBox}>
-              {errors.current_password && (
-                <Text as="p" className="error">
-                  {errors.current_password.message}
-                </Text>
-              )}
-            </Box>
-          </Flex>
+            {errors.current_password && (
+              <Text as="p" className="error">
+                {errors.current_password.message}
+              </Text>
+            )}
+          </Box>
 
-          <Flex direction="column" gap="5px">
+          <Box className="row">
             <Text as="label" htmlFor="new_password" className="require">
               새 비밀번호
             </Text>
@@ -99,16 +91,14 @@ export default function MyInfo() {
                 className={`${errors.new_password ? 'error' : ''}`}
               />
             </Box>
-            <Box className={styles.errorMessageBox}>
-              {errors.new_password && (
-                <Text as="p" className="error">
-                  {errors.new_password.message}
-                </Text>
-              )}
-            </Box>
-          </Flex>
+            {errors.new_password && (
+              <Text as="p" className="error">
+                {errors.new_password.message}
+              </Text>
+            )}
+          </Box>
 
-          <Flex direction="column" gap="5px">
+          <Box className="row">
             <Text as="label" htmlFor="confirm_password" className="require">
               새 비밀번호 확인
             </Text>
@@ -125,14 +115,12 @@ export default function MyInfo() {
                 className={`${errors.confirm_password ? 'error' : ''}`}
               />
             </Box>
-            <Box className={styles.errorMessageBox}>
-              {errors.confirm_password && (
-                <Text as="p" className="error">
-                  {errors.confirm_password.message}
-                </Text>
-              )}
-            </Box>
-          </Flex>
+            {errors.confirm_password && (
+              <Text as="p" className="error">
+                {errors.confirm_password.message}
+              </Text>
+            )}
+          </Box>
 
           <ButtonL type="submit" style="deep" disabled={isLoading}>
             {isLoading ? '처리 중...' : '수정하기'}
