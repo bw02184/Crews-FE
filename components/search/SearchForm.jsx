@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState, useRef } from 'react';
 import styles from '@/components/search/SearchForm.module.css';
 
-export default function SearchForm({ initData }) {
+export default function SearchForm() {
   const [inputValue, setInputValue] = useState('');
   const [buttonDummy, setButtonDummy] = useState([
     '강아지',

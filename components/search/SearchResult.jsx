@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex } from '@radix-ui/themes';
-import { Header, ImageCard, SelectFilter, Title } from '../common';
+import { Header, ImageCard, SelectFilter } from '../common';
 import styles from '@/components/search/SearchResult.module.css';
 import { useRef, useState } from 'react';
 import {
