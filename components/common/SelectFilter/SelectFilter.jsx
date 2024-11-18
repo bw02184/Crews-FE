@@ -24,6 +24,7 @@ export default function SelectFilter({ isHeader, as = 'params', filter, pathname
   return (
     <Box className={`${styles.select} ${isHeader ? `${styles.header} header` : ''} popover`}>
       <button
+        type="button"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
