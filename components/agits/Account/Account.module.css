@@ -1,0 +1,35 @@
+.img_box {
+  flex: none;
+}
+.img {
+  border-radius: 100%;
+  overflow: hidden;
+}
+.account_info {
+  width: 100%;
+}
+.top em {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+}
+.top p {
+  color: var(--gray-txt-1);
+}
+.btm {
+  height: 30px;
+}
+.balance em {
+  display: inline-block;
+  line-height: 1.3;
+  font-size: 20px;
+  font-weight: 700;
+}
+.btn_hide {
+  display: block;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 3px;
+  line-height: 1;
+}

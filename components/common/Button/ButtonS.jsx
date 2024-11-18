@@ -8,12 +8,12 @@ export default function ButtonS({ as = 'button', href, type = 'button', style, c
       {as == 'link' && href ? (
         <Link href={href} className={style} {...props}>
           <span>{children}</span>
-          <Image src={icon.src} width={icon.width} height={icon.height} alt={icon.alt} />
+          {icon && <Image src={icon.src} width={icon.width} height={icon.height} alt={icon.alt} />}
         </Link>
       ) : (
         <button type={type} className={style} {...props}>
           <span>{children}</span>
-          <Image src={icon.src} width={icon.width} height={icon.height} alt={icon.alt} />
+          {icon && <Image src={icon.src} width={icon.width} height={icon.height} alt={icon.alt} />}
         </button>
       )}
     </div>

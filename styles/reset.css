@@ -33,7 +33,30 @@
   color: #000;
   line-height: 1.5;
 }
-
+.rt-CalloutRoot {
+  gap: 12px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.rt-Card {
+  position: relative;
+  padding: 15px;
+  border: 1px solid var(--gray-br);
+  contain: initial;
+  border-radius: 5px;
+  overflow: visible;
+}
+.rt-Card.card_link {
+  padding: 0;
+}
+.rt-Card.card_link > a{
+  display: block;
+  padding: 15px;
+}
+.rt-BaseCard::before,
+.rt-BaseCard::after {
+  display: none;
+}
 /* reset */
 * {
   text-size-adjust: none;

@@ -1,14 +1,21 @@
+import { auth } from '@/auth';
+import { BASE_URL } from '@/constants/auth';
+
 const fetchInstance = async (url, options) => {
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
   };
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL + 'api/vi';
-  const SAMPLE_URL = 'http://lmrdb.duckdns.org:8080/';
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
 
   try {
-    const response = await fetch(`${SAMPLE_URL}${url}`, {
+    const response = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers,
     });
@@ -21,8 +28,14 @@ const fetchInstance = async (url, options) => {
       throw new Error(`fetch error [${errorResponse}]`);
     }
 
-    return await response.json();
+    // 로그인/로그아웃의 경우 response.headers에서 토큰 추출
+    if (url == 'members/login' || url == 'members/logout') return response;
+
+    // 그 외의 경우
+    if (response.headers.get('Content-Type')?.includes('application/json')) return await response.json();
+    else return await response.text();
   } catch (error) {
+    console.log('fetch error: ', error);
     throw new Error(`fetch error [${error}]`);
   }
 };

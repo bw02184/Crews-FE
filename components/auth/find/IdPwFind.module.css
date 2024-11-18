@@ -1,0 +1,17 @@
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.card.id_result {
+  height: 100px;
+}
+.card.pw_result {
+  height: 140px;
+}
+.card em {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 700;
+}
