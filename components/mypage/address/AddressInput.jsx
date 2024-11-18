@@ -3,7 +3,7 @@ import { Text, Flex } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import Modal from '@/components/common/Modal/Modal';
-import instance from '@/apis/instance';
+import mypageAPI from '@/apis/mypageAPI';
 import { ButtonL, Toast } from '@/components/common';
 import useToast from '@/hooks/useToast';
 import { useForm } from 'react-hook-form';
@@ -28,9 +28,9 @@ export default function AddressInput() {
   const majorCities = useMemo(() => ['서울', '부산', '대구', '인천', '광주', '대전', '울산'], []);
   // 모달 상태를 3개로 초기화
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
-  const addresses = watch('addresses');
+  const addresses = watch('addresses') || [];
 
-  // 주소 검색 핸들러 메모이제이션
+  // 주소 검색 핸들러
   const handleAddressSearch = useCallback((index) => {
     setIsModalOpen((prev) => {
       const updated = [...prev];
@@ -39,7 +39,7 @@ export default function AddressInput() {
     });
   }, []);
 
-  // 모달 닫기 핸들러 메모이제이션
+  // 모달 닫기 핸들러
   const handleModalClose = useCallback((index) => {
     setIsModalOpen((prev) => {
       const updated = [...prev];
@@ -48,9 +48,10 @@ export default function AddressInput() {
     });
   }, []);
 
-  // 주소 값 가져오기 함수 메모이제이션
+  // 주소 값 가져오기 함수
   const getAddressValue = useCallback(
     (address) => {
+      if (!address) return '';
       const { doName, siName, guName, dongName } = address;
       const hasAddress = doName || siName || guName || dongName;
       if (!hasAddress) return '';
@@ -95,24 +96,8 @@ export default function AddressInput() {
     const fetchInitialData = async () => {
       try {
         setIsLoading(true);
-        const response = await instance.get('/members/me/addresses');
-        const data = response.data.addresses;
-
-        const formattedAddresses = data.map((address) => ({
-          type: address.type,
-          doName: majorCities.includes(address.do) ? address.do : address.do || '없음',
-          siName: address.si || '없음',
-          guName: address.gu || '없음',
-          dongName: address.dong || '없음',
-        }));
-
-        const sortedAddresses = [
-          formattedAddresses.find((addr) => addr.type === 'HOME') || addresses[0],
-          formattedAddresses.find((addr) => addr.type === 'COMPANY') || addresses[1],
-          formattedAddresses.find((addr) => addr.type === 'OTHER') || addresses[2],
-        ];
-
-        setValue('addresses', sortedAddresses);
+        const addresses = await mypageAPI.getAddresses();
+        setValue('addresses', addresses);
       } catch (error) {
         if (error.response?.status === 401) {
           console.error('인증 토큰이 만료되었습니다. 재 로그인 해주세요.');
@@ -137,7 +122,7 @@ export default function AddressInput() {
     return () => {
       document.head.removeChild(script);
     };
-  }, [setValue, addresses, majorCities]);
+  }, [setValue]);
 
   // 주소 검색 모달 설정
   useEffect(() => {
@@ -153,8 +138,6 @@ export default function AddressInput() {
 
             const fullAddress = data.jibunAddress;
             const addressParts = fullAddress.split(' ');
-
-            // 동 이후의 상세주소는 제외
             const dongIndex = addressParts.findIndex((part) => part.includes('동'));
             const filteredParts = dongIndex !== -1 ? addressParts.slice(0, dongIndex + 1) : addressParts;
 
@@ -173,9 +156,10 @@ export default function AddressInput() {
               dongName = filteredParts[3] || '없음';
             }
 
+            const addressTypes = ['HOME', 'COMPANY', 'OTHER'];
             const newAddresses = [...addresses];
             newAddresses[index] = {
-              ...addresses[index],
+              type: addressTypes[index],
               doName,
               siName,
               guName,
@@ -196,8 +180,18 @@ export default function AddressInput() {
     setIsLoading(true);
     setErrorMessage('');
 
+    // 초기 데이터 로깅
+    console.log('Initial Form Data:', data);
+
+    if (!data.addresses || data.addresses.length === 0) {
+      showToast('활동 지역을 최소 1개 이상 설정해주세요!');
+      setIsLoading(false);
+      return;
+    }
+
     const isEmpty = data.addresses.every(
       (address) =>
+        !address ||
         !address.doName ||
         !address.siName ||
         !address.guName ||
@@ -214,19 +208,30 @@ export default function AddressInput() {
       return;
     }
 
-    console.log('전송할 주소 데이터:', JSON.stringify(data, null, 2));
-
     try {
-      await instance.post('/members/me/addresses', { addresses: data.addresses });
+      // addresses 배열만 추출하여 새로운 객체 생성
+      const requestData = {
+        addresses: data.addresses.map((address, index) => ({
+          type: address.type || ['HOME', 'COMPANY', 'OTHER'][index],
+          doName: address.doName || '',
+          siName: address.siName || '',
+          guName: address.guName || '',
+          dongName: address.dongName || '',
+        })),
+      };
+
+      // 최종 전송 데이터 로깅
+      console.log(JSON.stringify(requestData, null, 2));
+
+      await mypageAPI.updateAddresses(requestData);
       showToast('주소가 성공적으로 저장되었습니다.');
     } catch (error) {
       console.error('주소 전송 실패 :', error.message);
-      setErrorMessage('다시 시도해주세요.');
+      showToast('수정 실패.');
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" gap="10px">
@@ -238,7 +243,7 @@ export default function AddressInput() {
             <input
               type="text"
               id={`HOME`}
-              value={getAddressValue(addresses[0])}
+              value={addresses && addresses[0] ? getAddressValue(addresses[0]) : ''}
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}
@@ -265,7 +270,7 @@ export default function AddressInput() {
             <input
               type="text"
               id={`COMPANY`}
-              value={getAddressValue(addresses[1])}
+              value={addresses && addresses[1] ? getAddressValue(addresses[1]) : ''}
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}
@@ -292,7 +297,7 @@ export default function AddressInput() {
             <input
               type="text"
               id={`OTHER`}
-              value={getAddressValue(addresses[2])}
+              value={addresses && addresses[2] ? getAddressValue(addresses[2]) : ''}
               readOnly
               placeholder="활동 지역을 추가해주세요!"
               className={styles.inputField}

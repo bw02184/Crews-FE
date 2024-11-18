@@ -9,7 +9,7 @@ export default function page() {
       <Header side="center">활동지역 수정</Header>
       <div className="content">
         <section>
-          <Flex className="row" direction="column" gap="10px">
+          <Flex direction="column" gap="10px">
             <AddressInput />
           </Flex>
           <BottomButton />
