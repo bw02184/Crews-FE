@@ -60,3 +60,17 @@ export const events = [
     introduction: '한줄소개3 한줄소개3 한줄소개3',
   },
 ];
+
+export const feeds = [
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+  { image: 'https://picsum.photos/250/250' },
+];
+
+export const accounts = {
+  image: '/imgs/img_bank_kb.jpg',
+  name: 'KB국민ONE통장',
+  number: '123-456-123456',
+  balance: 339760,
+};
