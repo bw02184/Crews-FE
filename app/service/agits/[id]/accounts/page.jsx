@@ -6,13 +6,13 @@ import {
   tranTypeSelectMenuList,
 } from '@/constants/selectMenuList/sample';
 import { Box, Flex } from '@radix-ui/themes';
-import { accounts, accountDetail } from '@/constants/dummy';
+import { accountDetail } from '@/constants/dummy';
 import styles from './page.module.css';
 
 import { tabMenuList } from '@/constants/tabMenuList/agits';
-import Account from '@/components/Account/Account';
-import { getData } from '@/apis/accountsAPI';
-import AccountDetail from '@/components/AccountDetail/AccountDetail';
+import Account from '@/components/agits/Account/Account';
+import { getData } from '@/apis/agitsAPI';
+import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
   const data = await getData(params.id);
@@ -30,7 +30,7 @@ export default async function Page({ params }) {
         <section>
           <Flex direction="column" gap="20px">
             <Title>모임통장 상세</Title>
-            <Account accounts={accounts} />
+            <Account accounts={data} />
             <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '회비 납부하기' }} />
           </Flex>
         </section>
@@ -49,7 +49,7 @@ export default async function Page({ params }) {
           <Box mt="1">
             <ul>
               {accountDetail.map((detail, i) => {
-                return <AccountDetail accountDetail={detail} key={`detail${i}`} />;
+                return <AccountDetail data={detail} key={`detail${i}`} />;
               })}
             </ul>
           </Box>

@@ -62,10 +62,10 @@ export const events = [
 ];
 
 export const feeds = [
-  { image: 'https://picsum.photos/250/250' },
-  { image: 'https://picsum.photos/250/250' },
-  { image: 'https://picsum.photos/250/250' },
-  { image: 'https://picsum.photos/250/250' },
+  { id: 1, image: 'https://picsum.photos/250/250', title: '이미지1' },
+  { id: 2, image: 'https://picsum.photos/250/250', title: '이미지2' },
+  { id: 3, image: 'https://picsum.photos/250/250', title: '이미지3' },
+  { id: 4, image: 'https://picsum.photos/250/250', title: '이미지4' },
 ];
 
 export const accounts = {
