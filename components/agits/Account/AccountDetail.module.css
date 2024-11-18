@@ -1,0 +1,29 @@
+.account {
+  padding: 10px 0;
+  border-top: 1px solid var(--gray-br);
+}
+.account:first-of-type {
+  border-top: none;
+}
+.top p {
+  color: var(--gray-txt-1);
+}
+.top em {
+  display: block;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.withdrawerName em {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+}
+.withdrawerName em.red {
+  color: var(--crimson-2);
+}
+.withdrawerName em.blue {
+  color: var(--blue-1);
+}
+.afterBalanceAmount {
+  color: #878b8e;
+}

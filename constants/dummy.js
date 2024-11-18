@@ -63,3 +63,44 @@ export const events = [
     introduction: '한줄소개3 한줄소개3 한줄소개3',
   },
 ];
+
+export const feeds = [
+  { id: 1, image: 'https://picsum.photos/250/250', title: '이미지1' },
+  { id: 2, image: 'https://picsum.photos/250/250', title: '이미지2' },
+  { id: 3, image: 'https://picsum.photos/250/250', title: '이미지3' },
+  { id: 4, image: 'https://picsum.photos/250/250', title: '이미지4' },
+];
+
+export const accounts = {
+  image: '/imgs/img_bank_kb.jpg',
+  productName: 'KB국민ONE통장',
+  accountNumber: '123-456-123456',
+  balance: 339760,
+};
+
+export const accountDetail = [
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'WITHDRAW',
+    withdrawerName: '홍길동',
+  },
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'DEPOSIT',
+    withdrawerName: '홍길동',
+  },
+  {
+    transactionTime: '2024-11-15T23:00:00',
+    description: 'sws',
+    tranAmount: 100000,
+    afterBalanceAmount: 50000,
+    tranType: 'DEPOSIT',
+    withdrawerName: '홍길동',
+  },
+];
