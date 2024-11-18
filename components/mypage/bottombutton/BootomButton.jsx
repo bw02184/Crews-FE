@@ -1,21 +1,28 @@
 'use client';
-import { Box } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function BottomButton() {
-  const handleLogout = () => {
-    alert('로그아웃 버튼이 클릭되었습니다.');
-  };
   return (
     <Box className="btm_util">
-      <ul>
-        <li>
-          <Link href="/service/leave">회원탈퇴</Link>
-        </li>
-        <li>
-          <button onClick={handleLogout}>로그아웃</button>
-        </li>
-      </ul>
+      <Flex justify="center" align="center" gap="20px" asChild>
+        <ul>
+          <li>
+            <Link href="/service/leave">회원탈퇴</Link>
+          </li>
+          <li>
+            <button
+              onClick={async () => {
+                await signOut();
+                alert('로그아웃 되었습니다!');
+              }}
+            >
+              로그아웃
+            </button>
+          </li>
+        </ul>
+      </Flex>
     </Box>
   );
 }
