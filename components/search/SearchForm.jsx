@@ -58,7 +58,7 @@ export default function SearchForm() {
 
   // 검색어 클릭 시 input에 값 입력
   const handleTextClick = (text) => {
-    setValue('keyword', text)
+    setValue('keyword', text);
   };
 
   // 검색어 삭제 핸들러

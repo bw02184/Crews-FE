@@ -54,12 +54,7 @@ export default function SearchResult({ params }) {
                 <SelectFilter filter="keyword" selectList={searchMenu}>
                   모임명
                 </SelectFilter>
-                <input
-                  {...register('keyword')}
-                  defaultValue={params}
-                  type="text"
-                  id="search_input"
-                />
+                <input {...register('keyword')} defaultValue={params} type="text" id="search_input" />
                 <button type="submit">
                   <Image src="/icons/ico_search.svg" width={15} height={15} alt="검색하기" />
                 </button>
