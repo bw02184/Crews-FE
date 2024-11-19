@@ -3,7 +3,7 @@ import { Flex, Text } from '@radix-ui/themes';
 import { Header, SelectFilter, Title } from '@/components/common';
 import { searchMenu } from '@/constants/selectMenuList/searchMenuList';
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import styles from '@/components/search/SearchForm.module.css';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -37,6 +37,7 @@ export default function SearchForm() {
     //   mutate('posts');
     // }
   };
+
   const [buttonDummy, setButtonDummy] = useState([
     '강아지',
     '치킨',

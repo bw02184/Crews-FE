@@ -18,7 +18,7 @@ export default function SearchResult({ params }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   const router = useRouter();
@@ -54,7 +54,12 @@ export default function SearchResult({ params }) {
                 <SelectFilter filter="keyword" selectList={searchMenu}>
                   모임명
                 </SelectFilter>
-                <input defaultValue={params} {...register('keyword')} type="text" id="search_input" placeholder="키워드를 입력해주세요!" />
+                <input
+                  {...register('keyword')}
+                  defaultValue={params}
+                  type="text"
+                  id="search_input"
+                />
                 <button type="submit">
                   <Image src="/icons/ico_search.svg" width={15} height={15} alt="검색하기" />
                 </button>
