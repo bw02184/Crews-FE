@@ -49,7 +49,8 @@
 .rt-Card.card_link {
   padding: 0;
 }
-.rt-Card.card_link > a{
+.rt-Card.card_link > a,
+.rt-Card.card_link > button {
   display: block;
   padding: 15px;
 }

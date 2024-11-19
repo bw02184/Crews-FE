@@ -13,6 +13,11 @@
 .blue {
   color: var(--blue-1);
 }
+.blue_bg {
+  color: var(--blue-1);
+  background-color: #edf2fe;
+}
+
 .red {
   color: var(--crimson-2);
 }
