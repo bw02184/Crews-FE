@@ -13,7 +13,7 @@ export default function SearchForm() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   const router = useRouter();
