@@ -235,11 +235,11 @@ export default function AddressInput() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" gap="10px">
-        <Flex direction="column" gap="5px">
+        <Flex direction="column" gap="5px" className="row">
           <Text as="label" htmlFor={`HOME`}>
             <strong className="require">관심지역 #1</strong>
           </Text>
-          <div className={styles.inputContainer}>
+          <div className="input input_btn">
             <input
               type="text"
               id={`HOME`}
@@ -250,23 +250,18 @@ export default function AddressInput() {
               onClick={() => handleAddressSearch(0)}
               {...register('addresses.0')}
             />
-            <button
-              type="button"
-              className={styles.searchButton}
-              onClick={() => handleAddressSearch(0)}
-              disabled={isLoading}
-            >
+            <button type="button" onClick={() => handleAddressSearch(0)} disabled={isLoading}>
               {isLoading ? '로딩 중...' : '주소 검색'}
             </button>
           </div>
           {renderAddressModal(0)}
         </Flex>
 
-        <Flex direction="column" gap="5px">
+        <Flex direction="column" gap="5px" className="row">
           <Text as="label" htmlFor={`COMPANY`}>
             <strong>관심지역 #2</strong>
           </Text>
-          <div className={styles.inputContainer}>
+          <div className="input input_btn">
             <input
               type="text"
               id={`COMPANY`}
@@ -277,23 +272,18 @@ export default function AddressInput() {
               onClick={() => handleAddressSearch(1)}
               {...register('addresses.1')}
             />
-            <button
-              type="button"
-              className={styles.searchButton}
-              onClick={() => handleAddressSearch(1)}
-              disabled={isLoading}
-            >
+            <button type="button" onClick={() => handleAddressSearch(1)} disabled={isLoading}>
               {isLoading ? '로딩 중...' : '주소 검색'}
             </button>
           </div>
           {renderAddressModal(1)}
         </Flex>
 
-        <Flex direction="column" gap="5px">
+        <Flex direction="column" gap="5px" className="row">
           <Text as="label" htmlFor={`OTHER`}>
             <strong>관심지역 #3</strong>
           </Text>
-          <div className={styles.inputContainer}>
+          <div className="input input_btn">
             <input
               type="text"
               id={`OTHER`}
@@ -304,12 +294,7 @@ export default function AddressInput() {
               onClick={() => handleAddressSearch(2)}
               {...register('addresses.2')}
             />
-            <button
-              type="button"
-              className={styles.searchButton}
-              onClick={() => handleAddressSearch(2)}
-              disabled={isLoading}
-            >
+            <button type="button" onClick={() => handleAddressSearch(2)} disabled={isLoading}>
               {isLoading ? '로딩 중...' : '주소 검색'}
             </button>
           </div>

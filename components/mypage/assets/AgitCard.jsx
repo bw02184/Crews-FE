@@ -1,13 +1,17 @@
 'use client';
-import { ButtonS, Title } from '@/components/common';
+import { ButtonS, Modal, Title } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import styles from './AgitCard.module.css';
 import Image from 'next/image';
+import useModal from '@/hooks/useModal';
 
 export default function AgitCard() {
+  const { isOpen: isDetachOpen, openModal: openDetachModal, closeModal: closeDetachModal } = useModal();
+  const { isOpen: isAttachOpen, openModal: openAttachModal, closeModal: closeAttachModal } = useModal();
+
   return (
     <Flex direction="column" gap="20px">
       <Title>모임카드</Title>
@@ -34,7 +38,9 @@ export default function AgitCard() {
             <Text as="p" size="2" weight="medium">
               임시 모임명
             </Text>
-            <ButtonS style="light">해지하기</ButtonS>
+            <ButtonS style="light" onClick={openDetachModal}>
+              해지하기
+            </ButtonS>
           </Flex>
         </SwiperSlide>
         <SwiperSlide className={styles.blank}>
@@ -57,10 +63,39 @@ export default function AgitCard() {
             <Text as="p" size="2" weight="medium">
               임시 모임명
             </Text>
-            <ButtonS style="light">연결하기</ButtonS>
+            <ButtonS style="light" onClick={openAttachModal}>
+              연결하기
+            </ButtonS>
           </Flex>
         </SwiperSlide>
       </Swiper>
+      {/* Modals */}
+      <Modal
+        isOpen={isDetachOpen}
+        closeModal={closeDetachModal}
+        header={{
+          title: (
+            <>
+              모임카드를
+              <br />
+              해지 하시겠습니까?
+            </>
+          ),
+        }}
+      />
+      <Modal
+        isOpen={isAttachOpen}
+        closeModal={closeAttachModal}
+        header={{
+          title: (
+            <>
+              모임카드를
+              <br />
+              연결 하시겠습니까?
+            </>
+          ),
+        }}
+      />
     </Flex>
   );
 }
