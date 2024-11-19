@@ -5,9 +5,38 @@ import { searchMenu } from '@/constants/selectMenuList/searchMenuList';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
 import styles from '@/components/search/SearchForm.module.css';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 export default function SearchForm() {
-  const [inputValue, setInputValue] = useState('');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const router = useRouter();
+
+  const onSubmit = async ({ keyword }) => {
+    // if (title.length < 5) {
+    // showToast('제목을 길게 입력해주세요! 아무튼 토스트 테스트!');
+    //   return;
+    // }
+
+    // const response = await postPosts(title, content);
+
+    // if (response?.error) {
+    //   alert(response.error);
+    // } else {
+    //   alert('게시물이 저장되었습니다!');
+    //   reset();
+    router.push(`/service/search?q=${keyword}`);
+
+    //   // 'posts' 키와 일치하는 SWR 캐시 갱신
+    //   mutate('posts');
+    // }
+  };
   const [buttonDummy, setButtonDummy] = useState([
     '강아지',
     '치킨',
@@ -25,19 +54,14 @@ export default function SearchForm() {
     '갓재연',
     '갓갓갓',
   ]);
-  const inputRef = useRef();
 
   // 검색어 클릭 시 input에 값 입력
   const handleTextClick = (text) => {
-    setInputValue(text);
-    if (inputRef.current) {
-      inputRef.current.value = text;
-    }
+    setValue('keyword', text)
   };
 
   // 검색어 삭제 핸들러
-  const removeItemHandler = (index, event) => {
-    event.stopPropagation(); // 부모 요소로 이벤트 전파 방지
+  const removeItemHandler = (index) => {
     setButtonDummy((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -47,27 +71,23 @@ export default function SearchForm() {
       <div className="content">
         <section>
           <Flex direction="column" gap="20px">
-            {/* 검색 폼 */}
-            <Flex align="center" gap="3">
-              <form className={styles.search_form} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Flex align="center" gap="3" asChild>
+              <form onSubmit={handleSubmit(onSubmit)} className={styles.search_form}>
                 <SelectFilter filter="keyword" selectList={searchMenu}>
                   모임명
                 </SelectFilter>
                 <input
-                  ref={inputRef}
+                  {...register('keyword')}
                   type="text"
                   id="search_input"
                   placeholder="키워드를 입력해주세요!"
-                  className={styles.search_form}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  value={inputValue}
+                  autoFocus
                 />
-                <button type="submit" className={styles.search_form}>
+                <button type="submit">
                   <Image src="/icons/ico_search.svg" width={15} height={15} alt="검색하기" />
                 </button>
               </form>
             </Flex>
-            {/* 최근 검색어 목록 */}
             <Flex direction="column" gap="2">
               <Title>최근 검색어</Title>
               <Flex gap="10px" wrap="wrap" asChild>
@@ -76,12 +96,15 @@ export default function SearchForm() {
                     {buttonDummy.map((text, index) => (
                       <Flex align="center" wrap="wrap" gap="10px" key={`button${index}`} asChild>
                         <li onClick={() => handleTextClick(text)} className={`${styles.button} light`}>
-                          {/* 검색어 텍스트 */}
                           <Text as="span" size="2" weight="bold">
                             {text}
                           </Text>
-                          {/* 삭제 버튼 */}
-                          <button onClick={(event) => removeItemHandler(index, event)}>
+                          <button
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              removeItemHandler(index);
+                            }}
+                          >
                             <Image src="/icons/ico_delete.svg" width={9} height={9} alt="삭제" />
                           </button>
                         </li>

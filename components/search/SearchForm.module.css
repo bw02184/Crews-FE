@@ -1,9 +1,14 @@
 .search_form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   position: relative;
 }
+
 .search_form input {
   padding-right: 70px;
 }
+
 .search_form button[type='submit'] {
   position: absolute;
   right: 0;

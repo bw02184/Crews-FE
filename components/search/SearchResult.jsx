@@ -3,7 +3,6 @@
 import { Flex } from '@radix-ui/themes';
 import { Header, ImageCard, SelectFilter } from '../common';
 import styles from '@/components/search/SearchResult.module.css';
-import { useRef, useState } from 'react';
 import {
   searchMenu,
   sortSelectDateList,
@@ -12,10 +11,37 @@ import {
 } from '@/constants/selectMenuList/searchMenuList';
 import Image from 'next/image';
 import { agits } from '@/constants/dummy';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
-export default function SearchResult({ q }) {
-  const [inputValue, setInputValue] = useState(q);
-  const inputRef = useRef();
+export default function SearchResult({ params }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const router = useRouter();
+
+  const onSubmit = async ({ keyword }) => {
+    // if (title.length < 5) {
+    // showToast('제목을 길게 입력해주세요! 아무튼 토스트 테스트!');
+    //   return;
+    // }
+
+    // const response = await postPosts(title, content);
+
+    // if (response?.error) {
+    //   alert(response.error);
+    // } else {
+    //   alert('게시물이 저장되었습니다!');
+    //   reset();
+    router.push(`/service/search?q=${keyword}`);
+
+    //   // 'posts' 키와 일치하는 SWR 캐시 갱신
+    //   mutate('posts');
+    // }
+  };
 
   return (
     <div className="page">
@@ -23,22 +49,13 @@ export default function SearchResult({ q }) {
       <div className="content">
         <section>
           <Flex direction="column" gap="20px">
-            {/* 검색 폼 */}
-            <Flex align="center" gap="10px" asChild>
-              <form className={styles.search_form}>
+            <Flex align="center" gap="3px" asChild>
+              <form onSubmit={handleSubmit(onSubmit)} className={styles.search_form}>
                 <SelectFilter filter="keyword" selectList={searchMenu}>
                   모임명
                 </SelectFilter>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  id="search_input"
-                  placeholder="키워드를 입력해주세요!"
-                  className={styles.search_form}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  value={inputValue}
-                />
-                <button type="submit" className={styles.search_form}>
+                <input defaultValue={params} {...register('keyword')} type="text" id="search_input" placeholder="키워드를 입력해주세요!" />
+                <button type="submit">
                   <Image src="/icons/ico_search.svg" width={15} height={15} alt="검색하기" />
                 </button>
               </form>
