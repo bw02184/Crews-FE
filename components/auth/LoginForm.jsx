@@ -88,28 +88,16 @@ export default function LoginForm() {
             로그인
           </ButtonL>
           <div className="btm_util">
-            <Flex justify="center" align="center" gap="20px" mt="1" asChild>
+            <Flex justify="center" align="center" gap="20px" asChild>
               <ul>
                 <li>
-                  <Link href="idfind">
-                    <Text as="p" size="1" weight="medium">
-                      아이디 찾기
-                    </Text>
-                  </Link>
+                  <Link href="idfind">아이디 찾기</Link>
                 </li>
                 <li>
-                  <Link href="pwfind">
-                    <Text as="p" size="1" weight="medium">
-                      비밀번호 찾기
-                    </Text>
-                  </Link>
+                  <Link href="pwfind">비밀번호 찾기</Link>
                 </li>
                 <li>
-                  <Link href="signup/step1">
-                    <Text as="p" size="1" weight="medium">
-                      회원가입
-                    </Text>
-                  </Link>
+                  <Link href="signup/step1">회원가입</Link>
                 </li>
               </ul>
             </Flex>
