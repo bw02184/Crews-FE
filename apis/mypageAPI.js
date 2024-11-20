@@ -29,7 +29,7 @@ const mypageAPI = {
 
   // 닉네임 수정
   updateNickname: async (nickname) => {
-    const response = await instance.post('members/me/nickname', {
+    const response = await instance.put('members/me/nickname', {
       nickname: nickname,
     });
     if (response.status !== 200) {
@@ -41,7 +41,7 @@ const mypageAPI = {
   // 비밀번호 수정
   updatePassword: async (current_password, new_password) => {
     try {
-      const response = await instance.post('members/me/password', {
+      const response = await instance.put('members/me/password', {
         current_password,
         new_password,
       });
@@ -66,7 +66,86 @@ const mypageAPI = {
 
   // 주소 수정
   updateAddresses: async (addresses) => {
-    const response = await instance.post('members/me/addresses', { addresses });
+    const response = await instance.patch('members/me/addresses', { addresses });
+    return response.data;
+  },
+
+  // 모임카드 목록 조회
+  getCrewCards: async () => {
+    const response = await instance.get('members/me/cards');
+    return response.data;
+  },
+
+  // 모임카드 연결
+  attachCrewCard: async (cardId, crewId) => {
+    const response = await instance.post('members/me/cards', {
+      cardId,
+      crewId,
+    });
+    return response.data;
+  },
+
+  // 모임카드 해지
+  detachCrewCard: async (cardId) => {
+    const response = await instance.delete(`members/me/cards/${cardId}`);
+    return response.data;
+  },
+
+  // 개인 계좌 목록 조회
+  getPersonalAccounts: async () => {
+    const response = await instance.get('members/me/accounts');
+    return response.data;
+  },
+
+  // 개인 계좌 연결
+  attachPersonalAccount: async (accountId, crewId) => {
+    const response = await instance.post('members/me/accounts', {
+      accountId,
+      crewId,
+    });
+    return response.data;
+  },
+
+  // 개인 계좌 해지
+  detachPersonalAccount: async (accountId) => {
+    const response = await instance.delete(`members/me/accounts/${accountId}`);
+    return response.data;
+  },
+
+  // 회비 납부 정보 조회
+  getFeePaymentInfo: async (crewId) => {
+    const response = await instance.get(`crews/${crewId}/fees`);
+    return response.data;
+  },
+
+  // 회비 납부하기
+  payCrewFee: async (crewId, amount, accountId) => {
+    const response = await instance.post(`crews/${crewId}/fees/payment`, {
+      amount,
+      accountId,
+    });
+    return response.data;
+  },
+
+  // 거래 내역 조회
+  getTransactionHistory: async (accountId) => {
+    const response = await instance.get(`members/me/accounts/${accountId}/transactions`);
+    return response.data;
+  },
+
+  // 프로필 정보 조회
+  getProfile: async () => {
+    const response = await instance.get('members/me/profile');
+    return response.data;
+  },
+
+  // 프로필 이미지 업데이트
+  updateProfileImage: async (formData) => {
+    const response = await instance.put('members/me/profile/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 };
