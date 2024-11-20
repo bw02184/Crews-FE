@@ -8,8 +8,8 @@ import { ButtonL, Modal, SelectFilter } from '@/components/common';
 import useModal from '@/hooks/useModal';
 const crewaccountlist = [
   {
-    params: 1,
-    text: 'A모임',
+    id: 1,
+    crewName: 'A모임',
     img: '/dev/img_bank.jpg',
     name: 'KB국민ONE통장',
     accountNumber: '987654321123',
@@ -17,8 +17,8 @@ const crewaccountlist = [
     amount: 10000,
   },
   {
-    params: 2,
-    text: '우리모임',
+    id: 2,
+    crewName: '우리모임',
     img: '/dev/img_bank.jpg',
     name: '우리CUBE통장',
     accountNumber: '110467158676',
@@ -26,8 +26,8 @@ const crewaccountlist = [
     amount: 20000,
   },
   {
-    params: 3,
-    text: '너네모임',
+    id: 3,
+    crewName: '너네모임',
     img: '/dev/img_bank.jpg',
     name: '신한 주거래 우대통장',
     accountNumber: '330467158676',
@@ -46,7 +46,14 @@ export default function FeePayment() {
   return (
     <>
       <Flex direction="column">
-        <SelectFilter filter="location" selectList={crewaccountlist} onSelect={selectHandler}>
+        <SelectFilter
+          filter="location"
+          selectList={crewaccountlist.map((account) => ({
+            ...account,
+            params: account.id,
+          }))}
+          onSelect={selectHandler}
+        >
           {crewaccountlist[0].text}
         </SelectFilter>
         <Flex align="center" justify="between" className={styles.itemContent}>

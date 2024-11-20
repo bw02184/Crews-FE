@@ -5,7 +5,6 @@ import { Flex, Box, Text } from '@radix-ui/themes';
 import styles from './AssetList.module.css';
 
 export default function AssetList() {
-  // 초기값을 빈 배열로 설정
   const [assets, setAssets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

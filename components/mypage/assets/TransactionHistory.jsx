@@ -2,7 +2,6 @@
 import { Flex, Text } from '@radix-ui/themes';
 import styles from './TransactionHistory.module.css';
 
-// 이체 내역 데이터 배열
 const transactionData = [
   {
     id: 1,
@@ -57,7 +56,7 @@ export default function TransactionHistory() {
                 <Flex direction="column" gap="0" align="end">
                   <Flex align="center" gap="1">
                     <Text size="2">출금</Text>
-                    <Text size="4" weight="bold" className={styles.ammountText}>
+                    <Text size="3" weight="bold" className={styles.ammountText}>
                       {transaction.amount.toLocaleString()}원
                     </Text>
                   </Flex>

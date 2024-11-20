@@ -1,17 +1,16 @@
 import { Header } from '@/components/common';
-import Divider from '@/components/mypage/assets/Divider';
 import FeePayment from '@/components/mypage/assets/FeePayment';
 import TransactionHistory from '@/components/mypage/assets/TransactionHistory';
+import { Flex } from '@radix-ui/themes';
 
 export default function Page() {
   return (
     <div className="page">
       <Header side="center">회비 납부</Header>
-      <div className="content">
+      <Flex direction="column" gap="10px" className="content">
         <section>
           <FeePayment />
         </section>
-        <Divider />
         <section>
           <TransactionHistory
             title="이체 내역"
@@ -22,7 +21,7 @@ export default function Page() {
             balance={423558}
           />
         </section>
-      </div>
+      </Flex>
     </div>
   );
 }
