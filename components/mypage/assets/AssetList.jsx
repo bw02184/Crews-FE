@@ -19,8 +19,6 @@ export default function AssetList() {
 
   const fetchAssetData = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const dummyData = [
         {
           img: '/dev/img_bank.jpg',

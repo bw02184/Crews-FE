@@ -28,7 +28,6 @@ export default function NicknameForm() {
           setFetchedNickname(fetchedNickname);
         }
       } catch (error) {
-        console.error('닉네임 가져오기에 실패했습니다:', error.message);
         showToast('닉네임을 가져오는데 실패했습니다.');
         setFetchedNickname('더미');
       } finally {
@@ -59,7 +58,6 @@ export default function NicknameForm() {
         throw new Error('닉네임 수정에 실패했습니다.');
       }
     } catch (error) {
-      console.error('닉네임 수정에 실패했습니다:', error.message);
       showToast('닉네임 수정에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsLoading(false);

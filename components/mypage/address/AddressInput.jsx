@@ -28,8 +28,8 @@ export default function AddressInput() {
   const majorCities = useMemo(() => ['서울', '부산', '대구', '인천', '광주', '대전', '울산'], []);
   // 모달 상태를 3개로 초기화
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
-  const addresses = watch('addresses') || [];
-
+  const watchedAddresses = watch('addresses');
+  const addresses = useMemo(() => watchedAddresses || [], [watchedAddresses]);
   // 주소 검색 핸들러
   const handleAddressSearch = useCallback((index) => {
     setIsModalOpen((prev) => {

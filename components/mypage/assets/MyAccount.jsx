@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonL, ButtonS, ImageCard, Modal, Title } from '@/components/common';
+import { ButtonS, Modal, Title } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
