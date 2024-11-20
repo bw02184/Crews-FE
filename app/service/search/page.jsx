@@ -1,3 +1,6 @@
-export default function Search() {
-  return <div>검색 페이지</div>;
+import SearchForm from '@/components/search/SearchForm';
+import SearchResult from '@/components/search/SearchResult';
+
+export default function SearchPage({ searchParams }) {
+  return <>{searchParams.q == undefined ? <SearchForm /> : <SearchResult params={searchParams.q} />}</>;
 }
