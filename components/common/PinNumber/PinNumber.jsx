@@ -5,7 +5,6 @@ import styles from './PinNumber.module.css';
 import { Box, Flex } from '@radix-ui/themes';
 import { ButtonM } from '../Button';
 import { Controller, useForm } from 'react-hook-form';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 export default function PinNumber({ defaultParams }) {
@@ -15,9 +14,9 @@ export default function PinNumber({ defaultParams }) {
   const [shuffleNumbers, setShuffleNumbers] = useState([]);
 
   // stage 관리
-  const searchParams = useSearchParams();
-  const step = searchParams.get('stage') || defaultParams;
   const router = useRouter();
+  const searchParams = router.query;
+  const step = searchParams?.get('stage') || defaultParams;
 
   // 키보드 랜덤 배열
   useEffect(() => {
