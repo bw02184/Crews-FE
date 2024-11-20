@@ -1,6 +1,36 @@
 import instance from './instance';
 
 const mypageAPI = {
+  // 프로필 정보 조회
+  getProfile: async () => {
+    const response = await instance.get('members/me/profile');
+    return response;
+  },
+
+  // 프로필 이미지 업데이트
+  updateProfileImage: async (formData) => {
+    const response = await instance.put('members/me/profile/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
+  // 닉네임 가져오기
+  getNickname: async () => {
+    const response = await instance.get('members/me/nickname');
+    return response;
+  },
+
+  // 닉네임 수정
+  updateNickname: async (nickname) => {
+    const response = await instance.put('members/me/nickname', {
+      body: JSON.stringify({ nickname }),
+    });
+    return response;
+  },
+
   // 전체 관심사 목록 조회
   getAllInterests: async () => {
     const response = await instance.get('interests/all');
@@ -18,23 +48,6 @@ const mypageAPI = {
     const response = await instance.put('members/me/interests', {
       interestIds: selectedInterests,
     });
-    return response.data;
-  },
-
-  // 닉네임 가져오기
-  getNickname: async () => {
-    const response = await instance.get('members/me/nickname');
-    return response.data.nickname;
-  },
-
-  // 닉네임 수정
-  updateNickname: async (nickname) => {
-    const response = await instance.put('members/me/nickname', {
-      nickname: nickname,
-    });
-    if (response.status !== 200) {
-      throw new Error('닉네임 수정에 실패했습니다.');
-    }
     return response.data;
   },
 
@@ -130,22 +143,6 @@ const mypageAPI = {
   // 거래 내역 조회
   getTransactionHistory: async (accountId) => {
     const response = await instance.get(`members/me/accounts/${accountId}/transactions`);
-    return response.data;
-  },
-
-  // 프로필 정보 조회
-  getProfile: async () => {
-    const response = await instance.get('members/me/profile');
-    return response.data;
-  },
-
-  // 프로필 이미지 업데이트
-  updateProfileImage: async (formData) => {
-    const response = await instance.put('members/me/profile/image', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
     return response.data;
   },
 };

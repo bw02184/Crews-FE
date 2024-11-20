@@ -1,3 +1,4 @@
+'use server';
 import { auth } from './auth';
 import { NextResponse } from 'next/server';
 import { signOut } from 'next-auth/react';

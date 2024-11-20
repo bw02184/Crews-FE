@@ -4,8 +4,13 @@ import { Box, Text, Flex } from '@radix-ui/themes';
 import styles from './ProfileCard.module.css';
 import { ButtonS, Label, Dropdown } from '@/components/common';
 import Image from 'next/image';
+import useSWR from 'swr';
 
-export default function ProfileCard({ data }) {
+export default function ProfileCard({ profileData }) {
+  const { data, error, mutate } = useSWR('members/me/profile', () => instance.get('members/me/profile'), {
+    fallbackData: profileData,
+  });
+
   const onEditPhotoClick = () => {
     alert('사진 수정하기가 클릭되었습니다.');
   };
@@ -31,8 +36,16 @@ export default function ProfileCard({ data }) {
                 { text: '사진 삭제하기', onClick: onDeletePhotoClick },
               ]}
             >
-              <div className={`${styles.profile_img} back_img`} style={{ backgroundImage: `url(${data.image})` }}>
-                <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.name} 프로필 이미지`} />
+              <div
+                className={`${styles.profile_img} back_img`}
+                style={{ backgroundImage: `url(${data.profileImage})` }}
+              >
+                <Image
+                  src="/imgs/img_bg_profile.jpg"
+                  width={56}
+                  height={56}
+                  alt={`${data.profileImage} 프로필 이미지`}
+                />
               </div>
               <button className={styles.cameraIcon}>
                 <Image src="/icons/ico_camera.svg" width={9} height={9} alt="프로필 이미지 수정" />
@@ -41,7 +54,7 @@ export default function ProfileCard({ data }) {
           </div>
           <div className={styles.textInfo}>
             <Text as="p" size="3">
-              <span className={styles.nameBoldUnderline}>{data.name}</span>
+              <span className={styles.nameBoldUnderline}>{data.nickname}</span>
               <span className={styles.nameBold}> 님</span>
             </Text>
             <Text as="p" size="2" className={styles.gray_2}>
@@ -69,10 +82,10 @@ export default function ProfileCard({ data }) {
       </Box>
       {/* 관심사 태그 */}
       <div className={styles.tags}>
-        {data.interests.length > 0 ? (
+        {(data?.data?.interests?.length || 0) > 0 ? (
           data.interests.map((interest, id) => (
             <Label key={`interest${id}`} style="deep">
-              #{interest.interest}
+              #{interest.name || 'Unknown'}
             </Label>
           ))
         ) : (
