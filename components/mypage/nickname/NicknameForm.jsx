@@ -35,7 +35,7 @@ export default function NicknameForm() {
       }
     };
     fetchNickname();
-  }, []);
+  }, [showToast]);
 
   const onUpdateNickname = async (data) => {
     if (data.nickname.trim() === '') {
