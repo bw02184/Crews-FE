@@ -131,6 +131,9 @@
 .row .input {
   position: relative;
 }
+.row .input_btn input {
+  padding-right: 108px;
+}
 .row .input_btn button {
   position: absolute;
   right: 9px;
