@@ -20,8 +20,9 @@ import useToast from '@/hooks/useToast';
 import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { agits, events } from '@/constants/dummy';
+import { useState } from 'react';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
@@ -32,8 +33,21 @@ export default function Service() {
     formState: { errors },
   } = useForm();
 
+  const [radio, setRadio] = useState('1');
+
+  const {
+    control: controlRadio,
+    register: registerRadio,
+    handleSubmit: handleSubmitRadio,
+    formState: { errors: errorsRadio },
+  } = useForm();
+
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  const onSubmitRadio = ({ radio }) => {
+    setRadio(radio);
   };
 
   return (
@@ -320,19 +334,42 @@ export default function Service() {
                 Radix Radio-group
               </a>
             </Title>
-            <Box className="radio_group">
-              <RadioGroup.Root size="3" defaultValue="1" name="sample">
-                <Box className="radio">
-                  <RadioGroup.Item value="1">Default</RadioGroup.Item>
-                </Box>
-                <Box className="radio">
-                  <RadioGroup.Item value="2">Comfortable</RadioGroup.Item>
-                </Box>
-                <Box className="radio">
-                  <RadioGroup.Item value="3">Compact</RadioGroup.Item>
-                </Box>
-              </RadioGroup.Root>
-            </Box>
+            <form onSubmit={handleSubmitRadio(onSubmitRadio)}>
+              <Flex direction="column" gap="20px">
+                <Controller
+                  name="radio"
+                  control={controlRadio}
+                  render={({ field: { onChange, name, ref, value, onBlur } }) => (
+                    <div className="radio_group">
+                      <RadioGroup.Root
+                        name={name}
+                        ref={ref}
+                        value={value}
+                        defaultValue="1"
+                        onBlur={onBlur}
+                        onValueChange={onChange}
+                      >
+                        <div className="radio">
+                          <RadioGroup.Item value="1" defaultChecked>
+                            Cat
+                          </RadioGroup.Item>
+                        </div>
+                        <div className="radio">
+                          <RadioGroup.Item value="2">Dog</RadioGroup.Item>
+                        </div>
+                        <div className="radio">
+                          <RadioGroup.Item value="3">Rabbit</RadioGroup.Item>
+                        </div>
+                      </RadioGroup.Root>
+                    </div>
+                  )}
+                />
+                <ButtonL type="submit" style="deep">
+                  제출
+                </ButtonL>
+              </Flex>
+            </form>
+            <Text as="p">select Radio: {radio}</Text>
           </section>
         </Flex>
         <Flex direction="column" gap="10px" asChild>

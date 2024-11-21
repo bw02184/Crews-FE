@@ -1,0 +1,63 @@
+.landing_box {
+  position: fixed;
+  top: 0;
+  width: 594px;
+  height: 100vh;
+}
+.landing_box .inner {
+  padding: 40px 20px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.info_box .name em {
+  display: block;
+  font-weight: 700;
+}
+.info_box .name ul li {
+  position: relative;
+  font-size: 12px;
+  font-weight: 300;
+}
+.info_box .name ul li::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: -7.5px;
+  top: 6.5px;
+  width: 3px;
+  height: 3px;
+  background-color: var(--gray-txt-1);
+  border-radius: 100%;
+}
+.info_box .name ul li:first-of-type:before {
+  display: none;
+}
+
+.btn_github ul li a {
+  display: block;
+  padding: 0 15px;
+  height: 36px;
+  line-height: 36px;
+  background-color: #333;
+  border-radius: 18px;
+}
+.btn_github ul li a span {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+}
+.btn_github ul li a span::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -10px;
+  width: 17px;
+  height: 17px;
+  background-image: url(/icons/ico_github.svg);
+}
