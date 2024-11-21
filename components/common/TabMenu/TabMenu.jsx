@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import styles from './TabMenu.module.css';
 import { TabNav, Text } from '@radix-ui/themes';
 
 export default function TabMenu({ tabMenuList, dynamicID }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = router.query;
 
-  const url = searchParams.size > 0 ? `${pathname}?${searchParams}` : pathname;
+  const url = searchParams?.size > 0 ? `${pathname}?${searchParams}` : pathname;
 
   return (
     <div className={styles.tab_menu}>

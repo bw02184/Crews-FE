@@ -10,6 +10,20 @@
   background-color: var(--point-lime-3);
 }
 
+.blue {
+  color: var(--blue-1);
+}
+.red {
+  color: var(--crimson-2);
+}
+
+.gray_t1 {
+  color: var(--gray-txt-1);
+}
+.gray_t2 {
+  color: var(--gray-txt-2);
+}
+
 /* text decoration */
 .underline {
   text-decoration: underline;
@@ -123,6 +137,10 @@
   font-size: 12px;
   font-weight: 700;
   color: #fff;
+  transition: background-color 0.2s linear;
+}
+.row .input_btn button:hover {
+  background-color: #5a647a;
 }
 /* error_page */
 .error_page {
@@ -151,9 +169,6 @@
 }
 
 /* btm_util */
-.btm_util {
-  margin-top: 10px;
-}
 .btm_util ul li {
   position: relative;
 }
@@ -171,11 +186,7 @@
 .btm_util ul li:first-of-type::before {
   display: none;
 }
-.btm_util ul li a,
-.btm_util ul li button {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
+.btm_util ul li p {
   line-height: 1;
   color: var(--gray-txt-2);
 }
