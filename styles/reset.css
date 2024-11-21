@@ -49,13 +49,20 @@
 .rt-Card.card_link {
   padding: 0;
 }
-.rt-Card.card_link > a{
+.rt-Card.card_link > a,
+.rt-Card.card_link > button {
   display: block;
+  width: 100%;
   padding: 15px;
+  box-sizing: border-box;
 }
 .rt-BaseCard::before,
 .rt-BaseCard::after {
   display: none;
+}
+.rt-BaseTabListTriggerInner,
+.rt-BaseTabListTriggerInnerHidden {
+  padding: 2px 8px;
 }
 /* reset */
 * {

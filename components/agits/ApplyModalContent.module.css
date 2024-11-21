@@ -1,0 +1,19 @@
+.img_box {
+  position: relative;
+}
+.img_box > span {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+.info_list ul li {
+  display: flex;
+  line-height: 1.2;
+}
+.info_list ul li em {
+  display: block;
+  width: 75px;
+  flex: none;
+  font-size: 14px;
+  font-weight: 700;
+}
