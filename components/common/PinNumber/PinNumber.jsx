@@ -18,6 +18,8 @@ export default function PinNumber({ defaultParams }) {
   const searchParams = router.query;
   const step = searchParams?.get('stage') || defaultParams;
 
+  console.log(step);
+
   // 키보드 랜덤 배열
   useEffect(() => {
     const numbers = Array.from({ length: 10 }, (_, i) => i.toString());

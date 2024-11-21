@@ -33,7 +33,7 @@ export default function Service() {
               <Image src="/icons/ico_payment.svg" width={18} height={18} alt="결제하기" />
             </Link>
           </Box>
-          <TabMenu tabMenuList={tabMenuList} />
+          <TabMenu as="button" tabMenuList={tabMenuList} />
         </header>
         <Flex direction="column" gap="10px" className="content">
           <section>

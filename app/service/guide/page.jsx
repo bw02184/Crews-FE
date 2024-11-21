@@ -303,7 +303,7 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <Title>/components/common/TabMenu</Title>
-            <TabMenu tabMenuList={tabMenuList} />
+            <TabMenu as="button" tabMenuList={tabMenuList} />
           </section>
         </Flex>
         <Flex direction="column" gap="10px" asChild>
