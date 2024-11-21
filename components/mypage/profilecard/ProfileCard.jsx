@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { useNicknameStore } from '@/stores/mypageStore';
 import { useEffect } from 'react';
+import instance from '@/apis/instance';
 
 export default function ProfileCard({ profileData }) {
   const { data } = useSWR('members/me/profile', () => instance.get('members/me/profile'), {
