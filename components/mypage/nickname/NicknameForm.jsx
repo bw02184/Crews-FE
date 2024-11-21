@@ -2,17 +2,20 @@
 import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import styles from './NicknameForm.module.css';
-import mypageAPI from '@/apis/mypageAPI';
+import { updateNickname } from '@/apis/mypageAPI';
 import BottomButton from '../bottombutton/BootomButton';
 import useToast from '@/hooks/useToast';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import instance from '@/apis/instance';
+import { useRouter } from 'next/navigation';
 
 export default function NicknameForm({ nicknameData }) {
-  const { data, isLoading, error, mutate } = useSWR('members/me/nickname', () => instance.get('members/me/nickname'), {
+  const { data, isLoading } = useSWR('members/me/nickname', () => instance.get('members/me/nickname'), {
     fallbackData: nicknameData,
   });
+
+  const router = useRouter();
 
   const {
     register,
@@ -31,25 +34,18 @@ export default function NicknameForm({ nicknameData }) {
       showToast('닉네임은 13자 이하로 입력해주세요');
       return;
     }
-
-    try {
-      const response = await mypageAPI.updateNickname(nickname);
-      if (response.status === 200) {
-        showToast(`닉네임${nickname}이 성공적으로 수정되었습니다!`);
-        mutate('members/me/nickname');
-      } else {
-        throw new Error('닉네임 수정에 실패했습니다.');
-      }
-    } catch (error) {
-      console.log(error);
-
-      showToast('닉네임 수정에 실패했습니다. 다시 시도해주세요.');
+    const response = await updateNickname(nickname);
+    if (response?.error) {
+      console.log(response.error);
+    } else {
+      alert('성공적으로 변경되었습니다.');
+      router.push('/service/mypage');
     }
   };
 
   return (
     <Box className="input">
-      <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
+      <Toast as="alert" isActive={toast} onClose={() => setToast(false)} autoClose={1500}>
         <Text>{toastMessage}</Text>
       </Toast>
       <form onSubmit={handleSubmit(onUpdateNickname)}>
@@ -70,7 +66,7 @@ export default function NicknameForm({ nicknameData }) {
               })}
               disabled={isLoading}
               placeholder="닉네임"
-              defaultValue={data.nickname}
+              defaultValue={data?.nickname}
               className={`${styles.inputField} ${errors.nickname ? styles.errorInput : ''}`}
             />
             {errors.nickname && (

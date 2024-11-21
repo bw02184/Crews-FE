@@ -1,9 +1,9 @@
-import mypageAPI from '@/apis/mypageAPI';
+import { getNickname } from '@/apis/mypageAPI';
 import { Header } from '@/components/common';
 import NicknameForm from '@/components/mypage/nickname/NicknameForm';
 
 export default async function page() {
-  const nicknameData = await mypageAPI.getNickname();
+  const nicknameData = await getNickname();
 
   if (nicknameData?.error) {
     throw new Error(nicknameData.error);
