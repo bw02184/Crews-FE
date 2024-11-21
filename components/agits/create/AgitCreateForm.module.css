@@ -1,11 +1,3 @@
-.gray_1 {
-  color: var(--gray-txt-1);
-}
-
-.gray_2 {
-  color: var(--gray-txt-2);
-}
-
 .checkboxWrapper {
   display: inline-flex;
   align-items: center;
@@ -36,6 +28,10 @@
   background-color: var(--point-yellow-3);
   border-color: var(--point-yellow-3);
   animation: popEffectLight 0.25s cubic-bezier(0.25, 1.3, 0.5, 1);
+}
+
+.button {
+  width: 100%;
 }
 
 @keyframes popEffectLight {

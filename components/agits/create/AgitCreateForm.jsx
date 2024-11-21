@@ -8,13 +8,13 @@ import { useState } from 'react';
 import useToast from '@/hooks/useToast';
 // import mypageAPI from '@/apis/mypageAPI';
 import scrollToTop from '@/utils/scrollToTop';
+import { useRouter } from 'next/navigation';
 
 export default function AgitCreateForm({ subjects }) {
-  const [interests, setInterests] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [asState, setAsState] = useState('alert');
   const { toast, setToast, toastMessage, showToast } = useToast();
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -22,8 +22,7 @@ export default function AgitCreateForm({ subjects }) {
     formState: { errors },
   } = useForm();
 
-  const DuplicateCheck = (e) => {
-    e.preventDefault();
+  const DuplicateCheck = () => {
     if (getValues('title').length === 0) {
       scrollToTop();
       setAsState('alert');
@@ -63,40 +62,14 @@ export default function AgitCreateForm({ subjects }) {
       showToast('관심사를 3개 이하로 선택해주세요!');
       return;
     }
-    // try {
-    //   await mypageAPI.updateInterests(selectedInterests);
-    //   setAsState('info');
-    //   showToast('관심사가 성공적으로 저장되었습니다.');
-    // } catch (error) {
-    //   console.error('관심사 전송 실패:', error);
-    //   setAsState('alert');
-    //   showToast('관심사 저장에 실패했습니다.');
-    // }
-    // if (title.length < 5) {
-    // showToast('제목을 길게 입력해주세요! 아무튼 토스트 테스트!');
-    //   return;
-    // }
 
-    // const response = await postPosts(title, content);
+    router.push('/service/agits/create/done');
 
-    // if (response?.error) {
-    //   alert(response.error);
-    // } else {
-    //   alert('게시물이 저장되었습니다!');
-    //   reset();
-
-    //   // 'posts' 키와 일치하는 SWR 캐시 갱신
-    //   mutate('posts');
-    // }
   };
 
   const toggleInterest = (interestId) => {
     setSelectedInterests((prev) => {
       const newSelected = prev.includes(interestId) ? prev.filter((id) => id !== interestId) : [...prev, interestId];
-      const selectedInterestObjects = subjects
-        .flatMap((subject) => subject.interests)
-        .filter((interest) => newSelected.includes(interest.interestId));
-      setInterests(selectedInterestObjects);
       return newSelected;
     });
   };
@@ -108,7 +81,7 @@ export default function AgitCreateForm({ subjects }) {
         <Text>{toastMessage}</Text>
       </Toast>
       <div className="content">
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.search_form}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Flex direction="column" gap="10px" className="content">
             <Flex direction="column" gap="10px" asChild>
               <section>
@@ -130,7 +103,7 @@ export default function AgitCreateForm({ subjects }) {
                       })}
                       className={errors.title ? 'error' : ''}
                     />
-                    <button onClick={(e) => DuplicateCheck(e)}>중복확인</button>
+                    <button type='button' onClick={DuplicateCheck}>중복확인</button>
                   </Box>
                   {errors.title && (
                     <Text as="p" className="error">
@@ -167,7 +140,9 @@ export default function AgitCreateForm({ subjects }) {
             </Flex>
             <Flex direction="column" gap="10px" asChild>
               <section>
-                <Title>아지트 주제</Title>
+                <Text as="label" htmlFor="topic" className="require" weight='bold'>
+                  아지트 주제
+                </Text>
                 <Box className="radio_group">
                   <RadioGroup.Root
                     size="5"
@@ -198,58 +173,58 @@ export default function AgitCreateForm({ subjects }) {
             </Flex>
             <Flex direction="column" gap="10px" asChild>
               <section>
-                <Box className="input">
-                  <Flex direction="column" gap="5px">
-                    <Text as="label" weight="bold">
+                <Flex align="center" wrap="wrap" gap="10px">
+                  <Box className="row">
+                    <Text as="label" className="require">
                       관심사
                     </Text>
-                    <Flex direction="column" gapY="40px">
-                      <Flex align="center" wrap="wrap" gap="10px">
-                        <Text as="p" size="2" className={styles.gray_2}>
-                          {getValues('title')} 모임의 관심사는 무엇인가요? {getValues('title')} 모임의 관심사를 기반으로
-                          사람들에게 알려요.
-                        </Text>
-                        <Flex direction="column" gap="20px" className={styles.modalContent}>
-                          {subjects.map((subject, i) =>
-                            i === 0 ? (
-                              <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
-                                <ul className={styles.tags}>
-                                  {subject.interests.map((interest) => (
-                                    <li key={interest.interestId} className={styles.checkboxWrapper}>
-                                      <input
-                                        type="checkbox"
-                                        id={`interest-${interest.interestId}`}
-                                        checked={selectedInterests.includes(interest.interestId)}
-                                        onChange={() => toggleInterest(interest.interestId)}
-                                        className={styles.checkboxInput}
-                                      />
-                                      <label
-                                        htmlFor={`interest-${interest.interestId}`}
-                                        className={`${styles.checkboxLabel} ${selectedInterests.includes(interest.interestId) ? styles.selected : ''}`}
-                                      >
-                                        {interest.interestName}
-                                      </label>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </Flex>
-                            ) : (
-                              <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}></Flex>
-                            ),
-                          )}
+                    <Text as="p" size="2" className='gray_t2'>
+                      {getValues('title')} 모임의 관심사는 무엇인가요? {getValues('title')} 모임의 관심사를 기반으로
+                      사람들에게 알려요.
+                    </Text>
+                  </Box>
+                  <Box mt='1%'>
+                    {subjects.map((subject, i) =>
+                      i === 0 ? (
+                        <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
+                          <ul>
+                            {subject.interests.map((interest) => (
+                              <li key={interest.interestId} className={styles.checkboxWrapper}>
+                                <input
+                                  type="checkbox"
+                                  id={`interest-${interest.interestId}`}
+                                  checked={selectedInterests.includes(interest.interestId)}
+                                  onChange={() => toggleInterest(interest.interestId)}
+                                  className={styles.checkboxInput}
+                                />
+                                <label
+                                  htmlFor={`interest-${interest.interestId}`}
+                                  className={`${styles.checkboxLabel} ${selectedInterests.includes(interest.interestId)}`}
+                                >
+                                  {interest.interestName}
+                                </label>
+                              </li>
+                            ))}
+                          </ul>
                         </Flex>
-                      </Flex>
-                      <ButtonL type="submit" style="deep">
-                        제출하기
-                      </ButtonL>
-                    </Flex>
-                  </Flex>
-                </Box>
+                      ) : (
+                        <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}></Flex>
+                      ),
+                    )}
+                  </Box>
+                </Flex>
+                <Flex>
+                  <Box as='div' className={styles.button} mt='5%'>
+                    <ButtonL type="submit" style="deep">
+                      제출하기
+                    </ButtonL>
+                  </Box>
+                </Flex>
               </section>
             </Flex>
           </Flex>
-        </form>
-      </div>
-    </div>
+        </form >
+      </div >
+    </div >
   );
 }
