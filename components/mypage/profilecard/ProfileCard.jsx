@@ -5,12 +5,25 @@ import styles from './ProfileCard.module.css';
 import { ButtonS, Label, Dropdown } from '@/components/common';
 import Image from 'next/image';
 import useSWR from 'swr';
+import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
+import { useNicknameStore } from '@/stores/mypageStore';
+import { useEffect } from 'react';
 
 export default function ProfileCard({ profileData }) {
-  const { data, error, mutate } = useSWR('members/me/profile', () => instance.get('members/me/profile'), {
+  const { data } = useSWR('members/me/profile', () => instance.get('members/me/profile'), {
     fallbackData: profileData,
   });
+  const { nickname, setNickname } = useNicknameStore();
 
+  useEffect(() => {
+    if (data?.nickname && data.nickname !== nickname) {
+      setNickname(data.nickname);
+    }
+  }, [data?.nickname, setNickname, nickname]);
+
+  const filteredInterests = (data?.interests || []).filter(
+    (interest) => !EXCLUDED_INTEREST_IDS.includes(interest.interestingId),
+  );
   const onEditPhotoClick = () => {
     alert('사진 수정하기가 클릭되었습니다.');
   };
@@ -82,9 +95,9 @@ export default function ProfileCard({ profileData }) {
       </Box>
       {/* 관심사 태그 */}
       <div className={styles.tags}>
-        {(data?.data?.interests?.length || 0) > 0 ? (
-          data.interests.map((interest, id) => (
-            <Label key={`interest${id}`} style="deep">
+        {filteredInterests.length > 0 ? (
+          filteredInterests.map((interest) => (
+            <Label key={`interest-${interest.interestingId}`} style="deep">
               #{interest.name || 'Unknown'}
             </Label>
           ))
