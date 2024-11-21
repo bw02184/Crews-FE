@@ -67,7 +67,7 @@ export default function FeePayment() {
               <Text as="p" size="2" weight="medium">
                 {selectedAccount.name}
               </Text>
-              <Text as="p" size="3" color="gray">
+              <Text as="p" size="3" className="gray_t2">
                 {selectedAccount.accountNumber}
               </Text>
             </Flex>
@@ -95,14 +95,7 @@ export default function FeePayment() {
       {/* 선택된 개인 계좌 정보 */}
       <Box className={styles.itemContent}>
         <Flex justify="between" align="center">
-          <Text
-            size="3"
-            weight="bold"
-            style={{
-              textDecoration: 'underline',
-              fontSize: '14px',
-            }}
-          >
+          <Text size="2" weight="bold" className="underline">
             우리FISA 통장
           </Text>
           <Text size="3" color="gray" style={{ fontSize: '14px' }}>
@@ -110,7 +103,7 @@ export default function FeePayment() {
           </Text>
         </Flex>
         <Flex justify="between" align="center">
-          <Text size="6" weight="bold" className={styles.amountLine}>
+          <Text size="4" weight="bold" className={styles.amountLine}>
             30,000
           </Text>
           <Text size="3" color="gray" wrap="nowrap" style={{ fontSize: '14px' }}>

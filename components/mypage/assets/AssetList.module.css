@@ -1,18 +1,3 @@
-.assetList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .assetItem {
   position: relative;
   border: 1px solid var(--gray-br);
@@ -28,9 +13,6 @@
 .itemContent {
   width: 100%;
   min-height: 60px; /* 최소 높이 설정 */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .imgBox {
@@ -46,24 +28,10 @@
   background-position: center;
 }
 
-/* 텍스트 영역 조절 */
-.itemContent > div:first-child {
-  flex: 1;
-  margin-right: 16px;
-}
-
 .checkboxInput {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkboxLabel {
-  display: block;
-  padding: 16px;
-  cursor: default; /* 라벨 전체의 커서를 기본값으로 */
+  display: none;
 }
 
 .labelContent {

@@ -4,17 +4,13 @@ import { getAllInterests, getInterests } from '@/apis/mypageAPI';
 
 export default async function Page() {
   const interestData = await getInterests();
-
   console.log('API 응답:', interestData);
-
   if (interestData?.error) {
     throw new Error(interestData.error);
   }
 
   const subjectsData = await getAllInterests();
-
   console.log('API 응답:', subjectsData);
-
   if (subjectsData?.error) {
     throw new Error(subjectsData.error);
   }

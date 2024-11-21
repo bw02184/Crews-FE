@@ -56,11 +56,6 @@
   color: var(--gray-txt-2);
 }
 
-.nameBoldUnderline {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
 .nameBold {
   font-weight: bold;
 }

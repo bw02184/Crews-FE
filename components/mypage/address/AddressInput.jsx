@@ -246,7 +246,7 @@ export default function AddressInput() {
               value={addresses && addresses[0] ? getAddressValue(addresses[0]) : ''}
               readOnly
               placeholder="활동 지역을 추가해주세요!"
-              className={styles.inputField}
+              className="input input_btn"
               onClick={() => handleAddressSearch(0)}
               {...register('addresses.0')}
             />

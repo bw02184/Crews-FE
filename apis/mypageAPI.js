@@ -56,28 +56,14 @@ export const updateInterests = async (selectedInterests) => {
 };
 // 비밀번호 수정
 export const updatePassword = async (current_password, new_password) => {
-  try {
-    const response = await instance.put('members/me/password', {
-      current_password,
-      new_password,
-    });
-    if (response.status !== 200) {
-      throw new Error('비밀번호 수정에 실패했습니다.');
-    }
-    return response;
-  } catch (error) {
-    throw new Error('비밀번호 수정에 실패했습니다: ' + error.message);
-  }
+  const response = await instance.put('members/me/password', {});
+  return response;
 };
 
 // 주소 가져오기
 export const getAddresses = async () => {
-  try {
-    const response = await instance.get('members/me/addresses');
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await instance.get('members/me/addresses');
+  return response;
 };
 
 // 주소 수정
@@ -94,10 +80,7 @@ export const getCrewCards = async () => {
 
 // 모임카드 연결
 export const attachCrewCard = async (cardId, crewId) => {
-  const response = await instance.post('members/me/cards', {
-    cardId,
-    crewId,
-  });
+  const response = await instance.post('members/me/cards', {});
   return response;
 };
 
@@ -115,10 +98,7 @@ export const getPersonalAccounts = async () => {
 
 // 개인 계좌 연결
 export const attachPersonalAccount = async (accountId, crewId) => {
-  const response = await instance.post('members/me/accounts', {
-    accountId,
-    crewId,
-  });
+  const response = await instance.post('members/me/accounts', {});
   return response;
 };
 
@@ -136,10 +116,7 @@ export const getFeePaymentInfo = async (crewId) => {
 
 // 회비 납부하기
 export const payCrewFee = async (crewId, amount, accountId) => {
-  const response = await instance.post(`crews/${crewId}/fees/payment`, {
-    amount,
-    accountId,
-  });
+  const response = await instance.post(`crews/${crewId}/fees/payment`, {});
   return response;
 };
 

@@ -68,8 +68,8 @@ export default function ProfileCard({ profileData }) {
           </div>
           <div className={styles.textInfo}>
             <Text as="p" size="3">
-              <span className={styles.nameBoldUnderline}>{data.nickname}</span>
-              <span className={styles.nameBold}> 님</span>
+              <span className="underline">{data.nickname}</span>
+              <strong> 님</strong>
             </Text>
             <Text as="p" size="2" className={styles.gray_2}>
               {data.email}

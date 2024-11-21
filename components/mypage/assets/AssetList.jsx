@@ -70,39 +70,44 @@ export default function AssetList() {
 
   return (
     <Flex direction="column" gap="20px">
-      <ul className={styles.assetList}>
-        {assets.map((asset, i) => (
-          <li key={`asset${i}`} className={styles.assetItem}>
-            <Flex align="center" justify="between" className={styles.itemContent}>
-              <Flex align="center" gap="10px">
-                <Box className={styles.imgBox}>
-                  <Box className={styles.profileImg} style={{ backgroundImage: `url(${asset.img})` }}>
-                    <Image src={asset.img} width={36} height={36} alt={asset.name} />
+      <Flex direction="column" gap="10px" asChild>
+        <ul className={styles.assetList}>
+          {assets.map((asset, i) => (
+            <li key={`asset${i}`} className={styles.assetItem}>
+              <Flex align="center" justify="between">
+                <Flex align="center" gap="10px">
+                  <Box className={styles.imgBox}>
+                    <Box
+                      className={`${styles.profileImg} back_img`}
+                      style={{ backgroundImage: `url(/dev/img_bank.jpg)` }}
+                    >
+                      <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt={`카드 이미지`} />
+                    </Box>
                   </Box>
-                </Box>
-                <Flex direction="column" gap="2px">
-                  <Text as="p" size="2" weight="medium">
-                    {asset.name}
-                  </Text>
-                  <Text as="p" size="3" color="gray">
-                    {asset.accountNumber}
-                  </Text>
+                  <Flex direction="column" gap="0px">
+                    <Text as="p" weight="bold">
+                      {asset.name}
+                    </Text>
+                    <Text as="p" size="2" className="gray_t2">
+                      {asset.accountNumber}
+                    </Text>
+                  </Flex>
                 </Flex>
+                <input
+                  type="checkbox"
+                  id={`asset-${i}`}
+                  checked={asset.isSelected}
+                  onChange={() => handleSelect(i)}
+                  className={styles.checkboxInput}
+                />
+                <label htmlFor={`asset-${i}`} className={`blue_bg ${styles.selectButton}`}>
+                  {asset.isSelected ? '선택해제' : '선택하기'}
+                </label>
               </Flex>
-              <input
-                type="checkbox"
-                id={`asset-${i}`}
-                checked={asset.isSelected}
-                onChange={() => handleSelect(i)}
-                className={styles.checkboxInput}
-              />
-              <label htmlFor={`asset-${i}`} className={`blue_bg ${styles.selectButton}`}>
-                {asset.isSelected ? '선택해제' : '선택하기'}
-              </label>
-            </Flex>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </Flex>
     </Flex>
   );
 }

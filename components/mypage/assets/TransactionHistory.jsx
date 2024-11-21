@@ -30,9 +30,9 @@ export default function TransactionHistory() {
         이체내역
       </Text>
 
-      <div className={styles.cardContainer}>
+      <ul className={styles.cardContainer}>
         {transactionData.map((transaction) => (
-          <div key={transaction.id} className={styles.historyCard}>
+          <li key={transaction.id} className={styles.historyCard}>
             <Flex direction="column" gap="2">
               <Flex direction="column" gap="0">
                 <Text size="1" color="gray">
@@ -66,9 +66,9 @@ export default function TransactionHistory() {
                 </Flex>
               </Flex>
             </Flex>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </Flex>
   );
 }
