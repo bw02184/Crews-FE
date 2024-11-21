@@ -1,6 +1,6 @@
 'use client';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Box, Callout, Flex, Text } from '@radix-ui/themes';
+import { Box, Callout, Card, Flex, Text } from '@radix-ui/themes';
 import styles from './FeePayment.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -44,8 +44,8 @@ export default function FeePayment() {
     setSelectedAccount(selected);
   };
   return (
-    <>
-      <Flex direction="column">
+    <Flex direction="column" gap="20px">
+      <Flex direction="column" gap="10px">
         <SelectFilter
           filter="location"
           selectList={crewaccountlist.map((account) => ({
@@ -56,7 +56,7 @@ export default function FeePayment() {
         >
           {crewaccountlist[0].text}
         </SelectFilter>
-        <Flex align="center" justify="between" className={styles.itemContent}>
+        <Card>
           <Flex align="center" gap="10px">
             <Box className={styles.imgBox}>
               <Box className={styles.profileImg} style={{ backgroundImage: `url(${selectedAccount.img})` }}>
@@ -72,10 +72,8 @@ export default function FeePayment() {
               </Text>
             </Flex>
           </Flex>
-        </Flex>
-      </Flex>
+        </Card>
 
-      <Flex direction="column" gap="4">
         <Callout.Root color="green">
           <Callout.Icon>
             <InfoCircledIcon />
@@ -84,37 +82,42 @@ export default function FeePayment() {
             납부일은 매월 {selectedAccount.payday}일 {selectedAccount.amount}원 입니다.
           </Callout.Text>
         </Callout.Root>
-
-        <Flex width="100%" justify="center" align="center">
-          <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
-        </Flex>
-        <SelectFilter filter="location" selectList={crewaccountlist} onSelect={selectHandler}>
-          {crewaccountlist[0].text}
-        </SelectFilter>
       </Flex>
-      {/* 선택된 개인 계좌 정보 */}
-      <Box className={styles.itemContent}>
-        <Flex justify="between" align="center">
-          <Text size="2" weight="bold" className="underline">
-            우리FISA 통장
-          </Text>
-          <Text size="3" color="gray" style={{ fontSize: '14px' }}>
-            에서
-          </Text>
-        </Flex>
-        <Flex justify="between" align="center">
-          <Text size="4" weight="bold" className={styles.amountLine}>
-            30,000
-          </Text>
-          <Text size="3" color="gray" wrap="nowrap" style={{ fontSize: '14px' }}>
-            원 만큼
-          </Text>
-        </Flex>
-      </Box>
-      <ButtonL style="deep" onClick={openModal}>
-        이체하기
-      </ButtonL>
 
+      <Flex direction="column">
+        <Flex direction="column" gap="4">
+          <Flex width="100%" justify="center" align="center">
+            <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
+          </Flex>
+        </Flex>
+        <Flex direction="column" gap="10px">
+          <SelectFilter filter="location" selectList={crewaccountlist} onSelect={selectHandler}>
+            {crewaccountlist[0].text}
+          </SelectFilter>
+          {/* 선택된 개인 계좌 정보 */}
+          <Card>
+            <Flex justify="between" align="center">
+              <Text size="2" weight="bold" className="underline">
+                우리FISA 통장
+              </Text>
+              <Text size="3" color="gray" style={{ fontSize: '14px' }}>
+                에서
+              </Text>
+            </Flex>
+            <Flex justify="between" align="center">
+              <Text size="4" weight="bold" className={styles.amountLine}>
+                30,000
+              </Text>
+              <Text size="3" color="gray" wrap="nowrap" style={{ fontSize: '14px' }}>
+                원 만큼
+              </Text>
+            </Flex>
+          </Card>
+          <ButtonL style="deep" onClick={openModal}>
+            이체하기
+          </ButtonL>
+        </Flex>
+      </Flex>
       {/* Modals */}
       <Modal
         isOpen={isOpen}
@@ -123,6 +126,6 @@ export default function FeePayment() {
           title: `이체 하시겠습니까?`,
         }}
       />
-    </>
+    </Flex>
   );
 }
