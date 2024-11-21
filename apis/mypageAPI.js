@@ -29,7 +29,7 @@ export const updateProfileImage = async (formData) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  return response.data;
+  return response;
 };
 
 // 전체 관심사 목록 조회
@@ -64,7 +64,7 @@ export const updatePassword = async (current_password, new_password) => {
     if (response.status !== 200) {
       throw new Error('비밀번호 수정에 실패했습니다.');
     }
-    return response.data;
+    return response;
   } catch (error) {
     throw new Error('비밀번호 수정에 실패했습니다: ' + error.message);
   }
@@ -74,7 +74,7 @@ export const updatePassword = async (current_password, new_password) => {
 export const getAddresses = async () => {
   try {
     const response = await instance.get('members/me/addresses');
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -83,13 +83,13 @@ export const getAddresses = async () => {
 // 주소 수정
 export const updateAddresses = async (addresses) => {
   const response = await instance.patch('members/me/addresses', { addresses });
-  return response.data;
+  return response;
 };
 
 // 모임카드 목록 조회
 export const getCrewCards = async () => {
   const response = await instance.get('members/me/cards');
-  return response.data;
+  return response;
 };
 
 // 모임카드 연결
@@ -98,19 +98,19 @@ export const attachCrewCard = async (cardId, crewId) => {
     cardId,
     crewId,
   });
-  return response.data;
+  return response;
 };
 
 // 모임카드 해지
 export const detachCrewCard = async (cardId) => {
   const response = await instance.delete(`members/me/cards/${cardId}`);
-  return response.data;
+  return response;
 };
 
 // 개인 계좌 목록 조회
 export const getPersonalAccounts = async () => {
   const response = await instance.get('members/me/accounts');
-  return response.data;
+  return response;
 };
 
 // 개인 계좌 연결
@@ -119,19 +119,19 @@ export const attachPersonalAccount = async (accountId, crewId) => {
     accountId,
     crewId,
   });
-  return response.data;
+  return response;
 };
 
 // 개인 계좌 해지
 export const detachPersonalAccount = async (accountId) => {
   const response = await instance.delete(`members/me/accounts/${accountId}`);
-  return response.data;
+  return response;
 };
 
 // 회비 납부 정보 조회
 export const getFeePaymentInfo = async (crewId) => {
   const response = await instance.get(`crews/${crewId}/fees`);
-  return response.data;
+  return response;
 };
 
 // 회비 납부하기
@@ -140,11 +140,11 @@ export const payCrewFee = async (crewId, amount, accountId) => {
     amount,
     accountId,
   });
-  return response.data;
+  return response;
 };
 
 // 거래 내역 조회
 export const getTransactionHistory = async (accountId) => {
   const response = await instance.get(`members/me/accounts/${accountId}/transactions`);
-  return response.data;
+  return response;
 };
