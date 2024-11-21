@@ -13,7 +13,7 @@ export default function ApplyModalContent() {
         <Label style="lime">반려동물</Label>
       </div>
       <Flex direction="column" gap="20px" className={styles.txt_box}>
-        <div className={styles.info_list}>
+        <div className="info_list">
           <Flex direction="column" gap="10px" asChild>
             <ul>
               <li>
