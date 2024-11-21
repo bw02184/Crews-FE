@@ -1,10 +1,10 @@
-import mypageAPI from '@/apis/mypageAPI';
+import { getProfile } from '@/apis/mypageAPI';
 import { Header, TabMenu } from '@/components/common';
 import ProfileCard from '@/components/mypage/profilecard/ProfileCard';
 import { tabMenuList } from '@/constants/tabMenuList/mypage';
 
 export default async function Layout({ children }) {
-  const profileData = await mypageAPI.getProfile();
+  const profileData = await getProfile();
 
   if (profileData?.error) {
     throw new Error(profileData.error);
