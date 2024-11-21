@@ -1,6 +1,6 @@
 'use client';
 import { Box, Flex, RadioGroup, Text } from '@radix-ui/themes';
-import { Header, Title } from '@/components/common';
+import { Header } from '@/components/common';
 import styles from '@/components/agits/create/AgitCreateForm.module.css';
 import { useForm } from 'react-hook-form';
 import { ButtonL, Toast } from '@/components/common';
@@ -64,7 +64,6 @@ export default function AgitCreateForm({ subjects }) {
     }
 
     router.push('/service/agits/create/done');
-
   };
 
   const toggleInterest = (interestId) => {
@@ -103,7 +102,9 @@ export default function AgitCreateForm({ subjects }) {
                       })}
                       className={errors.title ? 'error' : ''}
                     />
-                    <button type='button' onClick={DuplicateCheck}>중복확인</button>
+                    <button type="button" onClick={DuplicateCheck}>
+                      중복확인
+                    </button>
                   </Box>
                   {errors.title && (
                     <Text as="p" className="error">
@@ -140,7 +141,7 @@ export default function AgitCreateForm({ subjects }) {
             </Flex>
             <Flex direction="column" gap="10px" asChild>
               <section>
-                <Text as="label" htmlFor="topic" className="require" weight='bold'>
+                <Text as="label" htmlFor="topic" className="require" weight="bold">
                   아지트 주제
                 </Text>
                 <Box className="radio_group">
@@ -178,12 +179,12 @@ export default function AgitCreateForm({ subjects }) {
                     <Text as="label" className="require">
                       관심사
                     </Text>
-                    <Text as="p" size="2" className='gray_t2'>
+                    <Text as="p" size="2" className="gray_t2">
                       {getValues('title')} 모임의 관심사는 무엇인가요? {getValues('title')} 모임의 관심사를 기반으로
                       사람들에게 알려요.
                     </Text>
                   </Box>
-                  <Box mt='1%'>
+                  <Box mt="1%">
                     {subjects.map((subject, i) =>
                       i === 0 ? (
                         <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
@@ -214,7 +215,7 @@ export default function AgitCreateForm({ subjects }) {
                   </Box>
                 </Flex>
                 <Flex>
-                  <Box as='div' className={styles.button} mt='5%'>
+                  <Box as="div" className={styles.button} mt="5%">
                     <ButtonL type="submit" style="deep">
                       제출하기
                     </ButtonL>
@@ -223,8 +224,8 @@ export default function AgitCreateForm({ subjects }) {
               </section>
             </Flex>
           </Flex>
-        </form >
-      </div >
-    </div >
+        </form>
+      </div>
+    </div>
   );
 }
