@@ -1,4 +1,3 @@
-import { Header } from '@/components/common';
 import AgitCreateForm from '@/components/agits/create/AgitCreateForm';
 import instance from '@/apis/instance';
 
