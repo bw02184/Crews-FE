@@ -2,24 +2,6 @@ import AgitCreateForm from '@/components/agits/create/AgitCreateForm';
 import instance from '@/apis/instance';
 
 export default async function Page() {
-  let initialInterests = [];
-  try {
-    const response = await instance.get('members/me/interests');
-    initialInterests = response.data.interests || [];
-  } catch (error) {
-    console.error('관심사 가져오기에 실패했습니다:', error.message);
-    initialInterests = [
-      {
-        nickName: '파란피터팬',
-        interests: [
-          { interestId: 1, interestName: '등산' },
-          { interestId: 13, interestName: '캠핑' },
-          { interestId: 30, interestName: '미식 탐방' },
-          { interestId: 25, interestName: '보드게임' },
-        ],
-      },
-    ];
-  }
   const subjects = [
     {
       subjectId: 1,
@@ -92,7 +74,7 @@ export default async function Page() {
 
   return (
     <div className="page">
-      <AgitCreateForm initialInterests={initialInterests} subjects={subjects} />
+      <AgitCreateForm subjects={subjects} />
     </div>
   );
 }
