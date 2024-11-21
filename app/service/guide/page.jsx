@@ -22,7 +22,7 @@ import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Controller, useForm } from 'react-hook-form';
 import { agits, events } from '@/constants/dummy';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
@@ -303,7 +303,9 @@ export default function Service() {
         <Flex direction="column" gap="10px" asChild>
           <section>
             <Title>/components/common/TabMenu</Title>
-            <TabMenu as="button" tabMenuList={tabMenuList} />
+            <Suspense>
+              <TabMenu as="button" tabMenuList={tabMenuList} />
+            </Suspense>
           </section>
         </Flex>
         <Flex direction="column" gap="10px" asChild>
