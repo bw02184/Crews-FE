@@ -129,20 +129,28 @@
 .row .input {
   position: relative;
 }
-.row .input_btn button {
+.row .input_file input[type='file'] {
+  display: none;
+}
+.row .input_btn button,
+.row .input_file label {
+  display: block;
   position: absolute;
   right: 9px;
   top: 9px;
   width: 88px;
   height: 32px;
+  line-height: 32px;
   border-radius: 5px;
   background-color: var(--gray-btn);
   font-size: 12px;
   font-weight: 700;
   color: #fff;
+  text-align: center;
   transition: background-color 0.2s linear;
 }
-.row .input_btn button:hover {
+.row .input_btn button:hover,
+.row .input_file label:hover {
   background-color: #5a647a;
 }
 /* error_page */

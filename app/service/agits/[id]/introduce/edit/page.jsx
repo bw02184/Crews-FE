@@ -16,7 +16,16 @@ export default function Page({ params }) {
     reset,
     setValue,
   } = useForm();
-  const onSubmit = async ({ image, introduce, content, interests }) => {};
+
+  const [fileName, setFileName] = useState('');
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      setValue('file', file);
+    }
+  };
+
   const [selectedInterests, setSelectedInterests] = useState([]);
   const toggleInterest = (interests) => {
     setSelectedInterests((prev) => {
@@ -25,6 +34,9 @@ export default function Page({ params }) {
       return updated;
     });
   };
+
+  const onSubmit = async ({ image, introduce, content, interests }) => {};
+
   return (
     <div className="page">
       <header>
@@ -46,21 +58,29 @@ export default function Page({ params }) {
               <Flex direction="column" gap="10px">
                 <Box className="row">
                   <Text as="label">소개 이미지</Text>
-                  <Box className="input input_btn">
+                  <Box className="input input_btn input_file">
+                    <input
+                      type="file"
+                      id="file"
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      {...register('file')}
+                      onChange={onFileChange}
+                    />
                     <input
                       id="image"
                       type="text"
+                      value={fileName}
                       placeholder="이미지를 추가해주세요"
-                      {...register('image')}
-                      className={errors.image ? 'error' : ''}
+                      className={errors.file ? 'error' : ''}
+                      readOnly
                     />
-                    {errors.image && (
-                      <Text as="p" className="error">
-                        {errors.image.message}
-                      </Text>
-                    )}
-                    <button type="button">파일 선택</button>
+                    <label htmlFor="file">파일 선택</label>
                   </Box>
+                  {errors.file && (
+                    <Text as="p" className="error">
+                      {errors.file.message}
+                    </Text>
+                  )}
                 </Box>
                 <Box className="row">
                   <Text as="label" className="require">
