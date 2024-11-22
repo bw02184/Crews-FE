@@ -1,7 +1,6 @@
 'use client';
 
 import { Text, Flex } from '@radix-ui/themes';
-import styles from './AddressInput.module.css';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import Modal from '@/components/common/Modal/Modal';
 import { getAddresses, updateAddresses } from '@/apis/mypageAPI';
@@ -90,7 +89,7 @@ export default function AddressInput({ initialAddresses }) {
           closeModal={() => handleModalClose(index)}
           header={{ title: '주소 검색', text: '주소를 검색하고 선택해 주세요.' }}
         >
-          <div id={`postcodeContainer${index}`} className={styles.postcodeModalContent} />
+          <div id={`postcodeContainer${index}`} />
         </Modal>
       );
     },

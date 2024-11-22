@@ -1,7 +1,6 @@
 'use client';
 import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import styles from './NicknameForm.module.css';
 import { updateNickname } from '@/apis/mypageAPI';
 import BottomButton from '../bottombutton/BootomButton';
 import useToast from '@/hooks/useToast';
@@ -55,7 +54,7 @@ export default function NicknameForm({ nicknameData }) {
       </Toast>
       <form onSubmit={handleSubmit(handleUpdateNickname)}>
         <Flex direction="column" gap="5px">
-          <Text as="label" htmlFor="user_nickname" className={styles.label}>
+          <Text as="label" htmlFor="user_nickname">
             닉네임
           </Text>
           <Flex direction="column" gapY="20px">
@@ -72,10 +71,9 @@ export default function NicknameForm({ nicknameData }) {
               disabled={isLoading}
               placeholder="닉네임"
               defaultValue={data?.nickname}
-              className={`${styles.inputField} ${errors.nickname ? styles.errorInput : ''}`}
             />
             {errors.nickname && (
-              <Text as="p" className={styles.errorMessage}>
+              <Text as="p" className="error">
                 {errors.nickname.message}
               </Text>
             )}

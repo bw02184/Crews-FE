@@ -12,14 +12,7 @@ export default function Page() {
           <FeePayment />
         </section>
         <section>
-          <TransactionHistory
-            title="이체 내역"
-            datetime="2024.11.04 12:00"
-            bankName="우리꿈 저축예금"
-            accountNumber="110-467-158676"
-            amount={120000}
-            balance={423558}
-          />
+          <TransactionHistory />
         </section>
       </Flex>
     </div>
