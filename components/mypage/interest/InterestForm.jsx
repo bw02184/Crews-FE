@@ -95,7 +95,7 @@ export default function InterestForm({ initialInterests, subjects }) {
                   );
                 })
               ) : (
-                <Text as="p" size="2" className={styles.gray_2}>
+                <Text as="p" size="2" className="gray_t2">
                   관심사를 등록하면 맞춤형 모임을 추천해드려요!
                 </Text>
               )}
@@ -115,9 +115,9 @@ export default function InterestForm({ initialInterests, subjects }) {
                     '좋아하거나 알아가고 싶은 관심사를 3개 이상 선택해주세요. ' + '님에게 딱 맞는 모임을 추천해드려요.',
                 }}
               >
-                <Flex direction="column" gap="20px" className={styles.modalContent}>
+                <Flex direction="column" gap="20px">
                   {subjectData?.map((subject) => (
-                    <Flex direction="column" gap="10px" key={subject.subjectId} className={styles.subjectContainer}>
+                    <Flex direction="column" gap="10px" key={subject.subjectId}>
                       <Text weight="bold">{subject.subjectName}</Text>
                       <div className="interest_list">
                         <Flex gap="10px" wrap="wrap" asChild>
