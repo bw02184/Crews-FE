@@ -39,7 +39,7 @@ const crewaccountlist = [
 export default function FeePayment() {
   const [selectedAccount, setSelectedAccount] = useState(crewaccountlist[0]);
   const { isOpen, openModal, closeModal } = useModal();
-  const selectHandler = (filter, params) => {
+  const handleSelect = (filter, params) => {
     const selected = crewaccountlist.find((item) => item.params === params);
     setSelectedAccount(selected);
   };
@@ -52,7 +52,7 @@ export default function FeePayment() {
             ...account,
             params: account.id,
           }))}
-          onSelect={selectHandler}
+          onSelect={handleSelect}
         >
           {crewaccountlist[0].text}
         </SelectFilter>
@@ -86,12 +86,12 @@ export default function FeePayment() {
 
       <Flex direction="column">
         <Flex direction="column" gap="4">
-          <Flex width="100%" justify="center" align="center">
+          <Box align="center">
             <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
-          </Flex>
+          </Box>
         </Flex>
         <Flex direction="column" gap="10px">
-          <SelectFilter filter="location" selectList={crewaccountlist} onSelect={selectHandler}>
+          <SelectFilter filter="location" selectList={crewaccountlist} onSelect={handleSelect}>
             {crewaccountlist[0].text}
           </SelectFilter>
           {/* 선택된 개인 계좌 정보 */}
@@ -100,7 +100,7 @@ export default function FeePayment() {
               <Text size="2" weight="bold" className="underline">
                 우리FISA 통장
               </Text>
-              <Text size="3" color="gray" style={{ fontSize: '14px' }}>
+              <Text size="3" className="gray_t2">
                 에서
               </Text>
             </Flex>
@@ -108,7 +108,7 @@ export default function FeePayment() {
               <Text size="4" weight="bold" className={styles.amountLine}>
                 30,000
               </Text>
-              <Text size="3" color="gray" wrap="nowrap" style={{ fontSize: '14px' }}>
+              <Text size="3" className="gray_t2" wrap="nowrap">
                 원 만큼
               </Text>
             </Flex>

@@ -1,5 +1,5 @@
 'use client';
-import { Flex, Text } from '@radix-ui/themes';
+import { Box, Flex, Text } from '@radix-ui/themes';
 import styles from './TransactionHistory.module.css';
 
 const transactionData = [
@@ -35,7 +35,7 @@ export default function TransactionHistory() {
           <li key={transaction.id} className={styles.historyCard}>
             <Flex direction="column" gap="2">
               <Flex direction="column" gap="0">
-                <Text size="1" color="gray">
+                <Text size="1" className="gray_t2">
                   {transaction.datetime}
                 </Text>
                 <Text size="2" weight="bold">
@@ -43,26 +43,26 @@ export default function TransactionHistory() {
                 </Text>
               </Flex>
 
-              <Flex justify="between" align="start">
+              <Flex justify="between" align="end">
                 <Flex direction="column" gap="0">
                   <Text size="2" weight="medium">
                     {transaction.bankName}
                   </Text>
-                  <Text size="2" color="gray">
+                  <Text size="2" className="gray_t2">
                     {transaction.accountNumber}
                   </Text>
                 </Flex>
 
-                <Flex direction="column" gap="0" align="end">
+                <Flex direction="column" gap="0" align="start">
                   <Flex align="center" gap="1">
                     <Text size="2">출금</Text>
-                    <Text size="3" weight="bold" className={styles.ammountText}>
-                      {transaction.amount.toLocaleString()}원
-                    </Text>
+                    <Box>
+                      <Text size="3" weight="bold" className="red">
+                        {transaction.amount.toLocaleString()}
+                      </Text>
+                      <Text size="2">원</Text>
+                    </Box>
                   </Flex>
-                  <Text size="2" color="gray">
-                    잔액 {transaction.balance.toLocaleString()}원
-                  </Text>
                 </Flex>
               </Flex>
             </Flex>

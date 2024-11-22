@@ -46,12 +46,10 @@ export const getInterests = async () => {
 
 // 사용자 관심사 업데이트
 export const updateInterests = async (selectedInterests) => {
-  const payload = {
-    interests: selectedInterests.map((id) => ({ interestId: id })),
-  };
   const response = await instance.put('members/me/interests', {
-    body: JSON.stringify(payload),
+    body: JSON.stringify(selectedInterests),
   });
+  revalidatePath('/service/mypage');
   return response;
 };
 // 비밀번호 수정
@@ -69,6 +67,7 @@ export const getAddresses = async () => {
 // 주소 수정
 export const updateAddresses = async (addresses) => {
   const response = await instance.put('members/me/addresses', { body: JSON.stringify(addresses) });
+  revalidatePath('/service/mypage');
   return response;
 };
 

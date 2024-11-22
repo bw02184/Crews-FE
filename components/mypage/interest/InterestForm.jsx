@@ -43,24 +43,26 @@ export default function InterestForm({ initialInterests, subjects }) {
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (selectedInterests.length < 3) {
       showToast('관심사를 3개 이상 선택해주세요!');
       return;
-    } else if (selectedInterests.length > 10) {
+    }
+    if (selectedInterests.length > 10) {
       showToast('관심사를 10개 이하로 선택해주세요!');
       return;
-    } else {
-      try {
-        await updateInterests(selectedInterests);
-        alert('관심사가 성공적으로 저장되었습니다.');
-        closeModal();
-        router.push('/service/mypage');
-      } catch (error) {
-        console.error('관심사 전송 실패:', error);
-        showToast('관심사 저장에 실패했습니다.');
-      }
+    }
+    try {
+      const payload = {
+        interests: selectedInterests.map((id) => ({ interestId: id })),
+      };
+      await updateInterests(payload);
+      closeModal();
+      alert('관심사가 성공적으로 저장되었습니다.');
+      router.push('/service/mypage');
+    } catch (error) {
+      console.log(`관심사 변경 실패: ${error}`);
+      showToast('관심사 저장에 실패했습니다.');
     }
   };
 

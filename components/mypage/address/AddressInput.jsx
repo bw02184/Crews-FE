@@ -1,4 +1,5 @@
 'use client';
+
 import { Text, Flex } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
 import { useEffect, useState, useMemo, useCallback } from 'react';
@@ -66,7 +67,6 @@ export default function AddressInput({ initialAddresses }) {
     if (!hasAddress) return '';
 
     const parts = [];
-
     if (majorCities.includes(doName)) {
       parts.push(doName);
       if (guName && guName !== '없음') parts.push(guName);
@@ -173,9 +173,8 @@ export default function AddressInput({ initialAddresses }) {
     });
   }, [isModalOpen, majorCities, setValue, handleModalClose, showToast]);
 
-  const onSubmit = async (data) => {
-    console.log('Initial Form Data:', data);
-
+  const handleAddressSubmit = async (data) => {
+    // 데이터 검증
     if (!data.addresses || data.addresses.length === 0) {
       showToast('활동 지역을 최소 1개 이상 설정해주세요!');
       return;
@@ -200,6 +199,7 @@ export default function AddressInput({ initialAddresses }) {
     }
 
     try {
+      // 데이터 변환
       const requestData = {
         addresses: data.addresses.map((address, index) => ({
           type: address.type || ['HOME', 'COMPANY', 'OTHER'][index],
@@ -210,16 +210,18 @@ export default function AddressInput({ initialAddresses }) {
         })),
       };
 
-      console.log(JSON.stringify(requestData, null, 2));
+      // 서버 요청
       await updateAddresses(requestData);
       alert('주소가 성공적으로 저장되었습니다.');
       router.push('/service/mypage');
     } catch (error) {
-      showToast('수정 실패.');
+      console.error(`활동지역 변경 실패: ${error}`);
+      showToast('활동지역 저장에 실패했습니다.');
     }
   };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleAddressSubmit)}>
       <Flex direction="column" gap="10px">
         {['HOME', 'COMPANY', 'OTHER'].map((type, index) => (
           <Flex key={type} direction="column" gap="5px" className="row">
@@ -238,14 +240,14 @@ export default function AddressInput({ initialAddresses }) {
                 {...register(`addresses.${index}`)}
               />
               <button type="button" onClick={() => handleAddressSearch(index)} disabled={isLoading}>
-                {isLoading ? '로딩 중...' : '주소 검색'}
+                주소 검색
               </button>
             </div>
             {renderAddressModal(index)}
           </Flex>
         ))}
         <ButtonL type="submit" disabled={isLoading} style="deep">
-          {isLoading ? '수정 중...' : '수정'}
+          {isLoading ? '로딩 중...' : '수정'}
         </ButtonL>
       </Flex>
 
