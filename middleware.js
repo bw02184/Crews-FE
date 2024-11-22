@@ -7,8 +7,9 @@ export default async function middleware(request) {
   console.log('middleware 접속');
 
   const session = await auth();
+  const isAgits = request.url.includes('/service/agits') && !request.url.includes('/service/agits/');
 
-  if (session?.error === 'RefreshAccessTokenError') {
+  if (!isAgits && session?.error === 'RefreshAccessTokenError') {
     console.log('RefreshAccessTokenError()');
     await signOut(); // auth js 로그아웃
     return NextResponse.redirect(new URL('/service/login', request.url));
@@ -17,7 +18,7 @@ export default async function middleware(request) {
   const accessToken = session?.accessToken;
   const refreshToken = session?.refreshToken;
 
-  if (!accessToken && !refreshToken) {
+  if (!isAgits && !accessToken && !refreshToken) {
     console.log('No authToken found, redirecting to /login');
     return NextResponse.redirect(new URL('/service/login', request.url));
   }
@@ -27,5 +28,5 @@ export default async function middleware(request) {
 
 // 미들웨어가 적용될 경로 설정
 export const config = {
-  matcher: ['/service/agits', '/service/payment', '/service/mypage'],
+  matcher: ['/service/agits/:path*', '/service/payment', '/service/mypage'],
 };
