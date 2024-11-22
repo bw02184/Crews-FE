@@ -1,6 +1,7 @@
 import { Header, Title } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import PinNumber from '@/components/common/PinNumber/PinNumber';
+import { Suspense } from 'react';
 
 export default function Page({ searchParams }) {
   return (
@@ -34,7 +35,9 @@ export default function Page({ searchParams }) {
                 </Text>
               </Box>
             </Flex>
-            <PinNumber defaultParams={'create'} />
+            <Suspense>
+              <PinNumber defaultParams={'create'} />
+            </Suspense>
           </Flex>
         </section>
       </div>

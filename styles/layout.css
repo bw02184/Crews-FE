@@ -20,6 +20,7 @@
   height: 100%;
 }
 .service .landing {
+  position: relative;
   width: 100%;
 }
 .service .webview {
@@ -59,6 +60,13 @@
 .page .content > section {
   padding: 20px;
   background-color: #fff;
+}
+.page .content > section.height_full {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 145px);
+  box-sizing: border-box;
 }
 
 /* admin */
