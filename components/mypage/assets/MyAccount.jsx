@@ -1,13 +1,19 @@
-import { ButtonS, Title } from '@/components/common';
+'use client';
+
+import { ButtonS, Modal, Title } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import styles from './MyAccount.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
+import useModal from '@/hooks/useModal';
+import AssetList from './AssetList';
 
 export default function MyAccount() {
+  const { isOpen: isDetachOpen, openModal: openDetachModal, closeModal: closeDetachModal } = useModal();
+  const { isOpen: isAttachOpen, openModal: openAttachModal, closeModal: closeAttachModal } = useModal();
+
   return (
     <Flex direction="column" gap="20px">
       <Title>내 통장</Title>
@@ -37,12 +43,14 @@ export default function MyAccount() {
             <Text as="p" size="2" weight="medium">
               임시 모임명
             </Text>
-            <ButtonS style="light">해지하기</ButtonS>
+            <ButtonS style="light" onClick={openDetachModal}>
+              해지하기
+            </ButtonS>
           </Flex>
         </SwiperSlide>
         <SwiperSlide className={styles.blank}>
           <Card className="card_link">
-            <Link href="/">
+            <button onClick={openAttachModal} className={styles.linkButton}>
               <Flex align="center" gap="10px">
                 <Box className={styles.img_box}>
                   <Box
@@ -59,10 +67,37 @@ export default function MyAccount() {
                   </Text>
                 </Box>
               </Flex>
-            </Link>
+            </button>
           </Card>
         </SwiperSlide>
       </Swiper>
+      {/* Modals */}
+      <Modal
+        isOpen={isDetachOpen}
+        closeModal={closeDetachModal}
+        header={{
+          title: (
+            <>
+              연결된 개인 계좌를
+              <br />
+              삭제 하시겠습니까?
+            </>
+          ),
+        }}
+      />
+      <Modal
+        isOpen={isAttachOpen}
+        closeModal={closeAttachModal}
+        header={{
+          title: `자산 연결`,
+          text: `마이데이터를 불러옵니다.`,
+        }}
+      >
+        {/* 모달 내부 컨텐츠 */}
+        <Flex direction="column" gap="3">
+          <AssetList />
+        </Flex>
+      </Modal>
     </Flex>
   );
 }

@@ -13,6 +13,11 @@
 .blue {
   color: var(--blue-1);
 }
+.blue_bg {
+  color: var(--blue-1);
+  background-color: #edf2fe;
+}
+
 .red {
   color: var(--crimson-2);
 }
@@ -180,6 +185,9 @@
 }
 
 /* btm_util */
+.btm_util {
+  margin-top: 10px;
+}
 .btm_util ul li {
   position: relative;
 }
@@ -197,7 +205,11 @@
 .btm_util ul li:first-of-type::before {
   display: none;
 }
-.btm_util ul li p {
+.btm_util ul li a,
+.btm_util ul li button {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
   line-height: 1;
   color: var(--gray-txt-2);
 }
