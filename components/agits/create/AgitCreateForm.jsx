@@ -174,7 +174,7 @@ export default function AgitCreateForm({ subjects }) {
             </Flex>
             <Flex direction="column" gap="10px" asChild>
               <section>
-                <Flex align="center" wrap="wrap" gap="10px">
+                <Flex align="center" wrap="wrap">
                   <Box className="row">
                     <Text as="label" className="require">
                       관심사
@@ -184,33 +184,32 @@ export default function AgitCreateForm({ subjects }) {
                       사람들에게 알려요.
                     </Text>
                   </Box>
-                  <Box mt="1%">
-                    {subjects.map((subject, i) =>
-                      i === 0 ? (
-                        <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
-                          <ul>
-                            {subject.interests.map((interest) => (
-                              <li key={interest.interestId} className={styles.checkboxWrapper}>
-                                <input
-                                  type="checkbox"
-                                  id={`interest-${interest.interestId}`}
-                                  checked={selectedInterests.includes(interest.interestId)}
-                                  onChange={() => toggleInterest(interest.interestId)}
-                                  className={styles.checkboxInput}
-                                />
-                                <label
-                                  htmlFor={`interest-${interest.interestId}`}
-                                  className={`${styles.checkboxLabel} ${selectedInterests.includes(interest.interestId)}`}
-                                >
-                                  {interest.interestName}
-                                </label>
-                              </li>
-                            ))}
-                          </ul>
-                        </Flex>
-                      ) : (
-                        <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}></Flex>
-                      ),
+                  <Box>
+                    {subjects.map(
+                      (subject, i) =>
+                        i === 0 && (
+                          <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
+                            <ul>
+                              {subject.interests.map((interest) => (
+                                <li key={interest.interestId} className={styles.checkboxWrapper}>
+                                  <input
+                                    type="checkbox"
+                                    id={`interest-${interest.interestId}`}
+                                    checked={selectedInterests.includes(interest.interestId)}
+                                    onChange={() => toggleInterest(interest.interestId)}
+                                    className={styles.checkboxInput}
+                                  />
+                                  <label
+                                    htmlFor={`interest-${interest.interestId}`}
+                                    className={`${styles.checkboxLabel} ${selectedInterests.includes(interest.interestId)}`}
+                                  >
+                                    {interest.interestName}
+                                  </label>
+                                </li>
+                              ))}
+                            </ul>
+                          </Flex>
+                        ),
                     )}
                   </Box>
                 </Flex>
