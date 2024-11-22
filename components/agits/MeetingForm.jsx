@@ -3,14 +3,23 @@
 import { ButtonL } from '@/components/common';
 import { Flex, Box, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
-
+import { useState } from 'react';
 export default function MeetingForm({ status }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const onSubmit = async ({ name, image, date, place, content }) => {};
+  const [fileName, setFileName] = useState('');
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      setValue('file', file);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,20 +52,28 @@ export default function MeetingForm({ status }) {
           </Box>
           <Box className="row">
             <Text as="label">모임 이미지</Text>
-            <Box className="input input_btn">
+            <Box className="input input_btn input_file">
+              <input
+                type="file"
+                id="file"
+                accept=".jpg,.jpeg,.png,.pdf"
+                {...register('file')}
+                onChange={onFileChange}
+              />
               <input
                 id="image"
                 type="text"
+                value={fileName}
                 placeholder="이미지를 추가해주세요"
-                {...register('image')}
-                className={errors.image ? 'error' : ''}
+                className={errors.file ? 'error' : ''}
+                readOnly
               />
 
-              <button type="button">파일 선택</button>
+              <label htmlFor="file">파일 선택</label>
             </Box>
-            {errors.image && (
+            {errors.file && (
               <Text as="p" className="error">
-                {errors.image.message}
+                {errors.file.message}
               </Text>
             )}
           </Box>
