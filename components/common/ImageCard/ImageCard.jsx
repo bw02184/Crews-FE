@@ -81,7 +81,7 @@ export default function ImageCard({ as = 'link', type = 'agits', data, dynamicId
   return (
     <Card className={`${styles.card} card_link`}>
       {as == 'link' ? (
-        <Link href={isAgit ? `/service/agits/${data.id}` : `/service/agits/${dynamicId}/event/${data.id}`}>
+        <Link href={isAgit ? `/service/agits/${data.id}` : `/service/agits/${dynamicId}/meeting/${data.id}`}>
           {content}
         </Link>
       ) : (
