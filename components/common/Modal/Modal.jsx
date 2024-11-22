@@ -7,7 +7,7 @@ import { ButtonM } from '../Button';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 
-export default function Modal({ isOpen, closeModal, children, header }) {
+export default function Modal({ isOpen, closeModal, children, header, footer }) {
   const [isMotion, setIsMotion] = useState(false);
 
   useEffect(() => {
@@ -46,12 +46,15 @@ export default function Modal({ isOpen, closeModal, children, header }) {
               </button>
             </Box>
             <Box className={`${styles.modal_body}`}>{children}</Box>
-            <Box className={styles.modal_footer}>
-              <ButtonM
+            {footer && (
+              <Box className={styles.modal_footer}>
+                {/* <ButtonM
                 leftButton={{ text: '취소', onClick: closeModal }}
                 rightButton={{ text: '확인', onClick: closeModal }}
-              />
-            </Box>
+              /> */}
+                {footer}
+              </Box>
+            )}
           </Flex>
         </Box>
       </Box>
