@@ -8,7 +8,7 @@
 
   --point-lime-1: #e7fbc6;
   --point-lime-2: #d1f88f;
-  --point-lime-3: #a9f921;
+  --point-lime-3: #acf914;
 
   --gray-bg: #f9f9f9;
   --gray-br: #e9ebec;
@@ -49,13 +49,20 @@
 .rt-Card.card_link {
   padding: 0;
 }
-.rt-Card.card_link > a{
+.rt-Card.card_link > a,
+.rt-Card.card_link > button {
   display: block;
+  width: 100%;
   padding: 15px;
+  box-sizing: border-box;
 }
 .rt-BaseCard::before,
 .rt-BaseCard::after {
   display: none;
+}
+.rt-BaseTabListTriggerInner,
+.rt-BaseTabListTriggerInnerHidden {
+  padding: 2px 8px;
 }
 /* reset */
 * {

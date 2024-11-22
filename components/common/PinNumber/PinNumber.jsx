@@ -5,7 +5,7 @@ import styles from './PinNumber.module.css';
 import { Box, Flex } from '@radix-ui/themes';
 import { ButtonM } from '../Button';
 import { Controller, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function PinNumber({ defaultParams }) {
   // 입력값 관리
@@ -15,7 +15,7 @@ export default function PinNumber({ defaultParams }) {
 
   // stage 관리
   const router = useRouter();
-  const searchParams = router.query;
+  const searchParams = useSearchParams();
   const step = searchParams?.get('stage') || defaultParams;
 
   // 키보드 랜덤 배열
