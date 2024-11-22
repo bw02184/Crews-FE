@@ -43,15 +43,16 @@ export default function InterestForm({ initialInterests, subjects }) {
     );
   };
 
-  const handleSubmit = async () => {
+  const handleUpdateInterest = async (e) => {
+    e.preventDefault();
     if (selectedInterests.length < 3) {
       showToast('관심사를 3개 이상 선택해주세요!');
       return;
-    }
-    if (selectedInterests.length > 10) {
+    } else if (selectedInterests.length > 10) {
       showToast('관심사를 10개 이하로 선택해주세요!');
       return;
     }
+
     try {
       const payload = {
         interests: selectedInterests.map((id) => ({ interestId: id })),
@@ -61,7 +62,7 @@ export default function InterestForm({ initialInterests, subjects }) {
       alert('관심사가 성공적으로 저장되었습니다.');
       router.push('/service/mypage');
     } catch (error) {
-      console.log(`관심사 변경 실패: ${error}`);
+      console.error('관심사 전송 실패:', error);
       showToast('관심사 저장에 실패했습니다.');
     }
   };
@@ -75,7 +76,7 @@ export default function InterestForm({ initialInterests, subjects }) {
       <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
         <Text>{toastMessage}</Text>
       </Toast>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleUpdateInterest}>
         <Flex direction="column" gap="5px">
           <Text as="label" weight="bold">
             관심사

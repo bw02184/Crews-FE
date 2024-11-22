@@ -173,7 +173,7 @@ export default function AddressInput({ initialAddresses }) {
     });
   }, [isModalOpen, majorCities, setValue, handleModalClose, showToast]);
 
-  const handleAddressSubmit = async (data) => {
+  const handleUpdateAddress = async (data) => {
     // 데이터 검증
     if (!data.addresses || data.addresses.length === 0) {
       showToast('활동 지역을 최소 1개 이상 설정해주세요!');
@@ -221,7 +221,7 @@ export default function AddressInput({ initialAddresses }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleAddressSubmit)}>
+    <form onSubmit={handleSubmit(handleUpdateAddress)}>
       <Flex direction="column" gap="10px">
         {['HOME', 'COMPANY', 'OTHER'].map((type, index) => (
           <Flex key={type} direction="column" gap="5px" className="row">

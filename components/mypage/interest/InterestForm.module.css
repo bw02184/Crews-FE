@@ -1,11 +1,3 @@
-.gray_1 {
-  color: var(--gray-txt-1);
-}
-
-.gray_2 {
-  color: var(--gray-txt-2);
-}
-
 .checkboxWrapper {
   display: inline-flex;
   align-items: center;

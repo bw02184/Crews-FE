@@ -18,12 +18,10 @@ export default function MyInfo() {
   } = useForm({
     mode: 'onChange',
   });
-  const [isLoading, setIsLoading] = useState(false);
   const { toast, setToast, toastMessage, showToast } = useToast();
   const newPassword = watch('new_password');
   const onUpdatePassword = async ({ current_password, new_password }) => {
     try {
-      setIsLoading(true);
       const response = await mypageAPI.updatePassword(current_password, new_password);
       if (response) {
         showToast('비밀번호가 성공적으로 수정되었습니다!');
@@ -32,8 +30,6 @@ export default function MyInfo() {
     } catch (error) {
       console.error('비밀번호 수정에 실패했습니다:', error.message);
       showToast('비밀번호 수정에 실패했습니다');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -53,7 +49,6 @@ export default function MyInfo() {
                 type="password"
                 id="current_password"
                 placeholder="현재 비밀번호를 입력해주세요"
-                disabled={isLoading}
                 {...register('current_password', {
                   required: '현재 비밀번호를 입력해주세요',
                   pattern: {
@@ -80,7 +75,6 @@ export default function MyInfo() {
                 type="password"
                 id="new_password"
                 placeholder="변경할 비밀번호를 입력해주세요"
-                disabled={isLoading}
                 {...register('new_password', {
                   required: '새 비밀번호를 입력해주세요',
                   pattern: {
@@ -107,7 +101,6 @@ export default function MyInfo() {
                 type="password"
                 id="confirm_password"
                 placeholder="변경할 비밀번호를 다시 한 번 입력해주세요"
-                disabled={isLoading}
                 {...register('confirm_password', {
                   required: '비밀번호 확인을 입력해주세요',
                   validate: (value) => value === newPassword || '비밀번호가 일치하지 않습니다',
@@ -122,8 +115,8 @@ export default function MyInfo() {
             )}
           </Box>
 
-          <ButtonL type="submit" style="deep" disabled={isLoading}>
-            {isLoading ? '처리 중...' : '수정하기'}
+          <ButtonL type="submit" style="deep">
+            수정하기
           </ButtonL>
         </Flex>
       </form>

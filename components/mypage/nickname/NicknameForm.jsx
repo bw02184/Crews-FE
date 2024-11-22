@@ -24,7 +24,7 @@ export default function NicknameForm({ nicknameData }) {
   } = useForm();
   const { toast, setToast, toastMessage, showToast } = useToast();
 
-  const onUpdateNickname = async ({ nickname }) => {
+  const handleUpdateNickname = async ({ nickname }) => {
     const nicknamePattern = /^[a-zA-Z0-9가-힣]{1,13}$/;
     if (!nicknamePattern.test(nickname)) {
       showToast('닉네임은 영어, 숫자, 한글만 사용할 수 있습니다 (공백 및 특수문자 제외)');
@@ -53,7 +53,7 @@ export default function NicknameForm({ nicknameData }) {
       <Toast as="alert" isActive={toast} onClose={() => setToast(false)} autoClose={1500}>
         <Text>{toastMessage}</Text>
       </Toast>
-      <form onSubmit={handleSubmit(onUpdateNickname)}>
+      <form onSubmit={handleSubmit(handleUpdateNickname)}>
         <Flex direction="column" gap="5px">
           <Text as="label" htmlFor="user_nickname" className={styles.label}>
             닉네임
