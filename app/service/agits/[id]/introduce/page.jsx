@@ -1,7 +1,6 @@
 import { Label, SelectFilter, TabMenu, Title, ButtonL } from '@/components/common';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import styles from './page.module.css';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 
 export default async function Page({ params }) {
@@ -30,7 +29,7 @@ export default async function Page({ params }) {
                 </div>
               </Box>
               <Flex direction="column" gap="20px">
-                <Box className={styles.txt_box}>
+                <Box className="info_list">
                   <Flex direction="column" gap="10px" asChild>
                     <ul>
                       <li>
