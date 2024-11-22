@@ -15,7 +15,7 @@ export default async function Page({ params }) {
         </Box>
         <TabMenu tabMenuList={tabMenuList} dynamicID={params.id} />
       </header>
-      <Flex direction="column" gap="10px" className="content">
+      <Box className="content">
         <section>
           <Flex direction="column" gap="20px">
             <Flex justify="between">
@@ -74,7 +74,7 @@ export default async function Page({ params }) {
             </Flex>
           </Flex>
         </section>
-      </Flex>
+      </Box>
     </div>
   );
 }
