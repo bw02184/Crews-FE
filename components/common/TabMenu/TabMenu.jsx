@@ -5,12 +5,14 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 import styles from './TabMenu.module.css';
 import { TabNav, Text } from '@radix-ui/themes';
+import { useState } from 'react';
 
 export default function TabMenu({ as = 'link', tabMenuList, dynamicID }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const url = searchParams?.size > 0 ? `${pathname}?${searchParams}` : pathname;
+  const [isActive, setIsActive] = useState(false);
   return (
     <div className={styles.tab_menu}>
       <TabNav.Root>

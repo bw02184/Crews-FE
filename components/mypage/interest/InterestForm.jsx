@@ -4,7 +4,6 @@ import { ButtonL, ButtonS, Label, Modal, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useState } from 'react';
 import BottomButton from '../bottombutton/BootomButton';
-import styles from './InterestForm.module.css';
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
 import { updateInterests } from '@/apis/mypageAPI';
@@ -96,7 +95,7 @@ export default function InterestForm({ initialInterests, subjects }) {
                   );
                 })
               ) : (
-                <Text as="p" size="2" className={styles.gray_2}>
+                <Text as="p" size="2" className="gray_t2">
                   관심사를 등록하면 맞춤형 모임을 추천해드려요!
                 </Text>
               )}
@@ -116,33 +115,27 @@ export default function InterestForm({ initialInterests, subjects }) {
                     '좋아하거나 알아가고 싶은 관심사를 3개 이상 선택해주세요. ' + '님에게 딱 맞는 모임을 추천해드려요.',
                 }}
               >
-                <Flex direction="column" gap="20px" className={styles.modalContent}>
+                <Flex direction="column" gap="20px">
                   {subjectData?.map((subject) => (
-                    <Flex direction="column" gap="10px" key={subject.subjectId} className={styles.subjectContainer}>
+                    <Flex direction="column" gap="10px" key={subject.subjectId}>
                       <Text weight="bold">{subject.subjectName}</Text>
-                      <Flex gap="10px" wrap="wrap" asChild>
-                        <ul className={styles.tags}>
-                          {subject.interests.map((interest) => (
-                            <li key={interest.interestingId} className={styles.checkboxWrapper}>
-                              <input
-                                type="checkbox"
-                                id={`interest-${interest.interestingId}`}
-                                checked={selectedInterests.includes(interest.interestingId)}
-                                onChange={() => toggleInterest(interest.interestingId)}
-                                className={styles.checkboxInput}
-                              />
-                              <label
-                                htmlFor={`interest-${interest.interestingId}`}
-                                className={`${styles.checkboxLabel} ${
-                                  selectedInterests.includes(interest.interestingId) ? styles.selected : ''
-                                }`}
-                              >
-                                {interest.name}
-                              </label>
-                            </li>
-                          ))}
-                        </ul>
-                      </Flex>
+                      <div className="interest_list">
+                        <Flex gap="10px" wrap="wrap" asChild>
+                          <ul>
+                            {subject.interests.map((interest) => (
+                              <li key={interest.interestingId}>
+                                <input
+                                  type="checkbox"
+                                  id={`interest-${interest.interestingId}`}
+                                  checked={selectedInterests.includes(interest.interestingId)}
+                                  onChange={() => toggleInterest(interest.interestingId)}
+                                />
+                                <label htmlFor={`interest-${interest.interestingId}`}>{interest.name}</label>
+                              </li>
+                            ))}
+                          </ul>
+                        </Flex>
+                      </div>
                     </Flex>
                   ))}
                 </Flex>

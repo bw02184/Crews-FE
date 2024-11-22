@@ -1,12 +1,10 @@
 'use client';
 import { Box, Flex, RadioGroup, Text } from '@radix-ui/themes';
 import { Header } from '@/components/common';
-import styles from '@/components/agits/create/AgitCreateForm.module.css';
 import { useForm } from 'react-hook-form';
 import { ButtonL, Toast } from '@/components/common';
 import { useState } from 'react';
 import useToast from '@/hooks/useToast';
-// import mypageAPI from '@/apis/mypageAPI';
 import scrollToTop from '@/utils/scrollToTop';
 import { useRouter } from 'next/navigation';
 
@@ -174,51 +172,46 @@ export default function AgitCreateForm({ subjects }) {
             </Flex>
             <Flex direction="column" gap="10px" asChild>
               <section>
-                <Flex align="center" wrap="wrap">
-                  <Box className="row">
-                    <Text as="label" className="require">
-                      관심사
-                    </Text>
-                    <Text as="p" size="2" className="gray_t2">
-                      {getValues('title')} 모임의 관심사는 무엇인가요? {getValues('title')} 모임의 관심사를 기반으로
-                      사람들에게 알려요.
-                    </Text>
-                  </Box>
-                  <Box>
-                    {subjects.map(
-                      (subject, i) =>
-                        i === 0 && (
-                          <Flex gap="10px" wrap="wrap" asChild key={`subject${subject.subjectId}`}>
-                            <ul>
-                              {subject.interests.map((interest) => (
-                                <li key={`interest${interest.interestId}`} className={styles.checkboxWrapper}>
-                                  <input
-                                    type="checkbox"
-                                    id={`interest-${interest.interestId}`}
-                                    checked={selectedInterests.includes(interest.interestId)}
-                                    onChange={() => toggleInterest(interest.interestId)}
-                                    className={styles.checkboxInput}
-                                  />
-                                  <label
-                                    htmlFor={`interest-${interest.interestId}`}
-                                    className={`${styles.checkboxLabel} ${selectedInterests.includes(interest.interestId)}`}
-                                  >
-                                    {interest.interestName}
-                                  </label>
-                                </li>
-                              ))}
-                            </ul>
-                          </Flex>
-                        ),
-                    )}
-                  </Box>
-                </Flex>
-                <Flex>
-                  <Box as="div" className={styles.button}>
-                    <ButtonL type="submit" style="deep">
-                      제출하기
-                    </ButtonL>
-                  </Box>
+                <Flex direction="column" gap="20px">
+                  <Flex direction="column" gap="20px">
+                    <Box className="row">
+                      <Text as="label" className="require">
+                        관심사
+                      </Text>
+                      <Text as="p" size="2" weight="medium" className="gray_t1">
+                        {getValues('title')} 모임의 관심사는 무엇인가요? <i className="dpb"></i>
+                        {getValues('title')} 모임의 관심사를 기반으로 사람들에게 알려요.
+                      </Text>
+                    </Box>
+                    <div className="interest_list">
+                      {subjects.map(
+                        (subject, i) =>
+                          i === 0 && (
+                            <Flex gap="10px" wrap="wrap" key={`subject${subject.subjectId}`} asChild>
+                              <ul>
+                                {subject.interests.map((interest) => (
+                                  <li key={`interest${interest.interestId}`}>
+                                    <input
+                                      type="checkbox"
+                                      id={`interest-${interest.interestId}`}
+                                      checked={selectedInterests.includes(interest.interestId)}
+                                      onChange={() => toggleInterest(interest.interestId)}
+                                    />
+                                    <label htmlFor={`interest-${interest.interestId}`}>{interest.interestName}</label>
+                                  </li>
+                                ))}
+                              </ul>
+                            </Flex>
+                          ),
+                      )}
+                      <Text as="p" size="2" weight="medium" className="gray_t1" mt="5px">
+                        최소 1개에서 3대까지 등록할 수 있습니다!
+                      </Text>
+                    </div>
+                  </Flex>
+                  <ButtonL type="submit" style="deep">
+                    제출하기
+                  </ButtonL>
                 </Flex>
               </section>
             </Flex>
