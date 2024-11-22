@@ -1,0 +1,18 @@
+.historyCard {
+  padding: 10px 0;
+  border-top: 1px solid var(--gray-br);
+}
+.historyCard:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ammountText {
+  color: var(--crimson-2);
+}
