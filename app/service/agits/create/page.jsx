@@ -1,5 +1,4 @@
 import AgitCreateForm from '@/components/agits/create/AgitCreateForm';
-import instance from '@/apis/instance';
 
 export default async function Page() {
   const subjects = [

@@ -188,10 +188,10 @@ export default function AgitCreateForm({ subjects }) {
                     {subjects.map(
                       (subject, i) =>
                         i === 0 && (
-                          <Flex gap="10px" wrap="wrap" asChild key={subject.subjectId}>
+                          <Flex gap="10px" wrap="wrap" asChild key={`subject${subject.subjectId}`}>
                             <ul>
                               {subject.interests.map((interest) => (
-                                <li key={interest.interestId} className={styles.checkboxWrapper}>
+                                <li key={`interest${interest.interestId}`} className={styles.checkboxWrapper}>
                                   <input
                                     type="checkbox"
                                     id={`interest-${interest.interestId}`}
@@ -214,7 +214,7 @@ export default function AgitCreateForm({ subjects }) {
                   </Box>
                 </Flex>
                 <Flex>
-                  <Box as="div" className={styles.button} mt="5%">
+                  <Box as="div" className={styles.button}>
                     <ButtonL type="submit" style="deep">
                       제출하기
                     </ButtonL>
