@@ -7,6 +7,10 @@
   overflow: hidden;
   cursor: pointer;
 }
+.profile_img.basic_profile img {
+  visibility: visible;
+  opacity: 1;
+}
 .user_profile {
   position: relative;
 }
