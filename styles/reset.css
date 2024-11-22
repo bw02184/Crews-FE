@@ -181,7 +181,7 @@ q:after {
 
 input,
 textarea {
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 input:-webkit-autofill {
