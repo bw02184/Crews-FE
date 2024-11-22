@@ -1,4 +1,4 @@
-import { Label, SelectFilter, TabMenu, Title } from '@/components/common';
+import { Label, SelectFilter, TabMenu, Title, ButtonL } from '@/components/common';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import styles from './page.module.css';
@@ -31,33 +31,46 @@ export default async function Page({ params }) {
               </Box>
               <Flex direction="column" gap="20px">
                 <Box className={styles.txt_box}>
-                  <ul>
-                    <Flex asChild>
+                  <Flex direction="column" gap="10px" asChild>
+                    <ul>
                       <li>
                         <em>한줄 소개</em>
                         <Text as="p" size="2" weight="medium" className="gray_t1">
                           어쩌고저쩌고가나다라마바사아자차
                         </Text>
                       </li>
-                    </Flex>
-                    <Flex asChild>
                       <li>
                         <em>모임 특징</em>
                         <Text as="p" size="2" weight="medium" className="gray_t1">
                           우리는 이런것도 하고 저런것도 하고 이래저래 어쩌고저쩌고 빙글빙글 얼렁뚱땅 천방지축
                         </Text>
                       </li>
-                    </Flex>
-                  </ul>
+                    </ul>
+                  </Flex>
                 </Box>
-                <Flex style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                  <Label style="deep">#df</Label>
-                  <Label style="deep">#dd</Label>
-                  <Label style="deep">#ds</Label>
-                  <Label style="deep">#adbbes</Label>
-                  <Label style="deep">#djeppsenvs</Label>
-                  <Label style="deep">#ab</Label>
+                <Flex wrap="wrap" gap="10px" asChild>
+                  <ul>
+                    <li>
+                      <Label style="deep">#df</Label>
+                    </li>
+                    <li>
+                      <Label style="deep">#dd</Label>
+                    </li>
+                    <li>
+                      <Label style="deep">#ds</Label>
+                    </li>
+                    <li>
+                      <Label style="deep">#adbbes</Label>
+                    </li>
+                    <li>
+                      <Label style="deep">#djeppsenvs</Label>
+                    </li>
+                    <li>
+                      <Label style="deep">#ab</Label>
+                    </li>
+                  </ul>
                 </Flex>
+                <ButtonL style="deep">수정하기</ButtonL>
               </Flex>
             </Flex>
           </Flex>
