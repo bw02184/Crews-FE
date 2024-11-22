@@ -34,7 +34,7 @@ export default function Page({ params }) {
                   data={{
                     id: 101,
                     name: 'Sample1',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample1 meeting.',
                     place: 'Seoul',
                     date: '2024-12-01',
@@ -46,7 +46,7 @@ export default function Page({ params }) {
                   data={{
                     id: 102,
                     name: 'Sample2',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample2 meeting.',
                     place: 'Seoul',
                     date: '2025-01-01',
@@ -59,7 +59,7 @@ export default function Page({ params }) {
                   data={{
                     id: 103,
                     name: 'Sample3',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample3 meeting.',
                     place: 'Seoul',
                     date: '2025-02-01',
@@ -72,7 +72,7 @@ export default function Page({ params }) {
                   data={{
                     id: 104,
                     name: 'Sample4',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample4 meeting.',
                     place: 'Seoul',
                     date: '2025-03-01',
@@ -85,7 +85,7 @@ export default function Page({ params }) {
                   data={{
                     id: 105,
                     name: 'Sample5',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample5 meeting.',
                     place: 'Seoul',
                     date: '2025-04-01',
@@ -98,7 +98,7 @@ export default function Page({ params }) {
                   data={{
                     id: 106,
                     name: 'Sample6',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample6 meeting.',
                     place: 'Seoul',
                     date: '2025-05-01',
@@ -111,7 +111,7 @@ export default function Page({ params }) {
                   data={{
                     id: 107,
                     name: 'Sample7',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample7 meeting.',
                     place: 'Seoul',
                     date: '2026-04-01',
@@ -124,7 +124,7 @@ export default function Page({ params }) {
                   data={{
                     id: 108,
                     name: 'Sample8',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample8 meeting.',
                     place: 'Seoul',
                     date: '2027-02-01',
@@ -137,7 +137,7 @@ export default function Page({ params }) {
                   data={{
                     id: 109,
                     name: 'Sample9',
-                    image: '/imgs/0U9A1445.jpg',
+                    image: '/dev/img_introduce.jpg',
                     introduction: 'This is a sample9 meeting.',
                     place: 'Seoul',
                     date: '2027-12-01',

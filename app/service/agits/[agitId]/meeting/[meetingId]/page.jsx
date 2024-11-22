@@ -22,7 +22,7 @@ export default function Page({ params }) {
             <ButtonL style="light">수정하기</ButtonL>
             <Box className="img_box">
               <div className="img">
-                <img src="/imgs/0U9A1445.jpg" />
+                <img src="/dev/img_introduce.jpg" />
               </div>
             </Box>
             <Box className="info_list">
