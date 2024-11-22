@@ -99,10 +99,12 @@
 }
 /* row */
 .row {
-  height: 90px;
   font-size: 0;
 }
-.row label {
+.row:has(.input) {
+  height: 90px;
+}
+.row > label {
   position: relative;
   display: inline-block;
   margin-bottom: 10px;
