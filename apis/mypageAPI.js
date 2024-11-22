@@ -68,7 +68,7 @@ export const getAddresses = async () => {
 
 // 주소 수정
 export const updateAddresses = async (addresses) => {
-  const response = await instance.patch('members/me/addresses', { addresses });
+  const response = await instance.put('members/me/addresses', { body: JSON.stringify(addresses) });
   return response;
 };
 

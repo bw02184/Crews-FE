@@ -3,34 +3,46 @@ import { Text, Flex } from '@radix-ui/themes';
 import styles from './AddressInput.module.css';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import Modal from '@/components/common/Modal/Modal';
-import mypageAPI from '@/apis/mypageAPI';
+import { getAddresses, updateAddresses } from '@/apis/mypageAPI';
 import { ButtonL, Toast } from '@/components/common';
 import useToast from '@/hooks/useToast';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
 
-export default function AddressInput() {
+const majorCities = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];
+
+const initializeAddress = (type) => ({
+  type,
+  doName: '',
+  siName: '',
+  guName: '',
+  dongName: '',
+});
+
+export default function AddressInput({ initialAddresses }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+
+  const { data: fetchedAddresses, isLoading } = useSWR(
+    'members/me/addresses',
+    () => getAddresses().then((res) => res.data),
+    {
+      fallbackData: initialAddresses,
+    },
+  );
+
   const addressForm = useForm({
     defaultValues: {
-      addresses: [
-        { type: 'HOME', doName: '', siName: '', guName: '', dongName: '' },
-        { type: 'COMPANY', doName: '', siName: '', guName: '', dongName: '' },
-        { type: 'OTHER', doName: '', siName: '', guName: '', dongName: '' },
-      ],
+      addresses: initialAddresses || ['HOME', 'COMPANY', 'OTHER'].map(initializeAddress),
     },
   });
 
   const { register, handleSubmit, setValue, watch } = addressForm;
-
-  // 광역시 배열을 useMemo로 메모이제이션
-  const majorCities = useMemo(() => ['서울', '부산', '대구', '인천', '광주', '대전', '울산'], []);
-  // 모달 상태를 3개로 초기화
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
   const watchedAddresses = watch('addresses');
-  const addresses = useMemo(() => watchedAddresses || [], [watchedAddresses]);
-  // 주소 검색 핸들러
+  const currentAddresses = useMemo(() => watchedAddresses || [], [watchedAddresses]);
+
   const handleAddressSearch = useCallback((index) => {
     setIsModalOpen((prev) => {
       const updated = [...prev];
@@ -39,7 +51,6 @@ export default function AddressInput() {
     });
   }, []);
 
-  // 모달 닫기 핸들러
   const handleModalClose = useCallback((index) => {
     setIsModalOpen((prev) => {
       const updated = [...prev];
@@ -48,33 +59,28 @@ export default function AddressInput() {
     });
   }, []);
 
-  // 주소 값 가져오기 함수
-  const getAddressValue = useCallback(
-    (address) => {
-      if (!address) return '';
-      const { doName, siName, guName, dongName } = address;
-      const hasAddress = doName || siName || guName || dongName;
-      if (!hasAddress) return '';
+  const getAddressValue = useCallback((address) => {
+    if (!address) return '';
+    const { doName, siName, guName, dongName } = address;
+    const hasAddress = doName || siName || guName || dongName;
+    if (!hasAddress) return '';
 
-      const parts = [];
+    const parts = [];
 
-      if (majorCities.includes(doName)) {
-        parts.push(doName);
-        if (guName && guName !== '없음') parts.push(guName);
-        if (dongName && dongName !== '없음') parts.push(dongName);
-      } else {
-        if (doName && doName !== '없음') parts.push(doName);
-        if (siName && siName !== '없음') parts.push(siName);
-        if (guName && guName !== '없음') parts.push(guName);
-        if (dongName && dongName !== '없음') parts.push(dongName);
-      }
+    if (majorCities.includes(doName)) {
+      parts.push(doName);
+      if (guName && guName !== '없음') parts.push(guName);
+      if (dongName && dongName !== '없음') parts.push(dongName);
+    } else {
+      if (doName && doName !== '없음') parts.push(doName);
+      if (siName && siName !== '없음') parts.push(siName);
+      if (guName && guName !== '없음') parts.push(guName);
+      if (dongName && dongName !== '없음') parts.push(dongName);
+    }
 
-      return parts.join(' ');
-    },
-    [majorCities],
-  );
+    return parts.join(' ');
+  }, []);
 
-  // 주소 모달 렌더링 함수 메모이제이션
   const renderAddressModal = useCallback(
     (index) => {
       if (typeof window === 'undefined' || !window.daum || !window.daum.Postcode) return null;
@@ -91,27 +97,26 @@ export default function AddressInput() {
     [isModalOpen, handleModalClose],
   );
 
-  // 초기 데이터 로딩
   useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        setIsLoading(true);
-        const addresses = await mypageAPI.getAddresses();
-        setValue('addresses', addresses);
-      } catch (error) {
-        if (error.response?.status === 401) {
-          console.error('인증 토큰이 만료되었습니다. 재 로그인 해주세요.');
-        } else {
-          console.error('주소 가져오기에 실패했습니다:', error.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (fetchedAddresses && fetchedAddresses.length > 0) {
+      ['HOME', 'COMPANY', 'OTHER'].forEach((type, index) => {
+        const address = fetchedAddresses.find((addr) => addr.type === type) || {
+          doName: '',
+          siName: '',
+          guName: '',
+          dongName: '',
+        };
+        setValue(`addresses.${index}.type`, type);
+        setValue(`addresses.${index}.doName`, address.doName);
+        setValue(`addresses.${index}.siName`, address.siName);
+        setValue(`addresses.${index}.guName`, address.guName);
+        setValue(`addresses.${index}.dongName`, address.dongName);
+      });
+    }
+  }, [fetchedAddresses, setValue]);
 
-    fetchInitialData();
-
-    // 카카오 주소찾기 API 로드
+  useEffect(() => {
+    if (document.getElementById('kakao-postcode-script')) return;
     const script = document.createElement('script');
     script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     script.async = true;
@@ -124,7 +129,6 @@ export default function AddressInput() {
     };
   }, [setValue]);
 
-  // 주소 검색 모달 설정
   useEffect(() => {
     [0, 1, 2].forEach((index) => {
       if (isModalOpen[index] && window.daum?.Postcode) {
@@ -156,16 +160,10 @@ export default function AddressInput() {
               dongName = filteredParts[3] || '없음';
             }
 
-            const addressTypes = ['HOME', 'COMPANY', 'OTHER'];
-            const newAddresses = [...addresses];
-            newAddresses[index] = {
-              type: addressTypes[index],
-              doName,
-              siName,
-              guName,
-              dongName,
-            };
-            setValue('addresses', newAddresses);
+            setValue(`addresses.${index}.doName`, doName);
+            setValue(`addresses.${index}.siName`, siName);
+            setValue(`addresses.${index}.guName`, guName);
+            setValue(`addresses.${index}.dongName`, dongName);
             handleModalClose(index);
           },
           width: '100%',
@@ -173,19 +171,13 @@ export default function AddressInput() {
         }).embed(document.getElementById(`postcodeContainer${index}`));
       }
     });
-  }, [isModalOpen, majorCities, addresses, setValue, handleModalClose, showToast]);
+  }, [isModalOpen, majorCities, setValue, handleModalClose, showToast]);
 
-  // 폼 제출 핸들러
   const onSubmit = async (data) => {
-    setIsLoading(true);
-    setErrorMessage('');
-
-    // 초기 데이터 로깅
     console.log('Initial Form Data:', data);
 
     if (!data.addresses || data.addresses.length === 0) {
       showToast('활동 지역을 최소 1개 이상 설정해주세요!');
-      setIsLoading(false);
       return;
     }
 
@@ -204,12 +196,10 @@ export default function AddressInput() {
 
     if (isEmpty) {
       showToast('활동 지역을 최소 1개 이상 설정해주세요!');
-      setIsLoading(false);
       return;
     }
 
     try {
-      // addresses 배열만 추출하여 새로운 객체 생성
       const requestData = {
         addresses: data.addresses.map((address, index) => ({
           type: address.type || ['HOME', 'COMPANY', 'OTHER'][index],
@@ -220,89 +210,40 @@ export default function AddressInput() {
         })),
       };
 
-      // 최종 전송 데이터 로깅
       console.log(JSON.stringify(requestData, null, 2));
-
-      await mypageAPI.updateAddresses(requestData);
-      showToast('주소가 성공적으로 저장되었습니다.');
+      await updateAddresses(requestData);
+      alert('주소가 성공적으로 저장되었습니다.');
+      router.push('/service/mypage');
     } catch (error) {
-      console.error('주소 전송 실패 :', error.message);
       showToast('수정 실패.');
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="column" gap="10px">
-        <Flex direction="column" gap="5px" className="row">
-          <Text as="label" htmlFor={`HOME`}>
-            <strong className="require">관심지역 #1</strong>
-          </Text>
-          <div className="input input_btn">
-            <input
-              type="text"
-              id={`HOME`}
-              value={addresses && addresses[0] ? getAddressValue(addresses[0]) : ''}
-              readOnly
-              placeholder="활동 지역을 추가해주세요!"
-              className="input input_btn"
-              onClick={() => handleAddressSearch(0)}
-              {...register('addresses.0')}
-            />
-            <button type="button" onClick={() => handleAddressSearch(0)} disabled={isLoading}>
-              {isLoading ? '로딩 중...' : '주소 검색'}
-            </button>
-          </div>
-          {renderAddressModal(0)}
-        </Flex>
-
-        <Flex direction="column" gap="5px" className="row">
-          <Text as="label" htmlFor={`COMPANY`}>
-            <strong>관심지역 #2</strong>
-          </Text>
-          <div className="input input_btn">
-            <input
-              type="text"
-              id={`COMPANY`}
-              value={addresses && addresses[1] ? getAddressValue(addresses[1]) : ''}
-              readOnly
-              placeholder="활동 지역을 추가해주세요!"
-              className={styles.inputField}
-              onClick={() => handleAddressSearch(1)}
-              {...register('addresses.1')}
-            />
-            <button type="button" onClick={() => handleAddressSearch(1)} disabled={isLoading}>
-              {isLoading ? '로딩 중...' : '주소 검색'}
-            </button>
-          </div>
-          {renderAddressModal(1)}
-        </Flex>
-
-        <Flex direction="column" gap="5px" className="row">
-          <Text as="label" htmlFor={`OTHER`}>
-            <strong>관심지역 #3</strong>
-          </Text>
-          <div className="input input_btn">
-            <input
-              type="text"
-              id={`OTHER`}
-              value={addresses && addresses[2] ? getAddressValue(addresses[2]) : ''}
-              readOnly
-              placeholder="활동 지역을 추가해주세요!"
-              className={styles.inputField}
-              onClick={() => handleAddressSearch(2)}
-              {...register('addresses.2')}
-            />
-            <button type="button" onClick={() => handleAddressSearch(2)} disabled={isLoading}>
-              {isLoading ? '로딩 중...' : '주소 검색'}
-            </button>
-          </div>
-          {renderAddressModal(2)}
-        </Flex>
-
-        {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
-
+        {['HOME', 'COMPANY', 'OTHER'].map((type, index) => (
+          <Flex key={type} direction="column" gap="5px" className="row">
+            <Text as="label" htmlFor={type}>
+              <strong className="require">관심지역 #{index + 1}</strong>
+            </Text>
+            <div className="input input_btn">
+              <input
+                type="text"
+                id={type}
+                value={currentAddresses[index] ? getAddressValue(currentAddresses[index]) : ''}
+                readOnly
+                placeholder="활동 지역을 추가해주세요!"
+                className="input input_btn"
+                onClick={() => handleAddressSearch(index)}
+                {...register(`addresses.${index}`)}
+              />
+              <button type="button" onClick={() => handleAddressSearch(index)} disabled={isLoading}>
+                {isLoading ? '로딩 중...' : '주소 검색'}
+              </button>
+            </div>
+            {renderAddressModal(index)}
+          </Flex>
+        ))}
         <ButtonL type="submit" disabled={isLoading} style="deep">
           {isLoading ? '수정 중...' : '수정'}
         </ButtonL>
