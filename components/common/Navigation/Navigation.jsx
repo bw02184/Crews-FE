@@ -66,11 +66,8 @@ export default function Navigation() {
               </li>
             </ul>
             <div className={styles.btn_payment}>
-              <Link
-                href="/service/payment"
-                className={pathname.startsWith('/service/payment') ? `${styles.active}` : ''}
-              >
-                <em>결제</em>
+              <Link href="/service/agits/create">
+                <em>아지트 생성</em>
               </Link>
             </div>
             <ul>
