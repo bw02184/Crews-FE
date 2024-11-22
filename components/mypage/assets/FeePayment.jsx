@@ -1,6 +1,6 @@
 'use client';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Box, Callout, Card, Flex, Text } from '@radix-ui/themes';
+import { Box, Callout, Card, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './FeePayment.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -97,17 +97,21 @@ export default function FeePayment() {
           {/* 선택된 개인 계좌 정보 */}
           <Card>
             <Flex justify="between" align="center">
-              <Text size="2" weight="bold" className="underline">
-                우리FISA 통장
-              </Text>
+              <Strong>
+                <Text size="2" className="underline">
+                  우리FISA 통장
+                </Text>
+              </Strong>
               <Text size="3" className="gray_t2">
                 에서
               </Text>
             </Flex>
             <Flex justify="between" align="center">
-              <Text size="4" weight="bold" className={styles.amountLine}>
-                30,000
-              </Text>
+              <Strong>
+                <Text size="4" className={styles.amountLine}>
+                  30,000
+                </Text>
+              </Strong>
               <Text size="3" className="gray_t2" wrap="nowrap">
                 원 만큼
               </Text>

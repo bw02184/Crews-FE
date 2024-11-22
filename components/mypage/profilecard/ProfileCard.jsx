@@ -67,11 +67,12 @@ export default function ProfileCard({ profileData }) {
             </Dropdown>
           </div>
           <div className={styles.textInfo}>
-            <Text as="p" size="3">
-              <span className="underline">{data.nickname}</span>
-              <strong> 님</strong>
-            </Text>
-            <Text as="p" size="2" className={styles.gray_2}>
+            <strong>
+              <Text as="p" size="3">
+                <span className="underline">{data.nickname}</span>님
+              </Text>
+            </strong>
+            <Text as="p" size="2" className="gray_t2">
               {data.email}
             </Text>
           </div>
@@ -103,7 +104,7 @@ export default function ProfileCard({ profileData }) {
             </Label>
           ))
         ) : (
-          <Text as="p" size="2" className={styles.gray_2}>
+          <Text as="p" size="2" className="gray_t2">
             관심사를 등록하면 맞춤형 모임을 추천해드려요!
           </Text>
         )}
