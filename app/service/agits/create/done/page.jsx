@@ -18,8 +18,8 @@ export default async function Page() {
                 <Box>
                   <Title>아지트 생성 완료!</Title>
                 </Box>
-                <Box className=" gray_t1">
-                  <Text as="p" weight="medium" size="14px">
+                <Box className=" gray_t1" mt="10px">
+                  <Text as="p" weight="medium" size="2">
                     모임 통장을 지금 개설하시겠습니까? <i className="dpb"></i> ※ 이미 사용중인 계좌 연결은 아지트 홈에서
                     가능합니다.
                   </Text>
