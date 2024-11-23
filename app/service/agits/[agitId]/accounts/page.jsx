@@ -23,7 +23,7 @@ export default async function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.id} />
+        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>

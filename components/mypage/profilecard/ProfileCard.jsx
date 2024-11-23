@@ -51,7 +51,7 @@ export default function ProfileCard({ profileData }) {
               ]}
             >
               <div
-                className={`${styles.profile_img} back_img`}
+                className={`${styles.profile_img} back_img ${data.profileImage == null ? styles.basic_profile : ''}`}
                 style={{ backgroundImage: `url(${data.profileImage})` }}
               >
                 <Image
