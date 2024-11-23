@@ -1,0 +1,7 @@
+.feed_list ul li {
+  width: calc(50% - 5px);
+}
+.name_tag {
+  background-color: var(--bg-color);
+  color: var(--gray-txt-1);
+}
