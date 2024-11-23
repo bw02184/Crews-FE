@@ -40,10 +40,10 @@ const ArrowButton = ({ onClickLeft, onClickRight, children, data }) => {
               justifyContent: 'center',
             }}
           >
-            <Image src="/icons/ico_left-arrow.svg" width={12} height={7} alt="Left Arrow" />
+            <Image src="/icons/ico_left-arrow.svg" width={18} height={10} alt="Left Arrow" />
           </button>
           <Text as="p" size="5" weight="bold">
-            {`${date.year}년 ${date.month}월 회비 납부`}
+            {`${date.year}년 ${date.month}월 회비`}
           </Text>
           <button
             onClick={handleNextMonth}
@@ -56,7 +56,7 @@ const ArrowButton = ({ onClickLeft, onClickRight, children, data }) => {
               justifyContent: 'center',
             }}
           >
-            <Image src="/icons/ico_right-arrow.svg" width={12} height={7} alt="Right Arrow" />
+            <Image src="/icons/ico_right-arrow.svg" width={18} height={10} alt="Right Arrow" />
           </button>
         </Flex>
         <Flex justify="center">

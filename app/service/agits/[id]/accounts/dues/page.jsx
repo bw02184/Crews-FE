@@ -1,5 +1,8 @@
 import ArrowButton from '@/components/agits/Account/ArrowButton';
+import FeePayment from '@/components/agits/Account/FeePayment';
 import { Header } from '@/components/common';
+
+import TransactionHistory from '@/components/mypage/assets/TransactionHistory';
 import { date } from '@/constants/dummy';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Callout, Flex } from '@radix-ui/themes';
@@ -22,7 +25,12 @@ export default async function Page({ params }) {
             </Callout.Text>
           </Callout.Root>
         </section>
-        <section></section>
+        <section>
+          <FeePayment></FeePayment>
+        </section>
+        <section>
+          <TransactionHistory></TransactionHistory>
+        </section>
       </Flex>
     </div>
   );
