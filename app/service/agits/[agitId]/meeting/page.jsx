@@ -4,8 +4,6 @@ import { ImageCard, SelectFilter, TabMenu, Title, ButtonS } from '@/components/c
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex } from '@radix-ui/themes';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
-// import { events } from '@/constants/dummy';
-// import { getAccount } from '@/apis/agitsAPI';
 
 export default function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
@@ -18,7 +16,7 @@ export default function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>
