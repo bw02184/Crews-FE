@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Flex, Box, Text } from '@radix-ui/themes';
-import styles from './AssetList.module.css';
+import styles from './MyDataList.module.css';
 
-export default function AssetList() {
+export default function MyDataList() {
   const [assets, setAssets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -69,45 +69,43 @@ export default function AssetList() {
   }
 
   return (
-    <Flex direction="column" gap="20px">
-      <Flex direction="column" gap="10px" asChild>
-        <ul className={styles.assetList}>
-          {assets.map((asset, i) => (
-            <li key={`asset${i}`} className={styles.assetItem}>
-              <Flex align="center" justify="between">
-                <Flex align="center" gap="10px">
-                  <Box className={styles.imgBox}>
-                    <Box
-                      className={`${styles.profileImg} back_img`}
-                      style={{ backgroundImage: `url(/dev/img_bank.jpg)` }}
-                    >
-                      <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt={`카드 이미지`} />
-                    </Box>
+    <Flex direction="column" gap="10px" asChild>
+      <ul className={styles.assetList}>
+        {assets.map((asset, i) => (
+          <li key={`asset${i}`} className={styles.assetItem}>
+            <Flex align="center" justify="between">
+              <Flex align="center" gap="10px">
+                <Box className={styles.imgBox}>
+                  <Box
+                    className={`${styles.profileImg} back_img`}
+                    style={{ backgroundImage: `url(/dev/img_bank.jpg)` }}
+                  >
+                    <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt={`카드 이미지`} />
                   </Box>
-                  <Flex direction="column" gap="0px">
-                    <Text as="p" weight="bold">
-                      {asset.name}
-                    </Text>
-                    <Text as="p" size="2" className="gray_t2">
-                      {asset.accountNumber}
-                    </Text>
-                  </Flex>
+                </Box>
+                <Flex direction="column" gap="0px">
+                  <Text as="p" weight="bold">
+                    {asset.name}
+                  </Text>
+                  <Text as="p" size="2" className="gray_t2">
+                    {asset.accountNumber}
+                  </Text>
                 </Flex>
-                <input
-                  type="checkbox"
-                  id={`asset-${i}`}
-                  checked={asset.isSelected}
-                  onChange={() => handleSelect(i)}
-                  className={styles.checkboxInput}
-                />
-                <label htmlFor={`asset-${i}`} className={`blue_bg ${styles.selectButton}`}>
-                  {asset.isSelected ? '선택해제' : '선택하기'}
-                </label>
               </Flex>
-            </li>
-          ))}
-        </ul>
-      </Flex>
+              <input
+                type="checkbox"
+                id={`asset-${i}`}
+                checked={asset.isSelected}
+                onChange={() => handleSelect(i)}
+                className={styles.checkboxInput}
+              />
+              <label htmlFor={`asset-${i}`} className={`blue_bg ${styles.selectButton}`}>
+                {asset.isSelected ? '선택해제' : '선택하기'}
+              </label>
+            </Flex>
+          </li>
+        ))}
+      </ul>
     </Flex>
   );
 }

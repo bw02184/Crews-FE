@@ -1,6 +1,6 @@
 import { getNickname } from '@/apis/mypageAPI';
 import { Header } from '@/components/common';
-import NicknameForm from '@/components/mypage/nickname/NicknameForm';
+import NicknameForm from '@/components/mypage/form/NicknameForm';
 
 export default async function page() {
   const nicknameData = await getNickname();

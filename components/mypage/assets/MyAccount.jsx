@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonS, Modal, Title } from '@/components/common';
+import { ButtonL, ButtonM, ButtonS, Modal, Title } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -8,7 +8,7 @@ import 'swiper/css';
 import styles from './MyAccount.module.css';
 import Image from 'next/image';
 import useModal from '@/hooks/useModal';
-import AssetList from './AssetList';
+import MyDataList from './MyDataList';
 
 export default function MyAccount() {
   const { isOpen: isDetachOpen, openModal: openDetachModal, closeModal: closeDetachModal } = useModal();
@@ -78,12 +78,17 @@ export default function MyAccount() {
         header={{
           title: (
             <>
-              연결된 개인 계좌를
-              <br />
+              연결된 개인 계좌를 <i className="dpb"></i>
               삭제 하시겠습니까?
             </>
           ),
         }}
+        footer={
+          <ButtonM
+            leftButton={{ text: '취소', onClick: closeDetachModal }}
+            rightButton={{ text: '해지', onClick: closeDetachModal }}
+          />
+        }
       />
       <Modal
         isOpen={isAttachOpen}
@@ -92,10 +97,10 @@ export default function MyAccount() {
           title: `자산 연결`,
           text: `마이데이터를 불러옵니다.`,
         }}
+        footer={<ButtonL style="deep">선택한 자산 연결하기</ButtonL>}
       >
-        {/* 모달 내부 컨텐츠 */}
         <Flex direction="column" gap="3">
-          <AssetList />
+          <MyDataList />
         </Flex>
       </Modal>
     </Flex>

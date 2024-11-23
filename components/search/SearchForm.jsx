@@ -1,4 +1,5 @@
 'use client';
+
 import { Flex, Text } from '@radix-ui/themes';
 import { Header, SelectFilter, Title } from '@/components/common';
 import { searchMenu } from '@/constants/selectMenuList/searchMenuList';
@@ -13,29 +14,13 @@ export default function SearchForm() {
     register,
     handleSubmit,
     setValue,
-    // formState: { errors },
+    formState: { errors },
   } = useForm();
 
   const router = useRouter();
 
   const onSubmit = async ({ keyword }) => {
-    // if (title.length < 5) {
-    // showToast('제목을 길게 입력해주세요! 아무튼 토스트 테스트!');
-    //   return;
-    // }
-
-    // const response = await postPosts(title, content);
-
-    // if (response?.error) {
-    //   alert(response.error);
-    // } else {
-    //   alert('게시물이 저장되었습니다!');
-    //   reset();
     router.push(`/service/search?q=${keyword}`);
-
-    //   // 'posts' 키와 일치하는 SWR 캐시 갱신
-    //   mutate('posts');
-    // }
   };
 
   const [buttonDummy, setButtonDummy] = useState([
@@ -56,13 +41,11 @@ export default function SearchForm() {
     '갓갓갓',
   ]);
 
-  // 검색어 클릭 시 input에 값 입력
   const handleTextClick = (text) => {
     setValue('keyword', text);
   };
 
-  // 검색어 삭제 핸들러
-  const removeItemHandler = (index) => {
+  const handleRemoveItem = (index) => {
     setButtonDummy((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -94,16 +77,16 @@ export default function SearchForm() {
               <Flex gap="10px" wrap="wrap" asChild>
                 <ul>
                   <Flex gap="10px" wrap="wrap">
-                    {buttonDummy.map((text, index) => (
-                      <Flex align="center" wrap="wrap" gap="10px" key={`button${index}`} asChild>
+                    {buttonDummy.map((text, i) => (
+                      <Flex align="center" wrap="wrap" gap="10px" key={`button${i}`} asChild>
                         <li onClick={() => handleTextClick(text)} className={`${styles.button} light`}>
                           <Text as="span" size="2" weight="bold">
                             {text}
                           </Text>
                           <button
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              removeItemHandler(index);
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRemoveItem(i);
                             }}
                           >
                             <Image src="/icons/ico_delete.svg" width={9} height={9} alt="삭제" />

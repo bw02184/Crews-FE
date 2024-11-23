@@ -1,5 +1,5 @@
 import { Header } from '@/components/common';
-import MyInfo from '@/components/mypage/myinfo';
+import PasswordForm from '@/components/mypage/form/PasswordForm';
 
 export default function Page() {
   return (
@@ -7,7 +7,7 @@ export default function Page() {
       <Header side="center">내 정보 수정</Header>
       <div className="content">
         <section>
-          <MyInfo />
+          <PasswordForm />
         </section>
       </div>
     </div>
