@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import styles from './TabMenu.module.css';
 import { TabNav, Text } from '@radix-ui/themes';
 
-export default function TabMenu({ as = 'link', tabMenuList, baseUrl }) {
+export default function TabMenu({ as = 'link', tabMenuList, baseUrl, activeTab }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -14,10 +14,10 @@ export default function TabMenu({ as = 'link', tabMenuList, baseUrl }) {
 
   const isActiveLink = (href) => {
     const currentUrl = baseUrl + href;
-    if (url.replace(baseUrl, '') == '') {
+    if (currentUrl.replace(baseUrl, '') == '') {
       return currentUrl == pathname;
     } else {
-      return currentUrl.startsWith(pathname);
+      return pathname.startsWith(currentUrl);
     }
   };
 
@@ -25,9 +25,9 @@ export default function TabMenu({ as = 'link', tabMenuList, baseUrl }) {
     <div className={styles.tab_menu}>
       <TabNav.Root>
         {tabMenuList.map((tab, i) => {
-          const isActive = as == 'link' ? isActiveLink(tab.href) : url == tab.href;
+          const isActive = as == 'link' && !activeTab ? isActiveLink(tab.href) : url == tab.href;
           return (
-            <TabNav.Link asChild active={isActive} key={`tab${i}`}>
+            <TabNav.Link asChild active={!activeTab ? isActive : i == activeTab} key={`tab${i}`}>
               <Link href={as == 'link' ? baseUrl + tab.href : tab.href}>
                 <Text as="p" size="3" weight="medium">
                   {tab.text}
