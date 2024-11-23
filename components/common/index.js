@@ -1,3 +1,4 @@
+import { AddressInput } from './AddressInput';
 import { ButtonL, ButtonM, ButtonS } from './Button';
 import { CheckBox } from './CheckBox';
 import { Dropdown } from './Dropdown';
@@ -14,6 +15,7 @@ import { Title } from './Title';
 import { Toast } from './Toast';
 
 export {
+  AddressInput,
   ButtonL,
   ButtonM,
   ButtonS,

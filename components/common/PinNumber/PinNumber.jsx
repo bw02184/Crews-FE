@@ -24,7 +24,7 @@ export default function PinNumber({ defaultParams }) {
     setShuffleNumbers(numbers.sort(() => Math.random() - 0.5));
   }, []);
 
-  const clickHandler = (number) => {
+  const handleClick = (number) => {
     if (pin.every((digit) => digit !== '')) return;
 
     const nextPin = [...pin];
@@ -35,7 +35,7 @@ export default function PinNumber({ defaultParams }) {
     }
   };
 
-  const deleteHandler = () => {
+  const handleDelete = () => {
     const prevIdx =
       pin.findIndex((digit) => digit == '') - 1 < 0 ? pin.length - 1 : pin.findIndex((digit) => digit === '') - 1;
     if (prevIdx < 0) return;
@@ -45,7 +45,7 @@ export default function PinNumber({ defaultParams }) {
     setPin(nextPin);
   };
 
-  const resetHandler = () => {
+  const handleReset = () => {
     setPin(['', '', '', '', '', '']);
     reset();
   };
@@ -102,14 +102,14 @@ export default function PinNumber({ defaultParams }) {
                 {shuffleNumbers.map((number) => {
                   return (
                     <li key={`keyboard${number}`}>
-                      <button type="button" key={number} onClick={() => clickHandler(number)}>
+                      <button type="button" key={number} onClick={() => handleClick(number)}>
                         {number}
                       </button>
                     </li>
                   );
                 })}
                 <li>
-                  <button type="button" onClick={deleteHandler}>
+                  <button type="button" onClick={handleDelete}>
                     삭제
                   </button>
                 </li>
@@ -122,7 +122,7 @@ export default function PinNumber({ defaultParams }) {
           {step == 'confirm' && <ButtonM rightButton={{ type: 'submit', text: '확인' }} />}
           {step == 'error' && (
             <ButtonM
-              leftButton={{ type: 'button', text: '재입력', onClick: resetHandler }}
+              leftButton={{ type: 'button', text: '재입력', onClick: handleReset }}
               rightButton={{ type: 'submit', text: '재설정' }}
             />
           )}
