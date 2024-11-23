@@ -71,8 +71,8 @@ export default async function Page({ params }) {
             <Box className={styles.feed_list}>
               <Flex gap="10px" wrap="wrap" asChild>
                 <ul>
-                  {feeds.map((feed, i) => (
-                    <li className="back_img" style={{ backgroundImage: `url(${feed?.image})` }} key={`feed${i}`}>
+                  {feeds.map((feed, index) => (
+                    <li className="back_img" style={{ backgroundImage: `url(${feed?.image})` }} key={`feed${index}`}>
                       <Link href={`/service/agits/feeds/${feed?.id}`}>
                         <Image src={'/imgs/img_bg_feed.jpg'} width={190} height={190} alt={`${feed.title} 이미지`} />
                       </Link>
