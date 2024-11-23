@@ -1,6 +1,6 @@
 import { getProfile } from '@/apis/mypageAPI';
 import { Header, TabMenu } from '@/components/common';
-import ProfileCard from '@/components/mypage/profilecard/ProfileCard';
+import ProfileCard from '@/components/mypage/ProfileCard/ProfileCard';
 import { tabMenuList } from '@/constants/tabMenuList/mypage';
 
 export default async function Layout({ children }) {
@@ -16,7 +16,7 @@ export default async function Layout({ children }) {
         <section>
           <ProfileCard profileData={profileData} />
         </section>
-        <TabMenu tabMenuList={tabMenuList}></TabMenu>
+        <TabMenu tabMenuList={tabMenuList} baseUrl={'/service/mypage'}></TabMenu>
         <section>{children}</section>
       </div>
     </div>

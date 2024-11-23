@@ -44,7 +44,7 @@ export default function Modal({ isOpen, closeModal, children, header, footer }) 
                 <Cross2Icon />
               </button>
             </Box>
-            <Box className={`${styles.modal_body}`}>{children}</Box>
+            {children && <Box className={`${styles.modal_body}`}>{children}</Box>}
             {footer && <Box className={styles.modal_footer}>{footer}</Box>}
           </Flex>
         </Box>

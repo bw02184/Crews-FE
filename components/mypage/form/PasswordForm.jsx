@@ -5,10 +5,8 @@ import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import useToast from '@/hooks/useToast';
 import mypageAPI from '@/apis/mypageAPI';
-import BottomButton from '@/components/mypage/bottombutton/BootomButton';
-import { useState } from 'react';
 
-export default function MyInfo() {
+export default function PasswordForm() {
   const {
     register,
     handleSubmit,
@@ -120,7 +118,6 @@ export default function MyInfo() {
           </ButtonL>
         </Flex>
       </form>
-      <BottomButton />
     </Box>
   );
 }
