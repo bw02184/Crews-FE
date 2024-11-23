@@ -51,8 +51,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2025-01-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample2 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -64,8 +63,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2025-02-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample3 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -77,8 +75,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2025-03-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample4 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -90,8 +87,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2025-04-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample5 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -103,8 +99,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2025-05-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample6 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -116,8 +111,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2026-04-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample7 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -129,8 +123,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2027-02-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample8 clicked!')}
+                  dynamicId={agits.id}
                 />
                 <ImageCard
                   type="meeting"
@@ -142,8 +135,7 @@ export default function Page({ params }) {
                     place: 'Seoul',
                     date: '2027-12-01',
                   }}
-                  dynamicId={1}
-                  onClick={() => console.log('sample9 clicked!')}
+                  dynamicId={agits.id}
                 />
               </Flex>
             </Box>
