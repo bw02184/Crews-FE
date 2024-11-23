@@ -16,7 +16,7 @@ export default async function Layout({ children }) {
         <section>
           <ProfileCard profileData={profileData} />
         </section>
-        <TabMenu tabMenuList={tabMenuList}></TabMenu>
+        <TabMenu tabMenuList={tabMenuList} baseUrl={'/service/mypage'}></TabMenu>
         <section>{children}</section>
       </div>
     </div>

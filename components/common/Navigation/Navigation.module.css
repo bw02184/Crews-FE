@@ -8,6 +8,7 @@
   margin-left: -1px;
   background-color: #fff;
   box-sizing: border-box;
+  z-index: 50;
   /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.08); */
 }
 .navigation nav {

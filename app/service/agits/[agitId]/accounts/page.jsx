@@ -13,8 +13,8 @@ import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
-  const data = await getAccount(params.id);
+  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
+  const data = await getAccount(params.agitId);
   console.log(data);
   return (
     <div className="page">
@@ -24,7 +24,7 @@ export default async function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.id} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>
