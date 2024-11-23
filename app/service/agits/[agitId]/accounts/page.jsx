@@ -13,8 +13,8 @@ import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
-  const data = await getAccount(params.id);
+  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
+  const data = await getAccount(params.agitId);
   return (
     <div className="page">
       <header>
