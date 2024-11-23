@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 export default function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.id);
+  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const {
     register,
     handleSubmit,
@@ -45,7 +45,7 @@ export default function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.id} />
+        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>
