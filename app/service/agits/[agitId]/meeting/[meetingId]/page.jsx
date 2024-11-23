@@ -13,7 +13,7 @@ export default function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
       </header>
       <Box className="content">
         <section>

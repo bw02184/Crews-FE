@@ -1,6 +1,6 @@
 import { Header } from '@/components/common';
-import FeePayment from '@/components/mypage/assets/FeePayment';
-import TransactionHistory from '@/components/mypage/assets/TransactionHistory';
+import MembershipFee from '@/components/mypage/MembershipFee/MembershipFee';
+import TransferHistory from '@/components/mypage/assets/TransferHistory';
 import { Flex } from '@radix-ui/themes';
 
 export default function Page() {
@@ -9,10 +9,10 @@ export default function Page() {
       <Header side="center">회비 납부</Header>
       <Flex direction="column" gap="10px" className="content">
         <section>
-          <FeePayment />
+          <MembershipFee />
         </section>
         <section>
-          <TransactionHistory />
+          <TransferHistory />
         </section>
       </Flex>
     </div>

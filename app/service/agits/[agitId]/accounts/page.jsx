@@ -24,7 +24,7 @@ export default async function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} activeTab={1} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>

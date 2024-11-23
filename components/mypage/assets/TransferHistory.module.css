@@ -1,0 +1,13 @@
+.transfer_list ul li {
+  padding: 10px 0;
+  border-top: 1px solid var(--gray-br);
+}
+.transfer_list ul li:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+.transfer_list ul li .btm .withdraw em {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}

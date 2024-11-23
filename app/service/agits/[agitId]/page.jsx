@@ -4,7 +4,7 @@ import { Box, Callout, Flex, Text } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
 
-import { accounts, feeds, events } from '@/constants/dummy';
+import { feeds, events } from '@/constants/dummy';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/agits/Account/Account';
@@ -22,7 +22,7 @@ export default async function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
       </header>
 
       <Flex direction="column" gap="10px" className="content">

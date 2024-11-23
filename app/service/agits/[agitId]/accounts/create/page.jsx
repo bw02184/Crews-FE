@@ -14,8 +14,8 @@ export default async function Page() {
         <section>
           <Flex direction="column" gap="10px" asChild>
             <ul>
-              {products.map((product, index) => {
-                return <DepositProduct key={index} product={product}></DepositProduct>;
+              {products.map((product, i) => {
+                return <DepositProduct key={i} product={product}></DepositProduct>;
               })}
             </ul>
           </Flex>
