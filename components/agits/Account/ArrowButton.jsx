@@ -39,8 +39,8 @@ const ArrowButton = ({ data }) => {
             <Image src="/icons/ico_right-arrow.svg" width={18} height={10} alt="Right Arrow" />
           </button>
         </Flex>
-        <Box className={styles.dueContent}>
-          <Text as="p" size="2" weight="medium">
+        <Box align="center">
+          <Text as="p" size="2" weight="medium" className="gray_btn">
             {`매월 ${data.dueDay}일, ${data.dueAmount.toLocaleString('ko-KR')}원`}
           </Text>
         </Box>
