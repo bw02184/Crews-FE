@@ -26,24 +26,17 @@ export default function NicknameForm({ nicknameData }) {
   const handleUpdateNickname = async ({ nickname }) => {
     const nicknamePattern = /^[a-zA-Z0-9가-힣]{1,13}$/;
     if (!nicknamePattern.test(nickname)) {
-      showToast('닉네임은 영어, 숫자, 한글만 사용할 수 있습니다 (공백 및 특수문자 제외)');
+      showToast('닉네임은 공백이 없는 영어, 숫자, 한글만 사용할 수 있습니다');
       return;
     }
-    if (nickname.trim() === '') {
-      showToast('닉네임을 입력해주세요');
-      return;
-    }
-    if (nickname.length > 13) {
-      showToast('닉네임은 13자 이하로 입력해주세요');
-      return;
-    }
-    try {
-      await updateNickname(nickname);
+    const response = await updateNickname(nickname);
+
+    if (response?.errorCode) {
+      console.log(`닉네임 변경 실패: ${response.message}`);
+      showToast(`${response.message}`);
+    } else {
       alert('성공적으로 변경되었습니다.');
       router.push('/service/mypage');
-    } catch (error) {
-      console.log(`닉네임 변경 실패: ${error}`);
-      showToast('닉네임 변경에 실패했습니다.');
     }
   };
 
