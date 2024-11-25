@@ -174,7 +174,7 @@ export default function Payment() {
                               </Box>
                             </Flex>
                           ) : (
-                            <Image src={`/imgs/${card.src}`} width={240} height={320} alt={`카드 이미지`} />
+                            <Image src={`/imgs/${card.src}`} width={240} height={320} alt={`카드 이미지`} priority />
                           )}
                         </SwiperSlide>
                       ))}
