@@ -85,11 +85,9 @@ export default function MembershipFee() {
       </Flex>
 
       <Flex direction="column">
-        <Flex direction="column" gap="4">
-          <Box align="center">
-            <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
-          </Box>
-        </Flex>
+        <Box align="center">
+          <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
+        </Box>
         <Flex direction="column" gap="10px">
           <SelectFilter filter="location" selectList={crewaccountlist} onSelect={handleSelect}>
             {crewaccountlist[0].text}
