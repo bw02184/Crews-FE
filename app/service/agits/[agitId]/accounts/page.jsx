@@ -15,7 +15,6 @@ import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
-  console.log(data);
   return (
     <div className="page">
       <header>

@@ -119,3 +119,8 @@ export const products = [
     lowestRate: '연 0.10%',
   },
 ];
+
+export const date = {
+  dueAmount: 20000,
+  dueDay: 4,
+};
