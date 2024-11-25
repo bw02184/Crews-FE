@@ -191,7 +191,7 @@ export default function AddressInput({ initialAddress }) {
     };
     const response = await updateAddresses(address);
     if (response?.errorCode) {
-      console.error(`활동지역 변경 실패: ${error}`);
+      console.error(`활동지역 변경 실패: ${response.message}`);
       showToast('활동지역 저장에 실패했습니다.');
     } else {
       alert('주소가 성공적으로 저장되었습니다.');
