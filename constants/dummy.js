@@ -150,3 +150,8 @@ export const cardLists = [
     role: true,
   },
 ];
+
+export const date = {
+  dueAmount: 20000,
+  dueDay: 4,
+};

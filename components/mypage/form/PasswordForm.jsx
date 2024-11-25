@@ -4,32 +4,32 @@ import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import useToast from '@/hooks/useToast';
-import mypageAPI from '@/apis/mypageAPI';
-import BottomButton from '@/components/mypage/bottombutton/BootomButton';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { updatePassword } from '@/apis/mypageAPI';
 
-export default function MyInfo() {
+export default function PasswordForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm({
     mode: 'onChange',
   });
+  const router = useRouter();
+
   const { toast, setToast, toastMessage, showToast } = useToast();
-  const newPassword = watch('new_password');
-  const onUpdatePassword = async ({ current_password, new_password }) => {
-    try {
-      const response = await mypageAPI.updatePassword(current_password, new_password);
-      if (response) {
-        showToast('비밀번호가 성공적으로 수정되었습니다!');
-        reset();
-      }
-    } catch (error) {
-      console.error('비밀번호 수정에 실패했습니다:', error.message);
-      showToast('비밀번호 수정에 실패했습니다');
+  const newPassword = watch('newPassword');
+
+  const handleUpdatePassword = async ({ oldPassword, newPassword, confirmPassword }) => {
+    const response = await updatePassword(oldPassword, newPassword, confirmPassword);
+    if (response?.errorCode) {
+      console.log(response.message);
+      showToast(`${response.message}`);
+    } else {
+      console.log(JSON.stringify({ oldPassword, newPassword, confirmPassword }));
+      alert('비밀번호가 성공적으로 수정되었습니다!');
+      router.push('/service/mypage');
     }
   };
 
@@ -38,79 +38,79 @@ export default function MyInfo() {
       <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
         <Text>{toastMessage}</Text>
       </Toast>
-      <form onSubmit={handleSubmit(onUpdatePassword)}>
+      <form onSubmit={handleSubmit(handleUpdatePassword)}>
         <Flex direction="column" gap="10px">
           <Box className="row">
-            <Text as="label" htmlFor="current_password" className="require">
+            <Text as="label" htmlFor="oldPassword" className="require">
               현재 비밀번호
             </Text>
             <Box className="input">
               <input
                 type="password"
-                id="current_password"
+                id="oldPassword"
                 placeholder="현재 비밀번호를 입력해주세요"
-                {...register('current_password', {
+                {...register('oldPassword', {
                   required: '현재 비밀번호를 입력해주세요',
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
                     message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
                   },
                 })}
-                className={`${errors.current_password ? 'error' : ''}`}
+                className={`${errors.oldPassword ? 'error' : ''}`}
               />
             </Box>
-            {errors.current_password && (
+            {errors.oldPassword && (
               <Text as="p" className="error">
-                {errors.current_password.message}
+                {errors.oldPassword.message}
               </Text>
             )}
           </Box>
 
           <Box className="row">
-            <Text as="label" htmlFor="new_password" className="require">
+            <Text as="label" htmlFor="newPassword" className="require">
               새 비밀번호
             </Text>
             <Box className="input">
               <input
                 type="password"
-                id="new_password"
+                id="newPassword"
                 placeholder="변경할 비밀번호를 입력해주세요"
-                {...register('new_password', {
+                {...register('newPassword', {
                   required: '새 비밀번호를 입력해주세요',
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
                     message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
                   },
                 })}
-                className={`${errors.new_password ? 'error' : ''}`}
+                className={`${errors.newPassword ? 'error' : ''}`}
               />
             </Box>
-            {errors.new_password && (
+            {errors.newPassword && (
               <Text as="p" className="error">
-                {errors.new_password.message}
+                {errors.newPassword.message}
               </Text>
             )}
           </Box>
 
           <Box className="row">
-            <Text as="label" htmlFor="confirm_password" className="require">
+            <Text as="label" htmlFor="confirmPassword" className="require">
               새 비밀번호 확인
             </Text>
             <Box className="input">
               <input
                 type="password"
-                id="confirm_password"
+                id="confirmPassword"
                 placeholder="변경할 비밀번호를 다시 한 번 입력해주세요"
-                {...register('confirm_password', {
+                {...register('confirmPassword', {
                   required: '비밀번호 확인을 입력해주세요',
                   validate: (value) => value === newPassword || '비밀번호가 일치하지 않습니다',
                 })}
-                className={`${errors.confirm_password ? 'error' : ''}`}
+                className={`${errors.confirmPassword ? 'error' : ''}`}
               />
             </Box>
-            {errors.confirm_password && (
+            {errors.confirmPassword && (
               <Text as="p" className="error">
-                {errors.confirm_password.message}
+                {errors.confirmPassword.message}
               </Text>
             )}
           </Box>
@@ -120,7 +120,6 @@ export default function MyInfo() {
           </ButtonL>
         </Flex>
       </form>
-      <BottomButton />
     </Box>
   );
 }

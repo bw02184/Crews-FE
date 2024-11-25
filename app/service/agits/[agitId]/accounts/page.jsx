@@ -15,7 +15,6 @@ import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
-  console.log(data);
   return (
     <div className="page">
       <header>
@@ -24,7 +23,7 @@ export default async function Page({ params }) {
             {agits?.text}
           </SelectFilter>
         </Box>
-        <TabMenu tabMenuList={tabMenuList} dynamicID={params.agitId} />
+        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} activeTab={1} />
       </header>
       <Flex direction="column" gap="10px" className="content">
         <section>

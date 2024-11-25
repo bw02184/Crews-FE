@@ -1,7 +1,5 @@
 import { getAddresses } from '@/apis/mypageAPI';
-import { Header } from '@/components/common';
-import AddressInput from '@/components/mypage/address/AddressInput';
-import BottomButton from '@/components/mypage/bottombutton/BootomButton';
+import { AddressInput, Header } from '@/components/common';
 import { Flex } from '@radix-ui/themes';
 
 export default async function page() {
@@ -15,9 +13,8 @@ export default async function page() {
       <div className="content">
         <section>
           <Flex direction="column" gap="10px">
-            <AddressInput initialAddresses={addressData.addresses || []} />
+            <AddressInput initialAddress={addressData} />
           </Flex>
-          <BottomButton />
         </section>
       </div>
     </div>

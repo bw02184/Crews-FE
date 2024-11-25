@@ -1,9 +1,10 @@
 'use client';
+
 import { Box, Flex } from '@radix-ui/themes';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
-export default function BottomButton() {
+export default function BottomUtil() {
   return (
     <Box className="btm_util">
       <Flex justify="center" align="center" gap="20px" asChild>

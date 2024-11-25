@@ -3,7 +3,6 @@ import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { ButtonL, ButtonS, Label, Modal, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useState } from 'react';
-import BottomButton from '../bottombutton/BootomButton';
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
 import { updateInterests } from '@/apis/mypageAPI';
@@ -146,7 +145,6 @@ export default function InterestForm({ initialInterests, subjects }) {
             </ButtonL>
           </Flex>
         </Flex>
-        <BottomButton />
       </form>
     </Box>
   );
