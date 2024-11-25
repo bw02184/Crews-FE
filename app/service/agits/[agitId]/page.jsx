@@ -1,5 +1,4 @@
 import { ButtonL, ButtonM, ImageCard, SelectFilter, TabMenu, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Callout, Flex, Text } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
@@ -10,6 +9,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import Link from 'next/link';
+import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
@@ -18,7 +18,12 @@ export default async function Page({ params }) {
     <div className="page">
       <header>
         <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
+          <SelectFilter
+            isHeader={true}
+            as="link"
+            pathname="/service/agits/[agitId]/accounts/dies/manage"
+            selectList={agitsSelectMenuList}
+          >
             {agits?.text}
           </SelectFilter>
         </Box>
