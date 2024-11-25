@@ -7,10 +7,10 @@ import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import styles from './page.module.css';
 import { agits } from '@/constants/dummy';
-import useModal from '@/hooks/useModal';
 import Link from 'next/link';
 import ApplyModalContent from '@/components/agits/ApplyModalContent';
 import { Suspense } from 'react';
+import { useModal } from '@/hooks';
 
 export default function Service() {
   const { isOpen, openModal, closeModal } = useModal();

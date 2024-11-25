@@ -1,8 +1,7 @@
 import { Flex } from '@radix-ui/themes';
-import PinNumber from '@/components/common/PinNumber/PinNumber';
 import { Suspense } from 'react';
 import Step from '@/components/auth/signup/Step';
-import PinNumberText from '@/components/common/PinNumber/PinNumberText';
+import { PinNumber, PinNumberText } from '@/components/common';
 
 export default function Page({ searchParams }) {
   return (

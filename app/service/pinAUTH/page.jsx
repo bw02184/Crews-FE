@@ -1,8 +1,7 @@
 'use client';
 
-import { Header, PinNumber } from '@/components/common';
-import PinNumberText from '@/components/common/PinNumber/PinNumberText';
-import { useNavVisible } from '@/hooks/useNavVisible';
+import { Header, PinNumber, PinNumberText } from '@/components/common';
+import { useNavVisible } from '@/hooks';
 import { Flex } from '@radix-ui/themes';
 import { Suspense } from 'react';
 

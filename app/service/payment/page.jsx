@@ -1,6 +1,6 @@
 'use client';
 
-import { useNavVisible } from '@/hooks/useNavVisible';
+import { useNavVisible } from '@/hooks';
 
 export default function Payment() {
   useNavVisible(false);

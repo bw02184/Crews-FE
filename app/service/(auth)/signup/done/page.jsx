@@ -1,10 +1,9 @@
 'use client';
 
 import { Header, Title } from '@/components/common';
+import { useNavVisible, useRedirect } from '@/hooks';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
-import { useNavVisible } from '@/hooks/useNavVisible';
-import useRedirect from '@/hooks/useRedirect';
 
 export default function Page() {
   useNavVisible(false);

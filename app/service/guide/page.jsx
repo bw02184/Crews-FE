@@ -16,13 +16,12 @@ import {
   Title,
   Toast,
 } from '@/components/common';
-import useToast from '@/hooks/useToast';
-import useModal from '@/hooks/useModal';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { locationSelectMenuList, sortSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Controller, useForm } from 'react-hook-form';
 import { agits, events } from '@/constants/dummy';
 import { Suspense, useState } from 'react';
+import { useModal, useToast } from '@/hooks';
 
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();

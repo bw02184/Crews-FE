@@ -1,5 +1,4 @@
-import { Header, PinNumber } from '@/components/common';
-import PinNumberText from '@/components/common/PinNumber/PinNumberText';
+import { Header, PinNumber, PinNumberText } from '@/components/common';
 import { Flex } from '@radix-ui/themes';
 import { Suspense } from 'react';
 
