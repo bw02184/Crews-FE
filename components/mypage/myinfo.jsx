@@ -14,7 +14,6 @@ export default function MyInfo() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm({
     mode: 'onChange',
