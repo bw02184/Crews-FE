@@ -53,8 +53,11 @@ export const updateInterests = async (selectedInterests) => {
   return response;
 };
 // 비밀번호 수정
-export const updatePassword = async (current_password, new_password) => {
-  const response = await instance.put('members/me/password', {});
+export const updatePassword = async (oldPassword, newPassword, confirmPassword) => {
+  const response = await instance.put('members/me/password', {
+    body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
+  });
+  revalidatePath('/service/mypage');
   return response;
 };
 
