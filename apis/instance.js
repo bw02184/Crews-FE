@@ -23,17 +23,18 @@ const fetchInstance = async (url, options) => {
     if (!response.ok) {
       const errorResponse = await response.json();
       if (response.status === 403) {
-        throw new Error('토큰 만료');
+        console.error('Token Expired');
       }
-      throw new Error(`fetch error [${errorResponse}]`);
+      console.error('Fetch Error:', errorResponse);
+      return errorResponse;
+    } else {
+      // 로그인/로그아웃의 경우 response.headers에서 토큰 추출
+      if (url == 'members/login' || url == 'members/logout') return response;
+
+      // 그 외의 경우
+      if (response.headers.get('Content-Type')?.includes('application/json')) return await response.json();
+      else return await response.text();
     }
-
-    // 로그인/로그아웃의 경우 response.headers에서 토큰 추출
-    if (url == 'members/login' || url == 'members/logout') return response;
-
-    // 그 외의 경우
-    if (response.headers.get('Content-Type')?.includes('application/json')) return await response.json();
-    else return await response.text();
   } catch (error) {
     console.log('fetch error: ', error);
     throw new Error(`fetch error [${error}]`);

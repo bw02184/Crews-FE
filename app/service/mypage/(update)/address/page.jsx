@@ -13,7 +13,7 @@ export default async function page() {
       <div className="content">
         <section>
           <Flex direction="column" gap="10px">
-            <AddressInput initialAddresses={addressData.addresses || []} />
+            <AddressInput initialAddress={addressData} />
           </Flex>
         </section>
       </div>
