@@ -28,6 +28,5 @@ export default async function middleware(request) {
 
 // 미들웨어가 적용될 경로 설정
 export const config = {
-  // matcher: ['/service/agits/:path*', '/service/payment', '/service/mypage'],
-  matcher: ['/service/payment', '/service/mypage'],
+  matcher: ['/service/agits/:path*', '/service/payment', '/service/mypage'],
 };
