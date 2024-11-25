@@ -2,7 +2,7 @@
 
 import { Box, Flex, Text } from '@radix-ui/themes';
 import styles from './AccountDetail.module.css';
-import { date } from '../../../utils/date';
+import { date } from '@/utils/date';
 
 export default function AccountDetail({ data }) {
   return (
@@ -15,7 +15,7 @@ export default function AccountDetail({ data }) {
       </Box>
       <Box className={styles.btm} align="right">
         <Flex justify="end" align="center" gap="3px" asChild>
-          <Text as="p" size="1" weight="medium" className={styles.withdrawerName}>
+          <Text as="p" size="2" weight="medium" className={styles.withdrawerName}>
             <span>
               {data.withdrawerName} {data.tranType === 'DEPOSIT' ? '입금' : '출금'}
             </span>

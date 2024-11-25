@@ -1,5 +1,5 @@
 'use client';
-import { ButtonS, Modal, Title } from '@/components/common';
+import { ButtonM, ButtonS, Modal, Title } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -39,9 +39,8 @@ export default function AgitCard() {
     <Flex direction="column" gap="20px">
       <Title>모임카드</Title>
       <Swiper slidesPerView={'auto'} spaceBetween={20} className={`swiper ${styles.swiper}`}>
-        {/* 연결된 카드들 */}
-        {cardData.map((card) => (
-          <SwiperSlide key={card.id}>
+        {cardData.map((card, i) => (
+          <SwiperSlide key={`slide${i}`}>
             <Card>
               <Flex align="center" gap="10px">
                 <Box className={styles.img_box}>
@@ -69,8 +68,6 @@ export default function AgitCard() {
             </Flex>
           </SwiperSlide>
         ))}
-
-        {/* 연결하기 카드 */}
         <SwiperSlide className={styles.blank}>
           <Card className="card_link">
             <button onClick={openAttachModal} className={styles.linkButton}>
@@ -91,20 +88,23 @@ export default function AgitCard() {
           </Card>
         </SwiperSlide>
       </Swiper>
-
-      {/* Modals */}
       <Modal
         isOpen={isDetachOpen}
         closeModal={closeDetachModal}
         header={{
           title: (
             <>
-              모임카드를
-              <br />
+              모임카드를 <i className="dpb"></i>
               해지 하시겠습니까?
             </>
           ),
         }}
+        footer={
+          <ButtonM
+            leftButton={{ text: '취소', onClick: closeDetachModal }}
+            rightButton={{ text: '해지', onClick: closeDetachModal }}
+          />
+        }
       />
       <Modal
         isOpen={isAttachOpen}
@@ -112,12 +112,17 @@ export default function AgitCard() {
         header={{
           title: (
             <>
-              모임카드를
-              <br />
+              모임카드를 <i className="dpb"></i>
               연결 하시겠습니까?
             </>
           ),
         }}
+        footer={
+          <ButtonM
+            leftButton={{ text: '취소', onClick: closeAttachModal }}
+            rightButton={{ text: '연결', onClick: closeAttachModal }}
+          />
+        }
       />
     </Flex>
   );
