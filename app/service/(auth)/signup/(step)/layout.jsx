@@ -1,7 +1,7 @@
 'use client';
 
 import { Header } from '@/components/common';
-import { useNavVisible } from '@/hooks/useNavVisible';
+import { useNavVisible } from '@/hooks';
 
 export default function Layout({ children }) {
   useNavVisible(false);

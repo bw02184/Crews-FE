@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function useToast() {
+export const useToast = () => {
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
@@ -12,4 +12,6 @@ export default function useToast() {
   };
 
   return { toast, setToast, toastMessage, showToast };
-}
+};
+
+export default useToast;

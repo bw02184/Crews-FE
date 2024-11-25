@@ -2,11 +2,11 @@
 import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { updateNickname } from '@/apis/mypageAPI';
-import useToast from '@/hooks/useToast';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import instance from '@/apis/instance';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks';
 
 export default function NicknameForm({ nicknameData }) {
   const { data, isLoading } = useSWR('members/me/nickname', () => instance.get('members/me/nickname'), {

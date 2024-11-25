@@ -5,7 +5,8 @@ import styles from './MembershipFee.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
 import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
-import useModal from '@/hooks/useModal';
+import { useModal } from '@/hooks';
+
 const crewaccountlist = [
   {
     id: 1,

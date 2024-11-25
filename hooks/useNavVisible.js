@@ -11,3 +11,5 @@ export const useNavVisible = (isVisible) => {
     return () => setNavVisible(!isVisible);
   }, []);
 };
+
+export default useNavVisible;

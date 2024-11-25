@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function useModal() {
+export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -16,4 +16,6 @@ export default function useModal() {
   }, [isOpen]);
 
   return { isOpen, openModal, closeModal };
-}
+};
+
+export default useModal;

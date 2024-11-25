@@ -7,8 +7,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import styles from './MyAccount.module.css';
 import Image from 'next/image';
-import useModal from '@/hooks/useModal';
 import MyDataList from './MyDataList';
+import { useModal } from '@/hooks';
 
 export default function MyAccount() {
   const { isOpen: isDetachOpen, openModal: openDetachModal, closeModal: closeDetachModal } = useModal();

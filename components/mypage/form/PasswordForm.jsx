@@ -3,9 +3,9 @@
 import { ButtonL, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
-import useToast from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
 import { updatePassword } from '@/apis/mypageAPI';
+import { useToast } from '@/hooks';
 
 export default function PasswordForm() {
   const {
