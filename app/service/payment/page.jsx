@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 import { cardLists } from '@/constants/dummy';
 import Image from 'next/image';
 import useModal from '@/hooks/useModal';
-import { useNavVisible } from '@/hooks';
 
 export default function Payment() {
   useNavVisible(false);
