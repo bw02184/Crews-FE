@@ -3,7 +3,6 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import styles from './ArrowButton.module.css';
 
 const ArrowButton = ({ data }) => {
   const today = new Date(); // 현재 날짜 가져오기
