@@ -5,9 +5,9 @@ import TransferHistory from '@/components/mypage/assets/TransferHistory';
 
 import { date } from '@/constants/dummy';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Box, Callout, Flex } from '@radix-ui/themes';
+import { Callout, Flex } from '@radix-ui/themes';
 
-export default async function Page({ params }) {
+export default async function Page() {
   return (
     <div className="page">
       <header>
@@ -24,10 +24,10 @@ export default async function Page({ params }) {
             </Callout.Root>
           </section>
         ) : (
-          <Flex direction="column" gap="10px" className="content">
+          <>
             <section>
               <ArrowButton data={date}></ArrowButton>
-              <Callout.Root color="red" mt="1">
+              <Callout.Root color="red" mt="3">
                 <Callout.Icon>
                   <InfoCircledIcon />
                 </Callout.Icon>
@@ -39,7 +39,7 @@ export default async function Page({ params }) {
             <section>
               <FeePayment></FeePayment>
             </section>
-          </Flex>
+          </>
         )}
         <section>
           <TransferHistory></TransferHistory>
