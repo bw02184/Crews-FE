@@ -2,6 +2,7 @@
 
 import { ButtonM } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export default function Register() {
@@ -9,11 +10,15 @@ export default function Register() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
+  const passwordCheck = watch('password');
 
+  const router = useRouter();
   const onSubmit = (data) => {
     console.log(data);
+    router.push('/service/signup/step2');
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -145,7 +150,7 @@ export default function Register() {
           </Box>
           <Box className="row">
             <Text as="label" htmlFor="password_check" className="require">
-              비밀번호
+              비밀번호 확인
             </Text>
             <Box className="input">
               <input
@@ -153,11 +158,8 @@ export default function Register() {
                 id="password_check"
                 placeholder="비밀번호를 다시 한 번 입력해주세요"
                 {...register('password_check', {
-                  required: '비밀번호를 입력해주세요!',
-                  pattern: {
-                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
-                    message: '특수문자(!@#$%^&*) 포함 영문, 숫자 8자리 이상',
-                  },
+                  required: '비밀번호를 다시 한 번 입력해주세요!',
+                  validate: (value) => value == passwordCheck || '비밀번호가 일치하지 않습니다!',
                 })}
                 className={errors.password_check ? 'error' : ''}
               />

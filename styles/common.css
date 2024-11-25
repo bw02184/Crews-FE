@@ -28,6 +28,9 @@
 .gray_t2 {
   color: var(--gray-txt-2);
 }
+.gray_btn {
+  color: var(--gray-btn);
+}
 
 /* text decoration */
 .underline {

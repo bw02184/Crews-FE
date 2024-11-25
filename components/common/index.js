@@ -1,4 +1,4 @@
-import { AddressInput } from './AddressInput';
+import { AddressPostcode } from './AddressPostcode';
 import { ButtonL, ButtonM, ButtonS } from './Button';
 import { CheckBox } from './CheckBox';
 import { Dropdown } from './Dropdown';
@@ -9,13 +9,14 @@ import { Landing } from './Landing';
 import { Modal } from './Modal';
 import { Navigation } from './Navigation';
 import { PinNumber } from './PinNumber';
+import { PinNumberText } from './PinNumber';
 import { SelectFilter } from './SelectFilter';
 import { TabMenu } from './TabMenu';
 import { Title } from './Title';
 import { Toast } from './Toast';
 
 export {
-  AddressInput,
+  AddressPostcode,
   ButtonL,
   ButtonM,
   ButtonS,
@@ -28,6 +29,7 @@ export {
   Modal,
   Navigation,
   PinNumber,
+  PinNumberText,
   SelectFilter,
   TabMenu,
   Title,
