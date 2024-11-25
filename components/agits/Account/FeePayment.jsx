@@ -1,7 +1,6 @@
 'use client';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Box, Callout, Card, Flex, Strong, Text } from '@radix-ui/themes';
-import styles from './MembershipFee.module.css';
+import { Box, Card, Flex, Strong, Text } from '@radix-ui/themes';
+import styles from './FeePayment.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
 import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
@@ -36,7 +35,7 @@ const crewaccountlist = [
   },
 ];
 
-export default function MembershipFee() {
+export default function FeePayment() {
   const [selectedAccount, setSelectedAccount] = useState(crewaccountlist[0]);
   const { isOpen, openModal, closeModal } = useModal();
   const handleSelect = (filter, params) => {
@@ -46,16 +45,6 @@ export default function MembershipFee() {
   return (
     <Flex direction="column" gap="20px">
       <Flex direction="column" gap="10px">
-        <SelectFilter
-          selectList={crewaccountlist.map((account) => ({
-            ...account,
-            text: account.crewName,
-            params: account.id,
-          }))}
-          onSelect={handleSelect}
-        >
-          {crewaccountlist[0].crewName}
-        </SelectFilter>
         <Card>
           <Flex align="center" gap="10px">
             <Box className={styles.img_box}>
@@ -73,17 +62,7 @@ export default function MembershipFee() {
             </Flex>
           </Flex>
         </Card>
-
-        <Callout.Root color="green">
-          <Callout.Icon>
-            <InfoCircledIcon />
-          </Callout.Icon>
-          <Callout.Text>
-            납부일은 매월 {selectedAccount.payday}일 {selectedAccount.amount}원 입니다.
-          </Callout.Text>
-        </Callout.Root>
       </Flex>
-
       <Flex direction="column">
         <Box align="center">
           <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
@@ -97,7 +76,7 @@ export default function MembershipFee() {
               <Strong>
                 <span className="underline">우리FISA 통장</span>
               </Strong>
-              <Text size="2" className="gray_t2">
+              <Text size="3" className="gray_t2">
                 에서
               </Text>
             </Flex>
