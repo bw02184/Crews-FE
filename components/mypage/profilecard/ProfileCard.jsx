@@ -82,7 +82,7 @@ export default function ProfileCard({ profileData }) {
               { text: '관심사 수정', href: '/service/mypage/interest' },
               { text: '활동지역 수정', href: '/service/mypage/address' },
               { text: '비밀번호 수정', href: '/service/mypage/password' },
-              { text: 'PIN번호 수정', href: '/service/mypage/' },
+              { text: 'PIN번호 수정', href: '/service/mypage/pinNumber' },
             ]}
           >
             <ButtonS style="light" icon={{ src: '/icons/ico_setting.svg', width: '14', height: '14', alt: '설정' }}>

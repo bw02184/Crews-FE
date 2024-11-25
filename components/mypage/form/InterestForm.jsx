@@ -3,13 +3,12 @@ import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { ButtonL, ButtonS, Label, Modal, Toast } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useState } from 'react';
-import useModal from '@/hooks/useModal';
-import useToast from '@/hooks/useToast';
 import { updateInterests } from '@/apis/mypageAPI';
 import { useRouter } from 'next/navigation';
 import instance from '@/apis/instance';
 import useSWR from 'swr';
 import { useNicknameStore } from '@/stores/mypageStore';
+import { useModal, useToast } from '@/hooks';
 
 export default function InterestForm({ initialInterests, subjects }) {
   const { data, isLoading } = useSWR('members/me/interests', () => instance.get('members/me/interests'), {

@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import styles from './AgitCard.module.css';
 import Image from 'next/image';
-import useModal from '@/hooks/useModal';
+import { useModal } from '@/hooks';
 const cardData = [
   {
     id: 1,
