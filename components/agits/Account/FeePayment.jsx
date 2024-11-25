@@ -3,7 +3,7 @@ import { Box, Card, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './FeePayment.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
-import { ButtonL, Modal, SelectFilter } from '@/components/common';
+import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
 import useModal from '@/hooks/useModal';
 const crewaccountlist = [
   {
@@ -47,8 +47,8 @@ export default function FeePayment() {
       <Flex direction="column" gap="10px">
         <Card>
           <Flex align="center" gap="10px">
-            <Box className={styles.imgBox}>
-              <Box className={styles.profileImg} style={{ backgroundImage: `url(${selectedAccount.img})` }}>
+            <Box className={styles.img_box}>
+              <Box className="back_img" style={{ backgroundImage: `url(${selectedAccount.img})` }}>
                 <Image src={selectedAccount.img} width={36} height={36} alt={selectedAccount.name} />
               </Box>
             </Box>
@@ -63,36 +63,26 @@ export default function FeePayment() {
           </Flex>
         </Card>
       </Flex>
-
       <Flex direction="column">
-        <Flex direction="column" gap="4">
-          <Box align="center">
-            <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
-          </Box>
-        </Flex>
+        <Box align="center">
+          <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
+        </Box>
         <Flex direction="column" gap="10px">
           <SelectFilter filter="location" selectList={crewaccountlist} onSelect={handleSelect}>
             {crewaccountlist[0].text}
           </SelectFilter>
-          {/* 선택된 개인 계좌 정보 */}
           <Card>
             <Flex justify="between" align="center">
               <Strong>
-                <Text size="2" className="underline">
-                  우리FISA 통장
-                </Text>
+                <span className="underline">우리FISA 통장</span>
               </Strong>
               <Text size="3" className="gray_t2">
                 에서
               </Text>
             </Flex>
             <Flex justify="between" align="center">
-              <Strong>
-                <Text size="4" className={styles.amountLine}>
-                  30,000
-                </Text>
-              </Strong>
-              <Text size="3" className="gray_t2" wrap="nowrap">
+              <Strong>30,000</Strong>
+              <Text size="2" className="gray_t2">
                 원 만큼
               </Text>
             </Flex>
@@ -102,13 +92,18 @@ export default function FeePayment() {
           </ButtonL>
         </Flex>
       </Flex>
-      {/* Modals */}
       <Modal
         isOpen={isOpen}
         closeModal={closeModal}
         header={{
           title: `이체 하시겠습니까?`,
         }}
+        footer={
+          <ButtonM
+            leftButton={{ text: '취소', onClick: closeModal }}
+            rightButton={{ text: '확인', onClick: closeModal }}
+          />
+        }
       />
     </Flex>
   );
