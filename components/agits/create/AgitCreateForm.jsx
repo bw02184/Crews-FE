@@ -4,9 +4,9 @@ import { Header } from '@/components/common';
 import { useForm } from 'react-hook-form';
 import { ButtonL, Toast } from '@/components/common';
 import { useState } from 'react';
-import useToast from '@/hooks/useToast';
 import scrollToTop from '@/utils/scrollToTop';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks';
 
 export default function AgitCreateForm({ subjects }) {
   const [selectedInterests, setSelectedInterests] = useState([]);

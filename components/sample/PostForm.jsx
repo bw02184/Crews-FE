@@ -2,7 +2,7 @@
 
 import { postPosts } from '@/apis/sampleAPI';
 import { ButtonL, Toast } from '@/components/common';
-import useToast from '@/hooks/useToast';
+import { useToast } from '@/hooks';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';

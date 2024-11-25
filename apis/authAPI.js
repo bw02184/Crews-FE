@@ -56,8 +56,7 @@ export const reissueToken = async (refresh_token) => {
 
   if (!response.ok) {
     console.error('Token Expired');
-    console.error('Fetch Error:', await response.json());
-    console.error(response.status);
+    return await response.json();
   }
 
   const accessToken = response.headers.get('access');
