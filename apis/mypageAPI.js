@@ -75,8 +75,8 @@ export const updateAddresses = async (addresses) => {
 };
 
 // 모임카드 목록 조회
-export const getCrewCards = async () => {
-  const response = await instance.get('members/me/cards');
+export const getMyAgit = async () => {
+  const response = await instance.get('members/me/agits');
   return response;
 };
 
