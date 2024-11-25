@@ -1,0 +1,34 @@
+.cardBox {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.swiper {
+  width: 240px;
+  height: 320px;
+}
+
+.swiperSlide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.centeredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* 부모 높이 채우기 */
+}
+
+.plusIcon {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+}
