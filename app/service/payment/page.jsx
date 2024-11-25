@@ -130,7 +130,7 @@ export default function Payment() {
                         {timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}
                         <Box>
                           {timeLeft > 0 ? (
-                            <Image src="/imgs/img_qr.svg" width={125} height={125} alt="QR 코드" />
+                            <Image src="/icons/ico_qr.svg" width={125} height={125} alt="QR 코드" />
                           ) : (
                             <Image src="/imgs/img_bg_bank.jpg" width={125} height={125} alt="QR 코드" />
                           )}
