@@ -10,10 +10,13 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import Link from 'next/link';
+import NoAccount from '@/components/agits/Account/NoAccount';
+import { asChildPropDef } from '@radix-ui/themes/dist/cjs/props/as-child.prop';
 
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
+
   return (
     <div className="page">
       <header>
@@ -43,8 +46,11 @@ export default async function Page({ params }) {
           </Flex>
           <Flex direction="column" gap="20px">
             <Title>모임통장</Title>
-            {data.ci == null ? <Text as="p">모임통장이 없습니다.</Text> : <Account data={data} />}
-            <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '상세 내역보기' }} />
+            {data.ci == null ? <NoAccount></NoAccount> : <Account data={data} />}
+            <ButtonM
+              leftButton={{ text: '권한 요청하기' }}
+              rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${params.agitId}/accounts` }}
+            />
           </Flex>
         </section>
       </Flex>

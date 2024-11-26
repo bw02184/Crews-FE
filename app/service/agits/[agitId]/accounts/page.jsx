@@ -5,17 +5,21 @@ import {
   orderSelectMenuList,
   tranTypeSelectMenuList,
 } from '@/constants/selectMenuList/sample';
-import { Box, Flex, Text } from '@radix-ui/themes';
-import { accountDetail } from '@/constants/dummy';
-
+import { Box, Flex } from '@radix-ui/themes';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 import Account from '@/components/agits/Account/Account';
-import { getAccount } from '@/apis/agitsAPI';
-import AccountDetail from '@/components/agits/Account/AccountDetail';
+import { getAccount, getAccountDetails } from '@/apis/agitsAPI';
 import NoAccount from '@/components/agits/Account/NoAccount';
+import FilteredAccountDetail from '@/components/agits/Account/FilteredAccountDetail';
+import { accountDetail } from '@/constants/dummy';
+import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
+  const accountDetails = await getAccountDetails(params.agitId, 3, 'ALL', 'ASC');
+  console.log(data);
+  console.log(accountDetails);
+
   return (
     <div className="page">
       <header>
@@ -30,7 +34,7 @@ export default async function Page({ params }) {
         <section>
           <Flex direction="column" gap="20px">
             <Title>모임통장 상세</Title>
-            {data.ci == null ? <NoAccount></NoAccount> : <Account accounts={data} />}
+            {data.ci == null ? <NoAccount></NoAccount> : <Account data={data} />}
             <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '회비 납부하기' }} />
           </Flex>
         </section>
@@ -48,7 +52,7 @@ export default async function Page({ params }) {
           </Flex>
           <Box mt="1">
             <ul>
-              {accountDetail.map((detail, i) => {
+              {accountDetails?.tranList?.map((detail, i) => {
                 return <AccountDetail data={detail} key={`detail${i}`} />;
               })}
             </ul>

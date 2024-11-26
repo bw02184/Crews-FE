@@ -3,7 +3,6 @@
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import styles from './NoAccount.module.css';
 import Image from 'next/image';
-import { useState } from 'react';
 
 export default function NoAccount() {
   return (
