@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useModal, useToast } from '@/hooks';
 import { useForm } from 'react-hook-form';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
-import { feeds } from '@/constants/dummy';
+
 export default function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const [isLiked, setIsLiked] = useState(false);
@@ -97,7 +97,7 @@ export default function Page({ params }) {
                   <button className={`${styles.report_btn} red`} onClick={openModal}>
                     신고하기
                   </button>
-                  <Flex justify="between" gap="5px" className={styles.likeCount}>
+                  <Flex justify="between" gap="5px" className={styles.like_count}>
                     <button
                       onClick={(e) => {
                         console.log(e.target);

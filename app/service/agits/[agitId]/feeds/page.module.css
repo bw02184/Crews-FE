@@ -14,6 +14,7 @@
   height: 34px;
   right: 0;
   bottom: 0;
+  font-size: 0;
 }
 .info em {
   font-weight: 500;

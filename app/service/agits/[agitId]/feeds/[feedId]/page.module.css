@@ -1,8 +1,6 @@
-.likeCount button {
-  font-size: 0;
-}
-.likeCount p {
-  line-height: 30px;
+.report_box {
+  max-width: 317px;
+  margin: 0 auto;
 }
 .report_btn {
   width: 100px;
@@ -13,10 +11,6 @@
   font-weight: 700;
   text-align: center;
   background-color: var(--crimson-1);
-}
-.report_box {
-  max-width: 317px;
-  margin: 0 auto;
 }
 .info em {
   font-weight: 500;
@@ -30,4 +24,10 @@
   border-radius: 10px;
   font-size: 12px;
   line-height: 20px;
+}
+.like_count button {
+  font-size: 0;
+}
+.like_count p {
+  line-height: 30px;
 }

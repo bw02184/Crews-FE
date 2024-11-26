@@ -74,12 +74,16 @@ export default function Page({ params }) {
               )}
             </Box>
             <Box className="row">
-              <Text as="label">활동 내용</Text>
+              <Text as="label" className="require">
+                활동 내용
+              </Text>
               <Box className="textarea">
                 <textarea
                   id="content"
-                  placeholder="기록하고 싶은 내용을 적어주세요"
-                  {...register('content')}
+                  placeholder="기록하고 싶은 활동 내용을 적어주세요"
+                  {...register('content', {
+                    required: '한줄 소개를 입력해주세요.',
+                  })}
                   className={errors.content ? 'error' : ''}
                 />
               </Box>
