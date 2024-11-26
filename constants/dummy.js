@@ -69,6 +69,12 @@ export const feeds = [
   { id: 2, image: 'https://picsum.photos/250/250', title: '이미지2' },
   { id: 3, image: 'https://picsum.photos/250/250', title: '이미지3' },
   { id: 4, image: 'https://picsum.photos/250/250', title: '이미지4' },
+  { id: 5, image: 'https://picsum.photos/250/250', title: '이미지5' },
+  { id: 6, image: 'https://picsum.photos/250/250', title: '이미지6' },
+  { id: 7, image: 'https://picsum.photos/250/250', title: '이미지7' },
+  { id: 8, image: 'https://picsum.photos/250/250', title: '이미지8' },
+  { id: 9, image: 'https://picsum.photos/250/250', title: '이미지9' },
+  { id: 10, image: 'https://picsum.photos/250/250', title: '이미지10' },
 ];
 
 export const accounts = {

@@ -17,6 +17,12 @@ export default function ApplyModalContent() {
           <Flex direction="column" gap="10px" asChild>
             <ul>
               <li>
+                <em>활동지역</em>
+                <Text as="p" size="2" weight="medium" className="gray_t1">
+                  서울시 마포구 상암동
+                </Text>
+              </li>
+              <li>
                 <em>한줄소개</em>
                 <Text as="p" size="2" weight="medium" className="gray_t1">
                   한줄소개 한줄소개 한줄소개
