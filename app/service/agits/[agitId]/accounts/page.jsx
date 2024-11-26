@@ -12,6 +12,7 @@ import { tabMenuList } from '@/constants/tabMenuList/agits';
 import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
+import NoAccount from '@/components/agits/Account/NoAccount';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
@@ -29,7 +30,7 @@ export default async function Page({ params }) {
         <section>
           <Flex direction="column" gap="20px">
             <Title>모임통장 상세</Title>
-            {data.ci == null ? <Text as="p">모임통장이 없습니다.</Text> : <Account accounts={data} />}
+            {data.ci == null ? <NoAccount></NoAccount> : <Account accounts={data} />}
             <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '회비 납부하기' }} />
           </Flex>
         </section>
