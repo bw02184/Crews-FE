@@ -19,7 +19,7 @@ export default function DuesModalContent() {
     formState: { errors },
   } = useForm();
 
-  const handleOnSubmit = (data) => {
+  const handleSubmitPattern = (data) => {
     console.log(data);
   };
   const handleNumberChange = (e) => {
@@ -30,11 +30,11 @@ export default function DuesModalContent() {
     setValue('user_dueDay', numericValue);
   };
   return (
-    <form onSubmit={handleSubmit(handleOnSubmit)}>
+    <form onSubmit={handleSubmit(handleSubmitPattern)}>
       <Flex direction="column" gap="20px">
         <div className={styles.top}>
           <Flex align="center" gap="10px">
-            <Text as="p" size="2">
+            <Text as="p" size="2" weight="medium">
               매월
             </Text>
             <SelectFilter filter="day" selectList={daySelectMenuList} onSelect={daySelect} scrollY={true}>
@@ -43,8 +43,8 @@ export default function DuesModalContent() {
           </Flex>
 
           <Flex gap="10px" align="center">
-            <Box className="row">
-              <Text as="label" htmlFor="user_dueDay"></Text>
+            <Box>
+              <Text htmlFor="user_dueDay"></Text>
               <Box className={styles.input}>
                 <input
                   type="text"
@@ -60,12 +60,9 @@ export default function DuesModalContent() {
                 </Text>
               )}
             </Box>
-
-            <Flex justify="end" className={styles.box_width}>
-              <Text as="p" size="2">
-                원 만큼
-              </Text>
-            </Flex>
+            <Text as="p" size="2" weight="medium">
+              원 만큼
+            </Text>
           </Flex>
         </div>
         <Flex justify="end">
