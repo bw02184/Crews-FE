@@ -1,0 +1,42 @@
+.cardBox {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.swiper {
+  width: 190px;
+  height: 300px;
+}
+
+.swiperSlide {
+  display: flex;
+  width: 190px;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  border: 51px;
+  border-color: black;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.centeredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.plusIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
+.textAlign {
+  justify-items: center;
+}
