@@ -21,9 +21,6 @@ export default function Page({ params }) {
     setValue,
   } = useForm();
   const onSubmit = async ({ image, content }) => {
-    console.log('submit completed');
-    console.log(fileName);
-    console.log(content);
     closeModal();
   };
   const [fileName, setFileName] = useState('');
@@ -129,7 +126,6 @@ export default function Page({ params }) {
                               alt={`${feed.title} 이미지`}
                             />
                             <button
-                              className={styles.btn_add}
                               onClick={(e) => {
                                 console.log(e.target);
                                 setIsLiked(!isLiked);
@@ -166,9 +162,9 @@ export default function Page({ params }) {
                           </Box>
                           <Link href={`/service/agits/${agits?.id}/feeds/${feed?.id}`}>
                             <Flex direction="column" gap="5px">
-                              <Flex justify="between" align="center" wrap="wrap" className={styles.title_btn}>
+                              <Flex justify="between" align="center" wrap="wrap" className={styles.info}>
                                 <em>2024.11.07</em>
-                                <b className={`${styles.right_label} gray_t1`}>홍길동</b>
+                                <b className="gray_t1">홍길동</b>
                               </Flex>
                               <Text as="p" size="1" weight="medium" className="gray_t1">
                                 이러쿵저러쿵요러쿵좋았던내용...

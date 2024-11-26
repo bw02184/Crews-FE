@@ -5,19 +5,20 @@
   background-color: var(--bg-color);
   color: var(--gray-txt-1);
 }
-
-.feed_list em {
-  line-height: 20px;
-}
 .feed_btn {
   position: relative;
 }
-.feed_btn .btn_add {
+.feed_btn button {
   position: absolute;
-  right: 12px;
-  bottom: 4px;
+  width: 36px;
+  height: 34px;
+  right: 0;
+  bottom: 0;
 }
-.right_label {
+.info em {
+  font-weight: 500;
+}
+.info b {
   width: 55px;
   height: 20px;
   background-color: var(--bg-color);

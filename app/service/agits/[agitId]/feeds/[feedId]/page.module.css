@@ -1,24 +1,9 @@
-.title_btn em {
-  line-height: 20px;
-}
-.title_btn .like {
+.likeCount button {
   font-size: 0;
 }
-.title_btn p {
+.likeCount p {
   line-height: 30px;
 }
-
-.right_label {
-  width: 55px;
-  height: 20px;
-  background-color: var(--bg-color);
-  border: 1px solid #f0f0f0;
-  text-align: center;
-  border-radius: 10px;
-  font-size: 12px;
-  line-height: 20px;
-}
-
 .report_btn {
   width: 100px;
   padding: 0 15px;
@@ -28,4 +13,21 @@
   font-weight: 700;
   text-align: center;
   background-color: var(--crimson-1);
+}
+.report_box {
+  max-width: 317px;
+  margin: 0 auto;
+}
+.info em {
+  font-weight: 500;
+}
+.info b {
+  width: 55px;
+  height: 20px;
+  background-color: var(--bg-color);
+  border: 1px solid #f0f0f0;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 20px;
 }
