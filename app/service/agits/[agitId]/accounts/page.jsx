@@ -10,8 +10,6 @@ import { tabMenuList } from '@/constants/tabMenuList/agits';
 import Account from '@/components/agits/Account/Account';
 import { getAccount, getAccountDetails } from '@/apis/agitsAPI';
 import NoAccount from '@/components/agits/Account/NoAccount';
-import FilteredAccountDetail from '@/components/agits/Account/FilteredAccountDetail';
-import { accountDetail } from '@/constants/dummy';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);

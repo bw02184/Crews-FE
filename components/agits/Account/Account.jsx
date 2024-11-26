@@ -3,25 +3,9 @@
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import styles from './Account.module.css';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { useAccountStore } from '@/stores/agitStore';
+import { useState } from 'react';
 
 export default function Account({ data }) {
-  const { accountData, setAccountData } = useAccountStore();
-
-  useEffect(() => {
-    async function fetchData() {
-      if (data.accountId !== null && data.fintechUseNum !== null) {
-        setAccountData({
-          accountId: data.accountId,
-          fintecUseNum: data.fintechUseNum,
-        });
-      }
-    }
-    fetchData();
-  }, [setAccountData]);
-  console.log(accountData);
-
   const [click, setClick] = useState(false);
   return (
     <div className={styles.account}>
