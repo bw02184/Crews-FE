@@ -50,13 +50,13 @@ export default function Payment() {
     setActiveIndex(swiper.activeIndex);
   };
 
-  const handleRightButtonClick = () => {
+  const handleClickPayment = () => {
     setPaymentActivation(true);
     setTimeLeft(10); // 타이머 초기화
     closeModal(); // 모달 닫기
   };
 
-  const handleButtonClick = () => {
+  const handleClickReset = () => {
     if (timeLeft === 0) {
       // 시간이 초과된 경우 타이머를 다시 초기화
       setTimeLeft(10);
@@ -79,7 +79,7 @@ export default function Payment() {
           footer={
             <ButtonM
               leftButton={{ onClick: closeModal, text: '취소' }}
-              rightButton={{ onClick: handleRightButtonClick, text: '결제' }}
+              rightButton={{ onClick: handleClickPayment, text: '결제' }}
             />
           }
         />
@@ -114,97 +114,92 @@ export default function Payment() {
         />
       )}
       <Header side="center">결제</Header>
-      <div className="contents">
-        <Flex direction="column" className="content">
-          <Flex direction="column" gap="20px" asChild>
-            <section>
-              <Box>
-                <Title>{agitInfo.name} 아지트</Title>
-              </Box>
-              <Flex direction="column" gap="20px" asChild align="center">
-                <Box className={styles.cardBox}>
-                  <CardInfo cardName={agitInfo.cardName} cardCode={agitInfo.cardCode}></CardInfo>
-                  {paymentActivation ? (
-                    <Card className={styles.cardBox}>
-                      <Flex direction="column" align="center" justify="center" gap="10px">
-                        {timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}
-                        <Box>
-                          {timeLeft > 0 ? (
-                            <Image src="/icons/ico_qr.svg" width={125} height={125} alt="QR 코드" />
-                          ) : (
-                            <Image src="/imgs/img_bg_bank.jpg" width={125} height={125} alt="QR 코드" />
-                          )}
-                        </Box>
-                        <Text weight="bold" size="2">
+
+      <Box direction="column" className="content">
+        <Flex direction="column" gap="20px" asChild>
+          <section>
+            <Box>
+              <Title>{agitInfo.name} 아지트</Title>
+            </Box>
+            <Flex direction="column" gap="20px" asChild align="center">
+              <Box className={styles.cardBox}>
+                <CardInfo cardName={agitInfo.cardName} cardCode={agitInfo.cardCode}></CardInfo>
+                {paymentActivation ? (
+                  <Card className={styles.cardBox}>
+                    <Flex direction="column" align="center" gap="10px">
+                      <Box>{timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}</Box>
+                      <Box>
+                        {timeLeft > 0 ? (
+                          <Image src="/icons/ico_qr.svg" width={125} height={125} alt="QR 코드" />
+                        ) : (
+                          <Image src="/imgs/img_bg_bank.jpg" width={125} height={125} alt="QR 코드" />
+                        )}
+                      </Box>
+
+                      <Box className={styles.textAlign}>
+                        <Text weight="bold" size="5">
                           {timeLeft > 0 ? `0:${timeLeft.toString().padStart(2, '0')}` : '시간 초과'}
                         </Text>
-                        <Text size="1" color="gray">
+                        <i className="dpb"></i>
+                        <Text weight="medium" size="2" className="gray_t1">
                           {timeLeft > 0
                             ? '시간 내에 QR코드로 결제를 진행해주세요.'
                             : '다시 시도하려면 새로고침 버튼을 눌러주세요.'}
                         </Text>
-                      </Flex>
-                    </Card>
-                  ) : (
-                    <Swiper
-                      effect="cards"
-                      grabCursor={true}
-                      modules={[EffectCards]}
-                      className={styles.swiper}
-                      onSlideChange={handleSlideChange}
-                    >
-                      {cardLists.map((card, index) => (
-                        <SwiperSlide key={`card${index}`} className={styles.swiperSlide}>
-                          {card.cardName === '' ? (
-                            <Flex align="center" justify="center" asChild>
-                              <Box>
-                                <Image
-                                  src={`/imgs/img_bg_asset_card.jpg`}
-                                  width={240}
-                                  height={320}
-                                  alt={`카드 추가 이미지`}
-                                />
-                                <Image
-                                  src={`/icons/ico_blank_plus.svg`}
-                                  width={24}
-                                  height={24}
-                                  alt={`카드 추가 이미지`}
-                                  className={styles.plusIcon}
-                                />
-                              </Box>
-                            </Flex>
-                          ) : (
-                            <Image src={`/imgs/${card.src}`} width={240} height={320} alt={`카드 이미지`} priority />
-                          )}
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                  )}
-                </Box>
-              </Flex>
-              <Box className={styles.buttonBox}>
-                {timeLeft === 0 ? (
-                  <ButtonL style="deep" onClick={handleButtonClick}>
-                    다시 시도
-                  </ButtonL>
-                ) : paymentActivation ? (
-                  <ButtonL style="deep" onClick={handleButtonClick}>
-                    취소하기
-                  </ButtonL>
-                ) : cardLists[activeIndex].cardName !== '' ? (
-                  <ButtonL style="deep" onClick={openModal}>
-                    결제하기
-                  </ButtonL>
+                      </Box>
+                    </Flex>
+                  </Card>
                 ) : (
-                  <ButtonL style="deep" onClick={openModal}>
-                    카드 연결하기
-                  </ButtonL>
+                  <Swiper
+                    effect="cards"
+                    grabCursor={true}
+                    modules={[EffectCards]}
+                    className={styles.swiper}
+                    onSlideChange={handleSlideChange}
+                  >
+                    {cardLists.map((card, index) => (
+                      <SwiperSlide key={`card${index}`} className={styles.swiperSlide}>
+                        {card.cardName === '' ? (
+                          <Box className={styles.cardImage}>
+                            <Image
+                              src={`/icons/ico_blank_plus.svg`}
+                              width={32}
+                              height={32}
+                              alt={`카드 추가 아이콘`}
+                              className={styles.plusIcon}
+                            />
+                          </Box>
+                        ) : (
+                          <Image src={`/imgs/${card.src}`} width={190} height={300} alt={`카드 이미지`} priority />
+                        )}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 )}
               </Box>
-            </section>
-          </Flex>
+            </Flex>
+            <Box className={styles.buttonBox}>
+              {timeLeft === 0 ? (
+                <ButtonL style="deep" onClick={handleClickReset}>
+                  다시 시도
+                </ButtonL>
+              ) : paymentActivation ? (
+                <ButtonL style="deep" onClick={handleClickReset}>
+                  취소하기
+                </ButtonL>
+              ) : cardLists[activeIndex].cardName !== '' ? (
+                <ButtonL style="deep" onClick={openModal}>
+                  결제하기
+                </ButtonL>
+              ) : (
+                <ButtonL style="deep" onClick={openModal}>
+                  카드 연결하기
+                </ButtonL>
+              )}
+            </Box>
+          </section>
         </Flex>
-      </div>
+      </Box>
     </div>
   );
 }
