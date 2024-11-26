@@ -17,11 +17,11 @@ export default function Page() {
 
   const { toast, setToast, toastMessage, showToast } = useToast();
   const router = useRouter();
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const onSubmit = async ({ image, content }) => {
     showToast('수정되었습니다!');
-    await delay(1000);
-    router.back();
+    setTimeout(() => {
+      router.back();
+    }, 1500);
   };
   const [fileName, setFileName] = useState('');
   const onFileChange = (e) => {
