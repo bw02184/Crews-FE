@@ -52,6 +52,7 @@ export const updateInterests = async (selectedInterests) => {
   revalidatePath('/service/mypage');
   return response;
 };
+
 // 비밀번호 수정
 export const updatePassword = async (oldPassword, newPassword, confirmPassword) => {
   const response = await instance.put('members/me/password', {
@@ -74,39 +75,53 @@ export const updateAddresses = async (addresses) => {
   return response;
 };
 
-// 모임카드 목록 조회
+// 모임 목록 조회
 export const getMyAgit = async () => {
   const response = await instance.get('members/me/agits');
   return response;
 };
 
-// 모임카드 연결
-export const attachCrewCard = async (cardId, crewId) => {
-  const response = await instance.post('members/me/cards', {});
+// 모임카드 목록 조회
+export const getMyAgitCards = async () => {
+  const response = await instance.get('members/me/agits-cards');
   return response;
 };
+
+// 모임카드 연결
+// export const attachCrewCard = async (cardId, crewId) => {
+//   const response = await instance.post('members/me/cards', {});
+//   return response;
+// };
 
 // 모임카드 해지
-export const detachCrewCard = async (cardId) => {
-  const response = await instance.delete(`members/me/cards/${cardId}`);
+export const detachAgitCard = async (cardId) => {
+  const response = await instance.delete(`members/me/agits-cards`, { body: JSON.stringify({ cardId }) });
+  revalidatePath('/service/mypage/assets');
   return response;
 };
 
-// 개인 계좌 목록 조회
+// 개인 등록된 계좌 목록 조회
 export const getPersonalAccounts = async () => {
-  const response = await instance.get('members/me/accounts');
-  return response;
-};
-
-// 개인 계좌 연결
-export const attachPersonalAccount = async (accountId, crewId) => {
-  const response = await instance.post('members/me/accounts', {});
+  const response = await instance.get('members/me/my-accounts');
   return response;
 };
 
 // 개인 계좌 해지
 export const detachPersonalAccount = async (accountId) => {
-  const response = await instance.delete(`members/me/accounts/${accountId}`);
+  const response = await instance.delete(`members/me/my-accounts`, { body: JSON.stringify({ accountId }) });
+  return response;
+};
+
+// 개인 은행계좌 조회
+export const getBankAccount = async (accountId, crewId) => {
+  const response = await instance.get('members/me/agits-account-info', {});
+  return response;
+};
+
+// 개인 은행계좌 연결
+export const attachBankAccount = async (accountNumbers) => {
+  const response = await instance.post('members/me/agits-account-info', { body: JSON.stringify({ accountNumbers }) });
+  revalidatePath('/service/mypage/assets');
   return response;
 };
 
