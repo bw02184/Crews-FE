@@ -44,7 +44,6 @@ export default function DuesModalContent() {
 
           <Flex gap="10px" align="center">
             <Box>
-              <Text htmlFor="user_dueDay"></Text>
               <Box className={styles.input}>
                 <input
                   type="text"
