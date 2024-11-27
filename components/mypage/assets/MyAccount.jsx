@@ -1,5 +1,5 @@
 'use client';
-import { ButtonL, ButtonM, ButtonS, Modal, Title, Toast } from '@/components/common';
+import { ButtonM, ButtonS, Modal, Title, Toast } from '@/components/common';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -95,7 +95,7 @@ export default function MyAccount({ data: fallbackData }) {
       <Title>내 통장</Title>
       <Swiper slidesPerView={'auto'} spaceBetween={20} className={`swiper ${styles.swiper}`}>
         <Swiper slidesPerView={'auto'} spaceBetween={20} className={`swiper ${styles.swiper}`}>
-          {data.map((account, i) => (
+          {data.map((account) => (
             <SwiperSlide key={account.accountId}>
               <Card>
                 <Flex align="center" gap="10px">
