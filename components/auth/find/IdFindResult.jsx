@@ -15,7 +15,7 @@ export default function IdFindResult({ result }) {
       </Card>
       <ButtonM
         leftButton={{ as: 'link', href: '/service/login', text: '확인' }}
-        rightButton={{ as: 'link', href: '/sample/pwfind', text: '비밀번호 찾기' }}
+        rightButton={{ as: 'link', href: '/service/pwfind', text: '비밀번호 찾기' }}
       />
     </Flex>
   );

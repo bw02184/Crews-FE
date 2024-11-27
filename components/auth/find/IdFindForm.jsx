@@ -11,6 +11,7 @@ import IdFindResult from './IdFindResult';
 
 export default function IdFindForm() {
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState({ name: '', email: '' });
 
   const {
@@ -21,11 +22,13 @@ export default function IdFindForm() {
   const { toast, setToast, toastMessage, showToast } = useToast();
 
   const handleFindId = async ({ name, phoneNumber }) => {
+    setIsLoading(true);
     const response = await idFind(name, phoneNumber);
 
     if (response?.errorCode) {
       console.log(`아이디 찾기 실패: ${response.message}`);
       showToast(response.message);
+      setIsLoading(false);
     } else {
       setIsCorrect(true);
       setResult({ name, email: response.email });
@@ -97,8 +100,8 @@ export default function IdFindForm() {
             </Box>
           </Box>
           <Box className="btn_group">
-            <ButtonL type="submit" style="deep">
-              아이디 찾기
+            <ButtonL type="submit" style="deep" disabled={isLoading}>
+              {isLoading ? '찾는 중...' : '아이디 찾기'}
             </ButtonL>
           </Box>
         </Flex>
