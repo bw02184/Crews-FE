@@ -14,9 +14,9 @@ import Image from 'next/image';
 import useModal from '@/hooks/useModal';
 import { useNavVisible } from '@/hooks/useNavVisible';
 
-export default function Test() {
+export default function PaymentMain() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [agitInfo, setAgitInfo] = useState({ name: '', cardName: '', cardCode: '', role: false });
+  const [agitInfo, setAgitInfo] = useState({ name: '', cardName: '', cardCode: '', agitRole: false });
   const [paymentActivation, setPaymentActivation] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const [timeLeft, setTimeLeft] = useState(10);
@@ -39,7 +39,7 @@ export default function Test() {
         name: currentCard.name,
         cardName: currentCard.cardName,
         cardCode: currentCard.cardCode,
-        role: currentCard.role,
+        agitRole: currentCard.agitRole,
       });
     }
   }, [activeIndex]);
@@ -68,8 +68,8 @@ export default function Test() {
   };
 
   return (
-    <Box>
-      {agitInfo.role == true && cardLists[activeIndex].cardName !== '' ? (
+    <>
+      {agitInfo.agitRole == true && cardLists[activeIndex].cardName !== '' ? (
         <Modal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -81,7 +81,7 @@ export default function Test() {
             />
           }
         />
-      ) : agitInfo.role === true && cardLists[activeIndex].cardName === '' ? (
+      ) : agitInfo.agitRole === true && cardLists[activeIndex].cardName === '' ? (
         <Modal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -124,7 +124,7 @@ export default function Test() {
                 {paymentActivation ? (
                   <Card className={styles.cardBox}>
                     <Flex direction="column" align="center" gap="10px">
-                      <Box>{timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}</Box>
+                      {timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}
                       <Box>
                         {timeLeft > 0 ? (
                           <Image src="/icons/ico_qr.svg" width={125} height={125} alt="QR 코드" />
@@ -134,11 +134,10 @@ export default function Test() {
                       </Box>
 
                       <Box className={styles.textAlign}>
-                        <Text weight="bold" size="5">
+                        <Text as="p" weight="bold" size="5" align="center">
                           {timeLeft > 0 ? `0:${timeLeft.toString().padStart(2, '0')}` : '시간 초과'}
                         </Text>
-                        <i className="dpb"></i>
-                        <Text weight="medium" size="2" className="gray_t1">
+                        <Text as="span" weight="medium" size="2" align="center" className="gray_t1">
                           {timeLeft > 0
                             ? '시간 내에 QR코드로 결제를 진행해주세요.'
                             : '다시 시도하려면 새로고침 버튼을 눌러주세요.'}
@@ -155,9 +154,12 @@ export default function Test() {
                     onSlideChange={handleSlideChange}
                   >
                     {cardLists.map((card, index) => (
-                      <SwiperSlide key={`card${index}`} className={styles.swiperSlide}>
+                      <SwiperSlide
+                        key={`card${index}`}
+                        className={card.cardName == '' ? styles.swiperAppendSlide : styles.swiperCardSlide}
+                      >
                         {card.cardName === '' ? (
-                          <Box className={styles.cardImage}>
+                          <Box>
                             <Image
                               src={`/icons/ico_blank_plus.svg`}
                               width={32}
@@ -175,7 +177,7 @@ export default function Test() {
                 )}
               </Box>
             </Flex>
-            <Box className={styles.buttonBox}>
+            <Box>
               {timeLeft === 0 ? (
                 <ButtonL style="deep" onClick={handleClickReset}>
                   다시 시도
@@ -197,6 +199,6 @@ export default function Test() {
           </section>
         </Flex>
       </Box>
-    </Box>
+    </>
   );
 }
