@@ -4,11 +4,10 @@ import { Text, Flex } from '@radix-ui/themes';
 import Modal from '@/components/common/Modal/Modal';
 import { updateAddresses } from '@/apis/mypageAPI';
 import { ButtonL, ButtonM, Toast } from '@/components/common';
-import useToast from '@/hooks/useToast';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import useModal from '@/hooks/useModal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
+import { useModal, useToast } from '@/hooks';
 
 const doList = ['강원특별자치도', '경기', '경남', '경북', '전남', '전북특별자치도', '충남', '충북', '제주특별자치도'];
 const majorCities = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];

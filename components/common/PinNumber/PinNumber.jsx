@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './PinNumber.module.css';
 import { Box, Flex } from '@radix-ui/themes';
-import { ButtonM } from '../Button';
+import { ButtonM } from '@/components/common';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -16,7 +16,8 @@ export default function PinNumber({ defaultParams }) {
   // stage 관리
   const router = useRouter();
   const searchParams = useSearchParams();
-  const step = searchParams?.get('stage') || defaultParams;
+  const stage = searchParams?.get('stage') || defaultParams;
+  const status = searchParams?.get('status');
 
   // 키보드 랜덤 배열
   useEffect(() => {
@@ -54,8 +55,16 @@ export default function PinNumber({ defaultParams }) {
     const pinNumber = Number(pin.join(''));
     console.log(pinNumber);
 
-    if (step == 'enter' || step == 'create') {
-      router.push('?stage=confirm');
+    if (stage == 'create') {
+      router.push(`?stage=${stage}&status=confirm`);
+    }
+
+    if (stage == 'update') {
+      router.push(`?stage=${stage}&status=confirm`);
+    }
+
+    if (stage == 'auth') {
+      router.push(`?stage=${stage}&status=error`);
     }
   };
 
@@ -118,13 +127,18 @@ export default function PinNumber({ defaultParams }) {
           </Box>
         </Flex>
         <Box className="btn_group">
-          {step == 'create' && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
-          {step == 'confirm' && <ButtonM rightButton={{ type: 'submit', text: '확인' }} />}
-          {step == 'error' && (
+          {stage == 'create' && status == undefined && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
+          {(status == 'confirm' || (stage == 'auth' && status == undefined) || stage == 'update') && (
+            <ButtonM rightButton={{ type: 'submit', text: '확인' }} />
+          )}
+          {stage != 'auth' && status == 'error' && (
             <ButtonM
               leftButton={{ type: 'button', text: '재입력', onClick: handleReset }}
               rightButton={{ type: 'submit', text: '재설정' }}
             />
+          )}
+          {stage == 'auth' && status == 'error' && (
+            <ButtonM rightButton={{ type: 'button', text: '재입력', onClick: handleReset }} />
           )}
         </Box>
       </form>

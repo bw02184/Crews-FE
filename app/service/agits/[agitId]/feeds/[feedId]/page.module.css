@@ -1,0 +1,33 @@
+.report_box {
+  max-width: 317px;
+  margin: 0 auto;
+}
+.report_btn {
+  width: 100px;
+  padding: 0 15px;
+  height: 30px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  background-color: var(--crimson-1);
+}
+.info em {
+  font-weight: 500;
+}
+.info b {
+  width: 55px;
+  height: 20px;
+  background-color: var(--bg-color);
+  border: 1px solid #f0f0f0;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.like_count button {
+  font-size: 0;
+}
+.like_count p {
+  line-height: 30px;
+}

@@ -9,6 +9,7 @@ import { Landing } from './Landing';
 import { Modal } from './Modal';
 import { Navigation } from './Navigation';
 import { PinNumber } from './PinNumber';
+import { PinNumberText } from './PinNumber';
 import { SelectFilter } from './SelectFilter';
 import { TabMenu } from './TabMenu';
 import { Title } from './Title';
@@ -28,6 +29,7 @@ export {
   Modal,
   Navigation,
   PinNumber,
+  PinNumberText,
   SelectFilter,
   TabMenu,
   Title,

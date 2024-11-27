@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { ButtonL, Toast } from '@/components/common';
 import { credentialSignIn } from '@/apis/authAPI';
 import { useSession } from 'next-auth/react';
-import useToast from '@/hooks/useToast';
+import { useToast } from '@/hooks';
 
 export default function LoginForm() {
   const { data: session, update } = useSession();
