@@ -1,5 +1,6 @@
 'use client';
 
+import { Title } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -25,26 +26,22 @@ const ArrowButton = ({ data }) => {
     });
   };
   return (
-    <div>
-      <Flex direction="column" gap="10px">
+    <Box align="center">
+      <Flex direction="column" gap="5px">
         <Flex justify="center" gap="10px">
           <button onClick={handlePreviousMonth}>
             <Image src="/icons/ico_left-arrow.svg" width={18} height={10} alt="Left Arrow" />
           </button>
-          <Text as="p" size="5" weight="bold">
-            {`${date.year}년 ${date.month}월 회비`}
-          </Text>
+          <Title>{`${date.year}년 ${date.month}월 회비`}</Title>
           <button onClick={handleNextMonth}>
             <Image src="/icons/ico_right-arrow.svg" width={18} height={10} alt="Right Arrow" />
           </button>
         </Flex>
-        <Box align="center">
-          <Text as="p" size="2" weight="medium" className="gray_btn">
-            {`매월 ${data.dueDay}일, ${data.dueAmount.toLocaleString('ko-KR')}원`}
-          </Text>
-        </Box>
+        <Text as="p" size="2" weight="medium" className="gray_btn">
+          {`매월 ${data.dueDay}일, ${data.dueAmount.toLocaleString('ko-KR')}원`}
+        </Text>
       </Flex>
-    </div>
+    </Box>
   );
 };
 
