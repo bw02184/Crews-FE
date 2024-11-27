@@ -1,6 +1,18 @@
 'use server';
 import instance from '@/apis/instance';
 
+//멤버유형 확인(멤버, 모임장.... 확인)
+export const getRole = async (id) => {
+  const response = await instance.get(`agits/${id}/role`);
+  return response;
+};
+
+//공통 회비 조회(남은 회비 잔액, 회비 날짜)
+export const getCommonDues = async (id) => {
+  const response = await instance.get(`agits/${id}/dues`);
+  return response;
+};
+
 // 모임통장 정보
 export const getAccount = async (id) => {
   const response = await instance.get(`agits/${id}/accounts`);
