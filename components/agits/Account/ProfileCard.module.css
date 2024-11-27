@@ -1,6 +1,6 @@
 .profile {
   border-bottom: 1px solid var(--gray-br);
-  padding-bottom: 10px;
+  padding: 10px 0;
 }
 .user_profile .top .profile_img {
   border-radius: 50%;
@@ -9,6 +9,8 @@
 .user_profile .top .profile_img.blank img {
   visibility: visible;
   opacity: 1;
+  width: 56px;
+  height: 56px;
 }
 
 .btn_submit {

@@ -38,13 +38,13 @@ export default function Page() {
         </section>
         <section>
           <Flex direction="column" gap="20px">
-            <Flex justify="between">
+            <Flex justify="between" align="center">
               <Title>미납 인원</Title>
               <Text as="p" size="2" weight="medium" className="gray_t1">
                 {profileDatas.size}명
               </Text>
             </Flex>
-            <Flex direction="column" gap="10px" asChild>
+            <Flex direction="column" asChild>
               <ul>
                 {profileDatas.list.map((profileData, i) => {
                   return <ProfileCard key={i} profileData={profileData}></ProfileCard>;

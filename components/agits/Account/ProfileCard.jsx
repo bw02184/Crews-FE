@@ -21,21 +21,6 @@ export default function ProfileCard({ profileData }) {
     }
   }, [data?.nickname, setNickname, nickname]);
 
-  const filteredInterests = (data?.interests || []).filter(
-    (interest) => !EXCLUDED_INTEREST_IDS.includes(interest.interestingId),
-  );
-  const onEditPhotoClick = () => {
-    alert('사진 수정하기가 클릭되었습니다.');
-  };
-
-  const onViewLargePhotoClick = () => {
-    alert('이미지 크게보기가 클릭되었습니다.');
-  };
-
-  const onDeletePhotoClick = () => {
-    alert('사진 삭제하기가 클릭되었습니다.');
-  };
-
   return (
     <li className={styles.profile}>
       <Flex direction="column" gap="20px" className={styles.user_profile}>
