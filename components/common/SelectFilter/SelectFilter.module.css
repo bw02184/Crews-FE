@@ -37,6 +37,10 @@
 .select.header > button::before {
   border-top: 7px solid #000;
 }
+.select > ul.scroll {
+  max-height: 215px;
+  overflow-y: auto;
+}
 .select.header > ul {
   left: 20px;
   top: 46px;
