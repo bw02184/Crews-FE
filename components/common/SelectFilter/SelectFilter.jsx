@@ -5,7 +5,16 @@ import styles from './SelectFilter.module.css';
 import { Box } from '@radix-ui/themes';
 import { useState } from 'react';
 
-export default function SelectFilter({ isHeader, as = 'params', filter, pathname, selectList, onSelect, children }) {
+export default function SelectFilter({
+  isHeader,
+  as = 'params',
+  filter,
+  pathname,
+  selectList,
+  onSelect,
+  scrollY,
+  children,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [current, setCurrent] = useState(children);
 
@@ -33,7 +42,7 @@ export default function SelectFilter({ isHeader, as = 'params', filter, pathname
         {current}
       </button>
       {isOpen && (
-        <ul>
+        <ul className={scrollY ? styles.scroll : ''}>
           {selectList.map((select, i) => {
             return (
               <li key={`selectFilter${i}`}>
