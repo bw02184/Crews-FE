@@ -40,8 +40,8 @@ export default function ProfileCard({ profileData }) {
     <li className={styles.profile}>
       <Flex direction="column" gap="20px" className={styles.user_profile}>
         <div className={styles.top}>
-          <Flex align="center" gap="20px" className={styles.top}>
-            <>
+          <Flex justify="between" align="center" gap="10px" className={styles.top}>
+            <Flex align="center" gap="20px">
               <div className={styles.img_box}>
                 <div
                   className={`${styles.profile_img} back_img ${data.profileImage == null ? styles.blank : ''}`}
@@ -68,7 +68,7 @@ export default function ProfileCard({ profileData }) {
                   {data.email}
                 </Text>
               </div>
-            </>
+            </Flex>
             <button className={styles.btn_submit}>납부 요청</button>
           </Flex>
         </div>
