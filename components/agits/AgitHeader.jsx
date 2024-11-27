@@ -4,36 +4,32 @@ import { SelectFilter, TabMenu } from '@/components/common';
 import { useEffect, useState } from 'react';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 import { useAgitInfoStore } from '@/stores/authStore';
+import { Skeleton } from '@radix-ui/themes';
+import styles from './AgitHeader.module.css';
+import { useCallAgitInfo } from '@/hooks';
 
 export default function AgitHeader({ currentId }) {
-  const [agitInfo, setAgitInfo] = useState([]);
+  const { agitInfoList } = useAgitInfoStore();
   const [agit, setAgit] = useState(null);
-  const { agitInfoList, setAgitInfoList } = useAgitInfoStore();
+
+  useCallAgitInfo();
 
   useEffect(() => {
-    const storedAgitInfo = JSON.parse(localStorage.getItem('agitInfoList')).map((agit) => ({
-      id: agit.agitId,
-      text: agit.agitName,
-      memberRole: agit.memberRole,
-    }));
-    setAgitInfo(storedAgitInfo);
-    setAgitInfoList(storedAgitInfo);
-  }, []);
-
-  useEffect(() => {
-    if (agitInfo.length > 0) {
-      const [filtered] = agitInfo.filter((select) => select.id == currentId);
+    if (agitInfoList?.length > 0) {
+      const [filtered] = agitInfoList.filter((select) => select.id == currentId);
       setAgit(filtered);
     }
-  }, [agitInfo, currentId]);
+  }, [agitInfoList, currentId]);
 
   return (
     <header>
-      <div style={{ height: 60 }}>
-        {agit && (
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitInfo}>
+      <div className={styles.agit_filter}>
+        {agit ? (
+          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitInfoList}>
             {agit?.text}
           </SelectFilter>
+        ) : (
+          <Skeleton className={styles.skeleton} />
         )}
       </div>
       <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${agit?.id}`} />

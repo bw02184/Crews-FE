@@ -1,5 +1,4 @@
 import { ButtonL, ButtonM, ImageCard, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Callout, Flex, Text } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
