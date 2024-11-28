@@ -9,24 +9,19 @@
   height: 300px;
 }
 
-.swiperSlide {
-  display: flex;
+.swiperAppendSlide {
   width: 190px;
   height: 300px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 18px;
-  border: 51px;
-  border-color: black;
-  background-color: #f0f0f0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px dashed #f0f0f0;
+  background-color: #fbfbfb;
 }
 
-.centeredContent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+.swiperCardSlide {
+  width: 190px;
+  height: 300px;
+  border-radius: 10px;
+  background-color: #fbfbfb;
 }
 
 .plusIcon {

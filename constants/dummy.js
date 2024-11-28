@@ -132,28 +132,28 @@ export const cardLists = [
     cardName: '',
     cardCode: '',
     src: '',
-    role: false,
+    agitRole: false,
   },
   {
     name: '모임명2',
     cardName: '',
     cardCode: '',
     src: '',
-    role: true,
+    agitRole: true,
   },
   {
     name: '모임명3',
     cardName: '우리카드 카드의 정석 EVERY POINT',
     cardCode: '3475',
     src: 'img_woori_card.png',
-    role: false,
+    agitRole: false,
   },
   {
     name: '모임명4',
     cardName: '우리카드 카드의 정석 EVERY POINT',
     cardCode: '3475',
     src: 'img_woori_card.png',
-    role: true,
+    agitRole: true,
   },
 ];
 
