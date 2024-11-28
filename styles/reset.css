@@ -40,11 +40,13 @@
 }
 .rt-Card {
   position: relative;
+  width: 100%;
   padding: 15px;
   border: 1px solid var(--gray-br);
   contain: initial;
   border-radius: 5px;
   overflow: visible;
+  box-sizing: border-box;
 }
 .rt-Card.card_link {
   padding: 0;
@@ -275,6 +277,11 @@ input[type='number']:disabled,
 input[type='datetime-local']:disabled,
 textarea:disabled {
   background-color: var(--gray-bg);
+}
+
+button:disabled {
+  background-color: var(--gray-br);
+  color: var(--gray-txt-2);
 }
 
 input[type='number']::-webkit-outer-spin-button,
