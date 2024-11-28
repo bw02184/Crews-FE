@@ -1,25 +1,13 @@
-.cardBox {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .swiper {
   width: 190px;
   height: 300px;
 }
 
 .swiperAppendSlide {
-  width: 190px;
-  height: 300px;
-  border-radius: 10px;
   border: 1px dashed #f0f0f0;
-  background-color: #fbfbfb;
 }
 
 .swiperCardSlide {
-  width: 190px;
-  height: 300px;
   border-radius: 10px;
   background-color: #fbfbfb;
 }

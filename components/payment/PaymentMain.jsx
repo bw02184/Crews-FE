@@ -119,10 +119,10 @@ export default function PaymentMain() {
               <Title>{agitInfo.name} 아지트</Title>
             </Box>
             <Flex direction="column" gap="20px" asChild align="center">
-              <Box className={styles.cardBox}>
+              <Box>
                 <CardInfo cardName={agitInfo.cardName} cardCode={agitInfo.cardCode}></CardInfo>
                 {paymentActivation ? (
-                  <Card className={styles.cardBox}>
+                  <Card>
                     <Flex direction="column" align="center" gap="10px">
                       {timeLeft > 0 ? <Title>결제 활성화</Title> : <Title>결제 비활성화</Title>}
                       <Box>
@@ -156,7 +156,7 @@ export default function PaymentMain() {
                     {cardLists.map((card, index) => (
                       <SwiperSlide
                         key={`card${index}`}
-                        className={card.cardName == '' ? styles.swiperAppendSlide : styles.swiperCardSlide}
+                        className={`${styles.swiperCardSlide} ${card.cardName == '' && styles.swiperAppendSlide}`}
                       >
                         {card.cardName === '' ? (
                           <Box>
