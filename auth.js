@@ -3,32 +3,41 @@ import Credentials from 'next-auth/providers/credentials';
 import { login, reissueToken } from './apis/authAPI';
 import { jwtDecode } from 'jwt-decode';
 
-const refreshAccessToken = async (token) => {
-  const { accessToken, refreshToken } = await reissueToken(token.refreshToken);
+let refreshPromise = null;
+let lastRefreshTime = 0;
+const REFRESH_COOLDOWN = 1000;
 
-  if (accessToken && refreshToken) {
+const refreshAccessToken = async (token) => {
+  if (Date.now() - lastRefreshTime < REFRESH_COOLDOWN) return token;
+  if (refreshPromise) return await refreshPromise;
+  lastRefreshTime = Date.now();
+  refreshPromise = (async () => {
+    const { accessToken, refreshToken } = await reissueToken(token.refreshToken);
+
+    if (accessToken && refreshToken) {
+      console.log('진입');
+      return {
+        ...token,
+        accessToken,
+        refreshToken,
+        access_exp: jwtDecode(accessToken).exp * 1000,
+        refresh_exp: jwtDecode(refreshToken).exp * 1000,
+      };
+    }
+
     return {
       ...token,
-      accessToken,
-      refreshToken,
-      access_exp: jwtDecode(accessToken).exp * 1000,
-      refresh_exp: jwtDecode(refreshToken).exp * 1000,
+      error: 'RefreshAccessTokenError',
     };
-  }
+  })();
 
-  return {
-    ...token,
-    error: 'RefreshAccessTokenError',
-  };
+  const result = await refreshPromise;
+  refreshPromise = null;
+  return result;
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET,
   trustHost: true,
-  session: {
-    strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // 24시간
-  },
   providers: [
     Credentials({
       credentials: {
@@ -73,6 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (Date.now() < token.access_exp) {
         return token;
       }
+
       return await refreshAccessToken(token);
     },
     async session({ session, token }) {
