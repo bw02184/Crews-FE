@@ -3,8 +3,18 @@
   height: 24px;
   border-radius: 24px;
   font-weight: 500;
+  flex: none;
 }
-.card {
+.cardList ul li {
   padding: 10px;
   border-top: 1px solid #f0f0f0;
+}
+.cardList ul li:first-of-type {
+  border-top: none;
+}
+.txt {
+  width: 199px;
+}
+.txt span {
+  text-decoration: underline;
 }
