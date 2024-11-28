@@ -1,9 +1,8 @@
 'use client';
 
-import { ButtonL, ImageCard, Modal, SelectFilter, TabMenu, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
+import { ButtonL, ImageCard, Modal, TabMenu, Title } from '@/components/common';
 import { tabMenuList } from '@/constants/tabMenuList/service';
-import { Box, Flex, Text } from '@radix-ui/themes';
+import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import styles from './page.module.css';
 import { agits } from '@/constants/dummy';
@@ -26,14 +25,12 @@ export default function Service() {
       </Modal>
       <div className="page">
         <header>
-          <Box className={styles.header_top}>
-            <SelectFilter isHeader={true} selectList={agitsSelectMenuList}>
-              {agitsSelectMenuList[0].text}
-            </SelectFilter>
+          <Flex justify="between" align="center" className={styles.header_top}>
+            <Heading as="h1">CREWS</Heading>
             <Link href="/service/payment">
               <Image src="/icons/ico_payment.svg" width={18} height={18} alt="결제하기" />
             </Link>
-          </Box>
+          </Flex>
           <Suspense>
             <TabMenu as="button" tabMenuList={tabMenuList} />
           </Suspense>

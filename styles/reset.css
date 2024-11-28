@@ -40,11 +40,13 @@
 }
 .rt-Card {
   position: relative;
+  width: 100%;
   padding: 15px;
   border: 1px solid var(--gray-br);
   contain: initial;
   border-radius: 5px;
   overflow: visible;
+  box-sizing: border-box;
 }
 .rt-Card.card_link {
   padding: 0;

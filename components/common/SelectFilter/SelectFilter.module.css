@@ -1,9 +1,6 @@
 .select {
   position: relative;
 }
-.select.header {
-  padding: 14px 20px;
-}
 .select > button {
   position: relative;
   display: inline-block;

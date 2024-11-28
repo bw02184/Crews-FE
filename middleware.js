@@ -1,8 +1,7 @@
 'use server';
+
 import { auth } from './auth';
 import { NextResponse } from 'next/server';
-import { signOut } from 'next-auth/react';
-
 export default async function middleware(request) {
   console.log('middleware 접속');
 
@@ -11,8 +10,7 @@ export default async function middleware(request) {
 
   if (!isAgits && session?.error === 'RefreshAccessTokenError') {
     console.log('RefreshAccessTokenError()');
-    await signOut(); // auth js 로그아웃
-    return NextResponse.redirect(new URL('/service/login', request.url));
+    return NextResponse.redirect(new URL('/service/logout', request.url));
   }
 
   const accessToken = session?.accessToken;
