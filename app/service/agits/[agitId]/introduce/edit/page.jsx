@@ -1,14 +1,12 @@
 'use client';
 
-import { SelectFilter, TabMenu, Title, Label, ButtonL } from '@/components/common';
+import { Title, Label, ButtonL } from '@/components/common';
 import { Flex, Box, Text } from '@radix-ui/themes';
-import { tabMenuList } from '@/constants/tabMenuList/agits';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import AgitHeader from '@/components/agits/AgitHeader';
 
 export default function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const {
     register,
     handleSubmit,
@@ -39,14 +37,7 @@ export default function Page({ params }) {
 
   return (
     <div className="page">
-      <header>
-        <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-            {agits?.text}
-          </SelectFilter>
-        </Box>
-        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
-      </header>
+      <AgitHeader currentId={params.agitId} />
       <Flex direction="column" gap="10px" className="content">
         <section>
           <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,9 +1,6 @@
 .select {
   position: relative;
 }
-.select.header {
-  padding: 14px 20px;
-}
 .select > button {
   position: relative;
   display: inline-block;
@@ -40,10 +37,6 @@
 .select > ul.scroll {
   max-height: 215px;
   overflow-y: auto;
-}
-.select.header > ul {
-  left: 20px;
-  top: 46px;
 }
 .select > ul button.active {
   background-color: var(--gray-br);
