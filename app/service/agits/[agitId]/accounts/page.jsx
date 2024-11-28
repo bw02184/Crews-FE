@@ -33,7 +33,10 @@ export default async function Page({ params }) {
           <Flex direction="column" gap="20px">
             <Title>모임통장 상세</Title>
             {data.ci == null ? <NoAccount></NoAccount> : <Account data={data} />}
-            <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '회비 납부하기' }} />
+            <ButtonM
+              leftButton={{ text: '권한 요청하기' }}
+              rightButton={{ text: '회비 납부하기', as: 'link', href: `/service/agits/${params.agitId}/accounts/dues` }}
+            />
           </Flex>
         </section>
         <section>
