@@ -1,0 +1,23 @@
+.cardList ul li {
+  padding: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+.cardList ul li:first-of-type {
+  border-top: none;
+}
+.cardList ul li .img_box {
+  flex: none;
+}
+.cardList ul li .txt {
+  width: 100%;
+}
+.cardList ul li .captain_btn {
+  min-width: 75px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  flex: none;
+}

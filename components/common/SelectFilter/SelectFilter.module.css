@@ -38,10 +38,6 @@
   max-height: 215px;
   overflow-y: auto;
 }
-.select.header > ul {
-  left: 20px;
-  top: 46px;
-}
 .select > ul button.active {
   background-color: var(--gray-br);
   font-weight: 700;
