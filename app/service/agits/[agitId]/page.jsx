@@ -1,6 +1,6 @@
 import { ButtonL, ButtonM, ImageCard, SelectFilter, TabMenu, Title } from '@/components/common';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
-import { Box, Callout, Flex, Text } from '@radix-ui/themes';
+import { Box, Callout, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
 
@@ -8,13 +8,13 @@ import { feeds, events } from '@/constants/dummy';
 import { tabMenuList } from '@/constants/tabMenuList/agits';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/agits/Account/Account';
-import { getAccount, getCommonDues, getRole } from '@/apis/agitsAPI';
+import { getAccount, getDues, getRole } from '@/apis/agitsAPI';
 import Link from 'next/link';
 import NoAccount from '@/components/agits/Account/NoAccount';
 
 export default async function Page({ params }) {
   const role = await getRole(params.agitId);
-  const dues = await getCommonDues(params.agitId);
+  const dues = await getDues(params.agitId);
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
 
@@ -32,7 +32,7 @@ export default async function Page({ params }) {
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">
-            {role === 'MEMBER' && (
+            {role === 'MEMBER' && dues.dueAmount != null && (
               <>
                 {dues.dueAmount !== 0.0 ? (
                   <Callout.Root color="red">

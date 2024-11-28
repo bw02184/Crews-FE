@@ -14,7 +14,7 @@ import AccountDetail from '@/components/agits/Account/AccountDetail';
 export default async function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
-  const accountDetails = await getAccountDetails(params.agitId, 3, 'ALL', 'ASC');
+  const accountDetails = await getAccountDetails(params.agitId, 3, 'ALL', 'DESC');
   console.log(data);
   console.log(accountDetails);
 

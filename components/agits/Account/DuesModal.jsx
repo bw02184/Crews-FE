@@ -1,7 +1,7 @@
 'use client';
 import { ButtonS, Modal } from '@/components/common';
 import useModal from '@/hooks/useModal';
-import { Box, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import DuesModalContent from './DuesModalContent';
 
 export default function DuesModal() {
