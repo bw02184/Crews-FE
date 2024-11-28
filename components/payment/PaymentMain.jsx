@@ -115,9 +115,7 @@ export default function PaymentMain() {
       <Box direction="column" className="content">
         <Flex direction="column" gap="20px" asChild>
           <section>
-            <Box>
-              <Title>{agitInfo.name} 아지트</Title>
-            </Box>
+            <Title>{agitInfo.name} 아지트</Title>
             <Flex direction="column" gap="20px" asChild align="center">
               <Box>
                 <CardInfo cardName={agitInfo.cardName} cardCode={agitInfo.cardCode}></CardInfo>
