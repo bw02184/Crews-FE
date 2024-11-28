@@ -7,11 +7,13 @@ import { ButtonL, Toast } from '@/components/common';
 import { credentialSignIn } from '@/apis/authAPI';
 import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks';
+import { useState } from 'react';
+import { getAgitInfo } from '@/apis/agitsAPI';
 
 export default function LoginForm() {
   const { data: session, update } = useSession();
   const { toast, setToast, toastMessage, showToast } = useToast();
-
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,12 +22,19 @@ export default function LoginForm() {
   } = useForm();
 
   const onSubmit = async ({ email, password }) => {
+    setIsLoading(true);
     const response = await credentialSignIn(email, password);
     if (typeof response === 'object' && response.message) {
       showToast('로그인에 실패했습니다!');
       reset({ password: '' });
+      setIsLoading(false);
     } else {
-      update();
+      await update();
+
+      const response = await getAgitInfo();
+      if (!response.errorCode) {
+        localStorage.setItem('agitInfoList', JSON.stringify(response.agitInfoList));
+      }
     }
   };
   return (
@@ -94,8 +103,8 @@ export default function LoginForm() {
             </Box>
           </Box>
           <Box className="btn_group">
-            <ButtonL type="submit" style="deep">
-              로그인
+            <ButtonL type="submit" style="deep" disabled={isLoading}>
+              {isLoading ? '로그인 중...' : '로그인'}
             </ButtonL>
             <Box className="btm_util" mt="10px">
               <Flex justify="center" align="center" gap="20px" asChild>

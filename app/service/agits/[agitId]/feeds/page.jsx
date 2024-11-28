@@ -1,8 +1,6 @@
 'use client';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import { SelectFilter, TabMenu, Title, ButtonS, Modal, ButtonM } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
-import { tabMenuList } from '@/constants/tabMenuList/agits';
+import { Title, ButtonS, Modal, ButtonM } from '@/components/common';
 import styles from './page.module.css';
 import { feeds } from '@/constants/dummy';
 import Link from 'next/link';
@@ -10,8 +8,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useModal } from '@/hooks';
 import { useForm } from 'react-hook-form';
+import AgitHeader from '@/components/agits/AgitHeader';
 export default function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const [isLiked, setIsLiked] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const {
@@ -97,14 +95,7 @@ export default function Page({ params }) {
         </form>
       </Modal>
       <div className="page">
-        <header>
-          <Box>
-            <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-              {agits?.text}
-            </SelectFilter>
-          </Box>
-          <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
-        </header>
+        <AgitHeader currentId={params.agitId} />
         <Flex direction="column" gap="10px" className="content">
           <section>
             <Flex direction="column" gap="20px">
@@ -164,7 +155,7 @@ export default function Page({ params }) {
                               )}
                             </button>
                           </Box>
-                          <Link href={`/service/agits/${agits?.id}/feeds/${feed?.id}`}>
+                          <Link href={`/service/agits/${params.agitId}/feeds/${feed?.id}`}>
                             <Flex direction="column" gap="5px">
                               <Flex justify="between" align="center" wrap="wrap" className={styles.info}>
                                 <em>2024.11.07</em>

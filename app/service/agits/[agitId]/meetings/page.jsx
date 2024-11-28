@@ -1,23 +1,16 @@
 'use client';
 
-import { ImageCard, SelectFilter, TabMenu, Title, ButtonS } from '@/components/common';
+import { ImageCard, Title, ButtonS } from '@/components/common';
 import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex } from '@radix-ui/themes';
-import { tabMenuList } from '@/constants/tabMenuList/agits';
+import AgitHeader from '@/components/agits/AgitHeader';
 
 export default function Page({ params }) {
   const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
 
   return (
     <div className="page">
-      <header>
-        <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-            {agits?.text}
-          </SelectFilter>
-        </Box>
-        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
-      </header>
+      <AgitHeader currentId={params.agitId} />
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">

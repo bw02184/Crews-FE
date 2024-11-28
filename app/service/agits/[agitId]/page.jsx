@@ -1,30 +1,20 @@
-import { ButtonL, ButtonM, ImageCard, SelectFilter, TabMenu, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
+import { ButtonL, ButtonM, ImageCard, Title } from '@/components/common';
 import { Box, Callout, Flex, Text } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
 
 import { feeds, events } from '@/constants/dummy';
-import { tabMenuList } from '@/constants/tabMenuList/agits';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Account from '@/components/agits/Account/Account';
 import { getAccount } from '@/apis/agitsAPI';
 import Link from 'next/link';
+import AgitHeader from '@/components/agits/AgitHeader';
 
 export default async function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
   return (
     <div className="page">
-      <header>
-        <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-            {agits?.text}
-          </SelectFilter>
-        </Box>
-        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
-      </header>
-
+      <AgitHeader currentId={params.agitId} />
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">

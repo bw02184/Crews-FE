@@ -36,8 +36,8 @@ const fetchInstance = async (url, options) => {
       else return await response.text();
     }
   } catch (error) {
-    console.log('fetch error: ', error);
-    throw new Error(`fetch error [${error}]`);
+    console.log('Fetch error: ', error);
+    throw new Error(`Fetch error [${error}]`);
   }
 };
 

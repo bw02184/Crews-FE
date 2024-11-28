@@ -1,20 +1,11 @@
-import { Label, SelectFilter, TabMenu, Title, ButtonL } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
+import { Label, Title, ButtonL } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import { tabMenuList } from '@/constants/tabMenuList/agits';
+import AgitHeader from '@/components/agits/AgitHeader';
 
 export default async function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   return (
     <div className="page">
-      <header>
-        <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-            {agits?.text}
-          </SelectFilter>
-        </Box>
-        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} />
-      </header>
+      <AgitHeader currentId={params.agitId} />
       <Box className="content">
         <section>
           <Flex direction="column" gap="20px">
