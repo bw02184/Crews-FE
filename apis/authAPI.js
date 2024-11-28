@@ -74,3 +74,21 @@ export const logout = async () => {
 
   return response;
 };
+
+// 아이디 찾기
+export const idFind = async (name, phoneNumber) => {
+  const response = await instance.post('members/find-id', {
+    body: JSON.stringify({ name, phoneNumber }),
+  });
+
+  return response;
+};
+
+// 비밀번호 찾기
+export const pwFind = async (email, name, phoneNumber) => {
+  const response = await instance.post('members/find-pw', {
+    body: JSON.stringify({ email, name, phoneNumber }),
+  });
+
+  return response;
+};
