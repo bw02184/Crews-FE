@@ -15,7 +15,6 @@ const refreshAccessToken = async (token) => {
     const { accessToken, refreshToken } = await reissueToken(token.refreshToken);
 
     if (accessToken && refreshToken) {
-      console.log('진입');
       return {
         ...token,
         accessToken,
