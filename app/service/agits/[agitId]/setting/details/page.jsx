@@ -1,28 +1,17 @@
 import { Header, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex } from '@radix-ui/themes';
 
 import ProfileCardList from '@/components/agits/ProfileCardList';
 
-export default function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
-
+export default function Page() {
   return (
     <div className="page">
-      <Header side="center">{`${agits.text} 멤버`}</Header>
+      <Header side="center">아지트 멤버</Header>
       <Box className="content">
         <section>
-          <Flex direction="column">
-            <Flex justify="between" align="center" wrap="wrap">
-              <Title>{`총 ${agits.id}명`} </Title>
-            </Flex>
-            <Flex>
-              <ul>
-                <ProfileCardList status="account" />
-                <ProfileCardList status="account" />
-                <ProfileCardList status="account" />
-              </ul>
-            </Flex>
+          <Flex direction="column" gap="20px">
+            <Title>총 5명</Title>
+            <ProfileCardList status="member" />
           </Flex>
         </section>
       </Box>

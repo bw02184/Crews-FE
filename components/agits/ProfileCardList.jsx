@@ -41,13 +41,13 @@ export default function ProfileCardList({ status }) {
             <Flex align="center" gap="20px">
               <Box className={`${styles.img_box} img`}>
                 <Box className="img" style={{ backgroundImage: `url(/imgs/img_bg_profile.jpg)` }}>
-                  <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`dddd 프로필 이미지`} />
+                  <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`ㅇㅇㅇ 프로필 이미지`} />
                 </Box>
               </Box>
 
               <Box direction="column" className={styles.txt}>
                 <Text as="p" weight="bold">
-                  <span>홍길동-가나다라mav</span> 님
+                  <span className="underline">홍길동-가나다라mav</span> 님
                 </Text>
                 <Text as="p" size="2" className="gray_t2">
                   abc@naver.com
