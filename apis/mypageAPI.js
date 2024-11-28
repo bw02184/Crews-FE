@@ -32,12 +32,6 @@ export const updateProfileImage = async (formData) => {
   return response;
 };
 
-// 전체 관심사 목록 조회
-export const getAllInterests = async () => {
-  const response = await instance.get('interests');
-  return response;
-};
-
 // 회원 관심사 목록 조회
 export const getInterests = async () => {
   const response = await instance.get('members/me/interests');

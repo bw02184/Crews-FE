@@ -1,6 +1,7 @@
 import { Header } from '@/components/common';
 import InterestForm from '@/components/mypage/form/InterestForm';
-import { getAllInterests, getInterests } from '@/apis/mypageAPI';
+import { getInterests } from '@/apis/mypageAPI';
+import { getAllInterests } from '@/apis/utilAPI';
 
 export default async function Page() {
   const interestData = await getInterests();
