@@ -1,9 +1,11 @@
-'use client';
-
-import { useNavVisible } from '@/hooks';
+import { Header } from '@/components/common';
+import PaymentMain from '@/components/payment/PaymentMain';
 
 export default function Payment() {
-  useNavVisible(false);
-
-  return <div>결제 페이지</div>;
+  return (
+    <div className="page">
+      <Header side="center"> 결제</Header>
+      <PaymentMain></PaymentMain>
+    </div>
+  );
 }
