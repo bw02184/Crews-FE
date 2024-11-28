@@ -1,0 +1,22 @@
+.top {
+  margin: 0 auto;
+  max-width: 250px;
+}
+.input input {
+  border: none;
+  border-bottom: 2px solid var(--gray-br);
+  outline: none;
+  border-radius: 0;
+  height: 30px;
+  width: 200px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0;
+}
+.box_width {
+  width: 100%;
+}
+.checkbox_container {
+  display: block;
+}

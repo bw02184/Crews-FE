@@ -18,10 +18,12 @@ export default async function Page({ params }) {
       <Box className="content">
         <section>
           <Flex direction="column" gap="20px">
-            <Flex justify="between">
+            <Box className="title_btn">
               <Title>어쩌고저쩌고 아지트명</Title>
-              <Label style="lime">반려동물</Label>
-            </Flex>
+              <div className="right_top">
+                <Label style="lime">반려동물</Label>
+              </div>
+            </Box>
             <Flex direction="column" gap="20px">
               <Box className="img_box">
                 <div className="img">
