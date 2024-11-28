@@ -12,14 +12,13 @@ export default async function Page() {
 
   const accountData = (await getPersonalAccounts()) || [];
   if (accountData?.error) {
-    throw new Error(accountData.error);
+    throw new Error(accountData.message);
   }
-  console.log(JSON.stringify(accountData));
 
   return (
     <Flex direction="column" gap="20px">
       <MyAccount data={accountData} />
-      {agitCardData.length > 0 ? <AgitCard agitCardData={agitCardData} /> : <></>}
+      {agitCardData.length && <AgitCard agitCardData={agitCardData} />}
       <ButtonL as="link" href="/service/mypage/fee" style="deep">
         회비 납부하기
       </ButtonL>
