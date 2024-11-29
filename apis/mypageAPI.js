@@ -81,12 +81,6 @@ export const getMyAgitCards = async () => {
   return response;
 };
 
-// 모임카드 연결
-// export const attachCrewCard = async (cardId, crewId) => {
-//   const response = await instance.post('members/me/cards', {});
-//   return response;
-// };
-
 // 모임카드 해지
 export const detachAgitCard = async (cardId) => {
   const response = await instance.delete(`members/me/agits-cards`, { body: JSON.stringify({ cardId }) });
@@ -121,13 +115,15 @@ export const attachBankAccount = async (accountNumbers) => {
 
 // 회비 납부 정보 조회
 export const getFeePaymentInfo = async (crewId) => {
-  const response = await instance.get(`crews/${crewId}/fees`);
+  const response = await instance.get(`members/me/agits-accounts`);
+
   return response;
 };
 
 // 회비 납부하기
 export const payCrewFee = async (crewId, amount, accountId) => {
   const response = await instance.post(`crews/${crewId}/fees/payment`, {});
+  revalidatePath('/service/mypage/fee');
   return response;
 };
 

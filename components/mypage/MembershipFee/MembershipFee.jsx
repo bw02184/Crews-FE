@@ -6,70 +6,68 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
 import { useModal } from '@/hooks';
+import { useRouter } from 'next/navigation';
+import useSWR from 'swr';
+import instance from '@/apis/instance';
 
-const crewaccountlist = [
-  {
-    id: 1,
-    crewName: 'A모임',
-    img: '/dev/img_bank.jpg',
-    name: 'KB국민ONE통장',
-    accountNumber: '987654321123',
-    payday: 14,
-    amount: 10000,
-  },
-  {
-    id: 2,
-    crewName: '우리모임',
-    img: '/dev/img_bank.jpg',
-    name: '우리CUBE통장',
-    accountNumber: '110467158676',
-    payday: 13,
-    amount: 20000,
-  },
-  {
-    id: 3,
-    crewName: '너네모임',
-    img: '/dev/img_bank.jpg',
-    name: '신한 주거래 우대통장',
-    accountNumber: '330467158676',
-    payday: 12,
-    amount: 30000,
-  },
-];
+export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
+  const { data: crewData = [] } = useSWR('members/me/agits-accounts', () => instance.get('members/me/agits-accounts'), {
+    fallbackData: crewFallbackData,
+  });
 
-export default function MembershipFee() {
-  const [selectedAccount, setSelectedAccount] = useState(crewaccountlist[0]);
+  const { data: myData = [] } = useSWR('members/me/my-accounts', () => instance.get('members/me/my-accounts'), {
+    fallbackData: myFallbackData,
+  });
+  console.log('aaaaaa', myFallbackData);
+  console.log('aaaaaa', crewFallbackData);
+  const [selectedCrewAccount, setSelectedCrewAccount] = useState(() => crewFallbackData?.[0] || null);
+  const [selectedMyAccount, setSelectedMyAccount] = useState(() => myFallbackData?.[0] || null);
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSelect = (filter, params) => {
-    const selected = crewaccountlist.find((item) => item.params === params);
-    setSelectedAccount(selected);
+
+  const handleCrewSelect = (filter, params) => {
+    const selected = crewData.find((item) => item.agitId === params);
+    setSelectedCrewAccount(selected);
   };
+
+  const handleMySelect = (filter, params) => {
+    const selected = myData.find((item) => item.accountId === params);
+    setSelectedMyAccount(selected);
+  };
+  console.log('bbbbbb', myFallbackData);
+  console.log('bbbbb', crewFallbackData);
+  const router = useRouter();
+
   return (
     <Flex direction="column" gap="20px">
       <Flex direction="column" gap="10px">
         <SelectFilter
-          selectList={crewaccountlist.map((account) => ({
+          selectList={crewFallbackData.map((account) => ({
             ...account,
-            text: account.crewName,
-            params: account.id,
+            text: account.agitName,
+            params: account.agitId,
           }))}
-          onSelect={handleSelect}
+          onSelect={handleCrewSelect}
         >
-          {crewaccountlist[0].crewName}
+          {crewFallbackData[0].agitName}
         </SelectFilter>
         <Card>
           <Flex align="center" gap="10px">
-            <Box className={styles.img_box}>
-              <Box className="back_img" style={{ backgroundImage: `url(${selectedAccount.img})` }}>
-                <Image src={selectedAccount.img} width={36} height={36} alt={selectedAccount.name} />
+            {selectedCrewAccount && (
+              <Box className={styles.img_box}>
+                <Box
+                  className="back_img"
+                  style={{ backgroundImage: `url(${selectedCrewAccount.bankImage || '/default-image.jpg'})` }}
+                >
+                  <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt={selectedCrewAccount.name} />
+                </Box>
               </Box>
-            </Box>
+            )}
             <Flex direction="column" gap="2px">
               <Text as="p" size="2" weight="medium">
-                {selectedAccount.name}
+                {selectedCrewAccount.name}
               </Text>
               <Text as="p" size="3" className="gray_t2">
-                {selectedAccount.accountNumber}
+                {selectedCrewAccount.accountNumber}
               </Text>
             </Flex>
           </Flex>
@@ -80,7 +78,7 @@ export default function MembershipFee() {
             <InfoCircledIcon />
           </Callout.Icon>
           <Callout.Text>
-            납부일은 매월 {selectedAccount.payday}일 {selectedAccount.amount}원 입니다.
+            납부일은 매월 {selectedCrewAccount.payday}일 {selectedCrewAccount.ammount}원 입니다.
           </Callout.Text>
         </Callout.Root>
       </Flex>
@@ -90,20 +88,28 @@ export default function MembershipFee() {
           <Image src="/icons/ico_up_arrow.svg" width={30} height={30} alt="up arrow" />
         </Box>
         <Flex direction="column" gap="10px">
-          <SelectFilter filter="location" selectList={crewaccountlist} onSelect={handleSelect}>
-            {crewaccountlist[0].text}
+          <SelectFilter
+            selectList={myFallbackData.map((account) => ({
+              ...account,
+              text: account.accountName,
+              params: account.accountId,
+            }))}
+            onSelect={handleMySelect}
+          >
+            {myFallbackData[0].accountName}
           </SelectFilter>
+
           <Card>
             <Flex justify="between" align="center">
               <Strong>
-                <span className="underline">우리FISA 통장</span>
+                <span className="underline">{selectedMyAccount.accountName}</span>
               </Strong>
               <Text size="2" className="gray_t2">
                 에서
               </Text>
             </Flex>
             <Flex justify="between" align="center">
-              <Strong>30,000</Strong>
+              <Strong>{selectedCrewAccount.ammount}</Strong>
               <Text size="2" className="gray_t2">
                 원 만큼
               </Text>
