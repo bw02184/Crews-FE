@@ -92,3 +92,61 @@ export const pwFind = async (email, name, phoneNumber) => {
 
   return response;
 };
+
+// 인증번호 요청
+export const verifyNumber = async (phoneNumber) => {
+  const response = await instance.post('members/verify-number', {
+    body: JSON.stringify({ phoneNumber }),
+  });
+
+  return response;
+};
+
+// 인증번호 검증
+export const verifyPhone = async (phoneNumber, verifyNumber) => {
+  const response = await instance.post('members/verify-phone', {
+    body: JSON.stringify({ phoneNumber, verifyNumber }),
+  });
+
+  return response;
+};
+
+// 이메일 중복확인
+export const validateEmail = async (email) => {
+  const response = await instance.post('members/signup/validate-email', {
+    body: JSON.stringify({ email }),
+  });
+
+  return response;
+};
+
+// 회원가입
+export const signUp = async (
+  email,
+  password,
+  name,
+  phoneNumber,
+  profileImage,
+  addressDo,
+  addressSi,
+  addressGuGun,
+  addressDong,
+  pinNumber,
+) => {
+  const response = await instance.post('members/signup', {
+    body: JSON.stringify({
+      email,
+      password,
+      name,
+      phoneNumber,
+      profileImage,
+      addressDo,
+      addressSi,
+      addressGuGun,
+      addressDong,
+      pinNumber,
+    }),
+  });
+
+  return response;
+};

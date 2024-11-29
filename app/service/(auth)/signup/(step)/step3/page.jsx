@@ -9,9 +9,9 @@ export default function Page({ searchParams }) {
       <section>
         <Flex direction="column" gap="20px">
           <Step activeIdx={3} />
-          <PinNumberText stage={searchParams.stage} status={searchParams.status} defaultParams={'create'} />
+          <PinNumberText stage={searchParams.stage} status={searchParams.status} defaultStage={'create'} />
           <Suspense>
-            <PinNumber defaultParams={'create'} />
+            <PinNumber defaultStage={'create'} />
           </Suspense>
         </Flex>
       </section>

@@ -137,6 +137,9 @@
 .row .input {
   position: relative;
 }
+.row .input.disabled input {
+  color: var(--gray-txt-2);
+}
 .row .input_file input[type='file'] {
   display: none;
 }
@@ -157,8 +160,12 @@
   text-align: center;
   transition: background-color 0.2s linear;
 }
-.row .input_btn button:hover,
-.row .input_file label:hover {
+.row .input_btn.disabled button,
+.row .input_file.disabled label {
+  background-color: #5a647a;
+}
+.row .input_btn:not(.disabled) button:hover,
+.row .input_file:not(.disabled) label:hover {
   background-color: #5a647a;
 }
 /* error_page */
@@ -223,7 +230,7 @@
   left: 0;
   top: 100%;
   margin-top: 5px;
-  width: 110px;
+  width: 180px;
   padding: 7px;
   border: 1px solid var(--gray-br);
   border-radius: 5px;

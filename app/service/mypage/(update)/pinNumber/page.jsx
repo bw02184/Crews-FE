@@ -9,9 +9,9 @@ export default function Page({ searchParams }) {
       <div className="content">
         <section>
           <Flex direction="column" gap="20px">
-            <PinNumberText stage={searchParams.stage} defaultParams={'update'} />
+            <PinNumberText stage={searchParams.stage} defaultStage={'update'} />
             <Suspense>
-              <PinNumber defaultParams={'update'} />
+              <PinNumber defaultStage={'update'} />
             </Suspense>
           </Flex>
         </section>

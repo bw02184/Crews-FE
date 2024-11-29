@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import { useModal, useToast } from '@/hooks';
+import { useSignupStore } from '@/stores/authStore';
 
 const doList = ['강원특별자치도', '경기', '경남', '경북', '전남', '전북특별자치도', '충남', '충북', '제주특별자치도'];
 const majorCities = ['서울', '부산', '대구', '인천', '광주', '대전', '울산'];
@@ -124,10 +125,11 @@ export default function AddressPostcode({ initialAddress, status }) {
     closeModal();
   };
 
+  const { user, setUserField } = useSignupStore();
   const handleUpdateAddress = async (data) => {
     const isEmpty = isAddressEmpty(data.address);
     if (isEmpty) {
-      showToast('활동 지역을 최소 1개 이상 설정해주세요!');
+      showToast('활동 지역을 설정해주세요!');
       return;
     }
     const address = {
@@ -147,7 +149,18 @@ export default function AddressPostcode({ initialAddress, status }) {
         router.push('/service/mypage');
       }
     } else {
-      console.log('회원가입 로직');
+      if ((user.email == '') | (user.password == '') | (user.name == '') | (user.phoneNumber == '')) {
+        alert('회원정보를 먼저 입력해주세요!');
+        router.push('/service/signup/step1');
+        return;
+      }
+
+      setUserField('addressDo', data.address.doName);
+      setUserField('addressSi', data.address.siName);
+      setUserField('addressGuGun', data.address.guName);
+      setUserField('addressDong', data.address.dongName);
+
+      router.push('/service/signup/step3?stage=create');
     }
   };
 
@@ -188,7 +201,10 @@ export default function AddressPostcode({ initialAddress, status }) {
               수정
             </ButtonL>
           ) : (
-            <ButtonM leftButton={{ text: '이전' }} rightButton={{ text: '다음' }} />
+            <ButtonM
+              leftButton={{ as: 'link', href: '/service/signup/step1', text: '이전' }}
+              rightButton={{ type: 'submit', text: '다음' }}
+            />
           )}
           <div className="hidden">
             <input type="hidden" {...register('address.doName')} />
