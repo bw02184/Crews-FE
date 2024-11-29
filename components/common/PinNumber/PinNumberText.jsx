@@ -16,11 +16,6 @@ export default function PinNumberText({ stage, status, defaultStage }) {
             생성한 PIN번호를 <span className="underline">다시 한 번 입력</span>해주세요.
           </>
         )}
-        {(stage == 'auth' || defaultStage == 'auth') && (
-          <>
-            <span className="underline">PIN번호를 인증</span>해주세요.
-          </>
-        )}
         {(stage == 'update' || defaultStage == 'update') && (
           <>
             <span className="underline">PIN번호를 변경</span>합니다.
@@ -35,10 +30,9 @@ export default function PinNumberText({ stage, status, defaultStage }) {
               PIN번호를 생성합니다. 연속된 숫자나 의미있는 조합은 피해주세요.
             </>
           )}
-          {((stage == 'create' && status == 'confirm') ||
-            (stage == 'create' && status == 'error') ||
-            stage == 'auth' ||
-            defaultStage == 'auth') && <>정확히 일치해야 합니다.</>}
+          {((stage == 'create' && status == 'confirm') || (stage == 'create' && status == 'error')) && (
+            <>정확히 일치해야 합니다.</>
+          )}
           {(stage == 'update' || defaultStage == 'update') && status == undefined && (
             <>기존에 사용하던 PIN 번호를 입력해주세요.</>
           )}

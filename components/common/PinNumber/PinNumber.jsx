@@ -11,7 +11,7 @@ import scrollToTop from '@/utils/scrollToTop';
 import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 
-export default function PinNumber({ defaultStage }) {
+export default function PinNumber({ defaultStage, dafaultStatus, data }) {
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -73,8 +73,6 @@ export default function PinNumber({ defaultStage }) {
       return;
     }
 
-    console.log(status);
-
     if (stage == 'create') {
       if ((user.email == '') | (user.password == '') | (user.name == '') | (user.phoneNumber == '')) {
         alert('회원정보를 먼저 입력해주세요!');
@@ -135,7 +133,14 @@ export default function PinNumber({ defaultStage }) {
     }
 
     if (stage == 'auth') {
-      router.push(`?stage=${stage}&status=error`);
+      console.log(pinNumber); // 입력한 pin번호
+      console.log(data); // 위에서 props로 내려준 data
+      if (status == 'transfer') {
+        // 이체 로직
+      }
+      if (status == 'payment') {
+        // 결제 로직
+      }
     }
   };
 
@@ -145,7 +150,7 @@ export default function PinNumber({ defaultStage }) {
         <Text>{toastMessage}</Text>
       </Toast>
       <Flex direction="column" gap="20px" asChild>
-        <form onSubmit={handleSubmit(handleSubmitPinNumber)}>
+        <form onSubmit={handleSubmit(handleSubmitPinNumber)} className={data ? styles.modal : ''}>
           <Flex direction="column" gap="10px">
             <Box className={styles.input_list}>
               <Flex gap="10px" asChild>
