@@ -10,6 +10,7 @@ import { useToast } from '@/hooks';
 import scrollToTop from '@/utils/scrollToTop';
 import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
+import { updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 
 export default function PinNumber({ defaultStage, dafaultStatus, data }) {
   // 입력값 관리
@@ -91,7 +92,7 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
         router.push(`?stage=${stage}&status=confirm`);
         handleReset();
         return;
-      } else if (status == 'confirm') {
+      } else if (status == 'confirm' || status == 'error') {
         if (pinNumber == stash) {
           setUserField('pinNumber', pinNumber);
           setIsLoading(true);
@@ -129,7 +130,45 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
     }
 
     if (stage == 'update') {
-      router.push(`?stage=${stage}&status=confirm`);
+      if (status == null) {
+        const response = await verifyPinNumber(pinNumber);
+        if (response?.errorCode) {
+          scrollToTop();
+          showToast(response.message);
+          return;
+        }
+        alert('인증완료!');
+        router.push(`?stage=${stage}&status=change`);
+        handleReset();
+        return;
+      } else if (status == 'change') {
+        setStash(pinNumber);
+        router.push(`?stage=${stage}&status=changeConfirm`);
+        handleReset();
+        return;
+      } else if (status == 'changeConfirm' || status == 'error') {
+        if (pinNumber == stash) {
+          setIsLoading(true);
+          const response = await updatePinNumber(pinNumber);
+          setIsLoading(false);
+
+          if (response?.errorCode) {
+            scrollToTop();
+            showToast(response.message);
+            return;
+          } else {
+            alert('PIN번호 변경이 완료되었습니다!');
+            router.push('/service/mypage');
+            return;
+          }
+        } else {
+          scrollToTop();
+          showToast('PIN번호가 일치하지 않습니다!');
+          router.push(`?stage=${stage}&status=error`);
+          handleReset();
+          return;
+        }
+      }
     }
 
     if (stage == 'auth') {
@@ -146,7 +185,7 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
 
   return (
     <>
-      <Toast as="alert" isActive={toast} onClose={() => setToast(false)}>
+      <Toast as="alert" isActive={toast} onClose={() => setToast(false)} autoClose={1500}>
         <Text>{toastMessage}</Text>
       </Toast>
       <Flex direction="column" gap="20px" asChild>
@@ -208,13 +247,18 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
           </Flex>
           <Box className="btn_group">
             {stage == 'create' && status == undefined && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
-            {(status == 'confirm' || (stage == 'auth' && status == undefined) || stage == 'update') && (
+            {(status == 'confirm' ||
+              (stage == 'auth' && status == undefined) ||
+              (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
               <ButtonM rightButton={{ type: 'submit', text: '확인', isLoading }} />
+            )}
+            {stage == 'update' && status == 'change' && (
+              <ButtonM rightButton={{ type: 'submit', text: '변경', isLoading }} />
             )}
             {stage != 'auth' && status == 'error' && (
               <ButtonM
-                leftButton={{ type: 'button', text: '재입력', onClick: handleReset }}
-                rightButton={{ type: 'button', text: '재설정', onClick: handleReSetting }}
+                leftButton={{ type: 'button', text: '재설정', onClick: handleReSetting }}
+                rightButton={{ type: 'submit', text: '확인' }}
               />
             )}
             {stage == 'auth' && status == 'error' && (
