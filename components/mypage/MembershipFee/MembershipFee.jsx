@@ -2,13 +2,14 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Callout, Card, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './MembershipFee.module.css';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
 import { useModal } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import instance from '@/apis/instance';
+import { useMembershipStore } from '@/stores/mypageStore';
 
 export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
   const { data: crewData = [] } = useSWR('members/me/agits-accounts', () => instance.get('members/me/agits-accounts'), {
@@ -18,11 +19,32 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
   const { data: myData = [] } = useSWR('members/me/my-accounts', () => instance.get('members/me/my-accounts'), {
     fallbackData: myFallbackData,
   });
-  console.log('aaaaaa', myFallbackData);
-  console.log('aaaaaa', crewFallbackData);
-  const [selectedCrewAccount, setSelectedCrewAccount] = useState(() => crewFallbackData?.[0] || null);
-  const [selectedMyAccount, setSelectedMyAccount] = useState(() => myFallbackData?.[0] || null);
+  const storeSelectedCrewAccount = useMembershipStore((state) => state.selectedCrewAccount);
+  const storeSelectedMyAccount = useMembershipStore((state) => state.selectedMyAccount);
+  const selectedCrewAccount = storeSelectedCrewAccount || crewFallbackData?.[0] || null;
+  const selectedMyAccount = storeSelectedMyAccount || myFallbackData?.[0] || null;
+
+  const setSelectedCrewAccount = useMembershipStore((state) => state.setSelectedCrewAccount);
+  const setSelectedMyAccount = useMembershipStore((state) => state.setSelectedMyAccount);
+  useEffect(() => {
+    // 스토어의 selectedCrewAccount가 설정되어 있지 않다면 기본값 설정
+    if (!storeSelectedCrewAccount && crewFallbackData?.[0]) {
+      setSelectedCrewAccount(crewFallbackData[0]);
+    }
+    // 스토어의 selectedMyAccount가 설정되어 있지 않다면 기본값 설정
+    if (!storeSelectedMyAccount && myFallbackData?.[0]) {
+      setSelectedMyAccount(myFallbackData[0]);
+    }
+  }, [
+    storeSelectedCrewAccount,
+    crewFallbackData,
+    setSelectedCrewAccount,
+    storeSelectedMyAccount,
+    myFallbackData,
+    setSelectedMyAccount,
+  ]);
   const { isOpen, openModal, closeModal } = useModal();
+  const router = useRouter();
 
   const handleCrewSelect = (filter, params) => {
     const selected = crewData.find((item) => item.agitId === params);
@@ -33,22 +55,19 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
     const selected = myData.find((item) => item.accountId === params);
     setSelectedMyAccount(selected);
   };
-  console.log('bbbbbb', myFallbackData);
-  console.log('bbbbb', crewFallbackData);
-  const router = useRouter();
 
   return (
     <Flex direction="column" gap="20px">
       <Flex direction="column" gap="10px">
         <SelectFilter
-          selectList={crewFallbackData.map((account) => ({
+          selectList={crewData.map((account) => ({
             ...account,
             text: account.agitName,
             params: account.agitId,
           }))}
           onSelect={handleCrewSelect}
         >
-          {crewFallbackData[0].agitName}
+          {selectedCrewAccount?.agitName || '크루 계좌 선택'}
         </SelectFilter>
         <Card>
           <Flex align="center" gap="10px">
@@ -64,7 +83,7 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
             )}
             <Flex direction="column" gap="2px">
               <Text as="p" size="2" weight="medium">
-                {selectedCrewAccount.name}
+                {selectedCrewAccount.productName}
               </Text>
               <Text as="p" size="3" className="gray_t2">
                 {selectedCrewAccount.accountNumber}
@@ -89,14 +108,14 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
         </Box>
         <Flex direction="column" gap="10px">
           <SelectFilter
-            selectList={myFallbackData.map((account) => ({
+            selectList={myData.map((account) => ({
               ...account,
               text: account.accountName,
               params: account.accountId,
             }))}
             onSelect={handleMySelect}
           >
-            {myFallbackData[0].accountName}
+            {selectedMyAccount?.accountName || '내 계좌 선택'}
           </SelectFilter>
 
           <Card>
@@ -115,7 +134,7 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
               </Text>
             </Flex>
           </Card>
-          <ButtonL style="deep" onClick={openModal}>
+          <ButtonL style="deep" onClick={openModal} disabled={selectedCrewAccount.paid}>
             이체하기
           </ButtonL>
         </Flex>

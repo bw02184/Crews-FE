@@ -102,13 +102,13 @@ export const detachPersonalAccount = async (accountId) => {
 
 // 개인 은행계좌 조회
 export const getBankAccount = async (accountId, crewId) => {
-  const response = await instance.get('members/me/agits-account-info', {});
+  const response = await instance.get('members/me/core-accounts', {});
   return response;
 };
 
 // 개인 은행계좌 연결
 export const attachBankAccount = async (accountNumbers) => {
-  const response = await instance.post('members/me/agits-account-info', { body: JSON.stringify({ accountNumbers }) });
+  const response = await instance.post('members/me/core-accounts', { body: JSON.stringify({ accountNumbers }) });
   revalidatePath('/service/mypage/assets');
   return response;
 };
@@ -116,7 +116,7 @@ export const attachBankAccount = async (accountNumbers) => {
 // 회비 납부 정보 조회
 export const getFeePaymentInfo = async (crewId) => {
   const response = await instance.get(`members/me/agits-accounts`);
-
+  console.log('여기-> 1번 :', JSON.stringify(response));
   return response;
 };
 
@@ -128,7 +128,10 @@ export const payCrewFee = async (crewId, amount, accountId) => {
 };
 
 // 거래 내역 조회
-export const getTransactionHistory = async (accountId) => {
-  const response = await instance.get(`members/me/accounts/${accountId}/transactions`);
+export const getTransactionHistory = async (crewAccountId, myAccountId) => {
+  const response = await instance.get(
+    `members/me/account-withdraws?crewAccountId=${crewAccountId}&myAccountId=${myAccountId}`,
+  );
+  console.log('Transaction History Response:', response); // 디버깅용 로그
   return response;
 };
