@@ -47,7 +47,7 @@ export default function AccountAndHeader({ agitId, dues, data }) {
               </>
             )}
           </Flex>
-          {agit?.memberRole === 'LEADER' ? (
+          {agit?.memberRole === 'LEADER' && (
             <Flex direction="column" gap="20px">
               <Title>모임통장</Title>
               {data.ci == null ? <NoAccount></NoAccount> : <Account data={data} hide={true} />}
@@ -56,8 +56,6 @@ export default function AccountAndHeader({ agitId, dues, data }) {
                 rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
               />
             </Flex>
-          ) : (
-            ''
           )}
         </section>
       </Flex>

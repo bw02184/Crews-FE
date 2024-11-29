@@ -9,7 +9,13 @@ import AccountAndHeader from '@/components/agits/Account/AccountAndHeader';
 
 export default async function Page({ params }) {
   const dues = await getDues(params.agitId);
+  if (dues?.errorCode) {
+    throw new Error(dues.message);
+  }
   const data = await getAccount(params.agitId);
+  if (data?.errorCode) {
+    throw new Error(data.message);
+  }
   return (
     <div className="page">
       <AccountAndHeader agitId={params.agitId} dues={dues} data={data}></AccountAndHeader>

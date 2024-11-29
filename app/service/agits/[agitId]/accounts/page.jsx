@@ -1,13 +1,21 @@
 import { SelectFilter } from '@/components/common';
 import { monthSelectMenuList, orderSelectMenuList, tranTypeSelectMenuList } from '@/constants/selectMenuList/sample';
 import { Box, Flex } from '@radix-ui/themes';
-import AccountAndButton from '@/components/agits/Account/AccountAndButton';
 import { getAccount, getAccountDetails } from '@/apis/agitsAPI';
-import AccountDetail from '@/components/agits/Account/AccountDetail';
 import AgitHeader from '@/components/agits/AgitHeader';
+import AccountAndButton from '@/components/agits/Account/AccountAndButton';
+
+import AccountDetail from '@/components/agits/Account/AccountDetail';
+
 export default async function Page({ params }) {
   const data = await getAccount(params.agitId);
+  if (data?.errorCode) {
+    throw new Error(data.message);
+  }
   const accountDetails = await getAccountDetails(params.agitId, 3, 'ALL', 'DESC');
+  if (accountDetails?.errorCode) {
+    throw new Error(accountDetails.message);
+  }
   return (
     <div className="page">
       <AgitHeader currentId={params.agitId} />

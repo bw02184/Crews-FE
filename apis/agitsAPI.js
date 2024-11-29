@@ -16,6 +16,7 @@ export const getCommonDues = async (id) => {
 //모든 개인,모임통장 조회
 export const getAllAccounts = async () => {
   const response = await instance.get(`accounts`);
+  return response;
 };
 
 // 가입한 아지트 목록 및 역할 조회

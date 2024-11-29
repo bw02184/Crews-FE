@@ -4,7 +4,6 @@ import styles from './TransferHistory.module.css';
 import { Title } from '@/components/common';
 
 export default function TransferHistory({ transactionData }) {
-  console.log(transactionData);
   return (
     <Flex direction="column" gap="20px">
       <Title>이체내역</Title>

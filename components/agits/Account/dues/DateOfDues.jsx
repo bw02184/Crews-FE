@@ -7,31 +7,28 @@ import ArrowButton from './ArrowButton';
 import FeePayment from './FeePayment';
 import { getMyAccountHistory } from '@/apis/agitsAPI';
 import TransferHistory from './TransferHistory';
+import useSWR from 'swr';
 
-const DateOfDues = ({ agitId, dues, commonDues, allAccounts }) => {
+const DateOfDues = ({ agitId, dues, commonDues, allAccounts, history }) => {
   const [yearAndMonth, setYearAndMonth] = useState({});
-  const [data, setData] = useState([]);
 
   const handleDateChange = (newDate) => {
     setYearAndMonth(newDate);
   };
-
+  const { data, mutate } = useSWR(
+    yearAndMonth.year && yearAndMonth.month && `accounts/history?year=${yearAndMonth.year}&month=${yearAndMonth.month}`,
+    async () => {
+      const response = await getMyAccountHistory(yearAndMonth);
+      return response;
+    },
+    {
+      fallbackData: history,
+    },
+  );
   useEffect(() => {
-    if (yearAndMonth.year && yearAndMonth.month) {
-      const fetchData = async () => {
-        try {
-          const response = await getMyAccountHistory(yearAndMonth);
-          setData(response);
-          console.log('응답 데이터:', response);
-          return response;
-        } catch (error) {
-          console.error('API 요청 실패:', error);
-        }
-      };
+    mutate();
+  }, [yearAndMonth, mutate]);
 
-      fetchData();
-    }
-  }, [yearAndMonth, agitId]);
   return (
     <>
       {dues.dueAmount == 0.0 || dues.dueAmount === null ? (

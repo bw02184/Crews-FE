@@ -12,7 +12,6 @@ export default function FeePayment({ agitId, data }) {
     ...account,
     text: account.productName,
   }));
-  console.log(personalaccountlist);
   const selectedCrewAccouont = crewaccountlist.find((item) => item.agitId == agitId);
   const [selectedAccount, setSelectedAccount] = useState(personalaccountlist[0]);
   const { isOpen, openModal, closeModal } = useModal();
