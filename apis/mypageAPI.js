@@ -1,6 +1,8 @@
 'use server';
+
 import { revalidatePath } from 'next/cache';
 import instance from './instance';
+
 // 닉네임 가져오기
 export const getNickname = async () => {
   const response = await instance.get('members/me/nickname');
@@ -134,5 +136,21 @@ export const getTransactionHistory = async (crewAccountId, myAccountId) => {
     `members/me/account-withdraws?crewAccountId=${crewAccountId}&myAccountId=${myAccountId}`,
   );
   console.log('Transaction History Response:', response); // 디버깅용 로그
+  return response;
+};
+
+// 핀번호 인증
+export const verifyPinNumber = async (pinNumber) => {
+  const response = await instance.post(`members/me/pin-number`, {
+    body: JSON.stringify({ pinNumber }),
+  });
+  return response;
+};
+
+// 핀번호 변경
+export const updatePinNumber = async (pinNumber) => {
+  const response = await instance.put(`members/me/pin-number`, {
+    body: JSON.stringify({ pinNumber }),
+  });
   return response;
 };
