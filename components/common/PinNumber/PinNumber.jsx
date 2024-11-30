@@ -12,7 +12,7 @@ import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 import { updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 
-export default function PinNumber({ defaultStage, dafaultStatus, data }) {
+export default function PinNumber({ defaultStage, defaultStatus, data }) {
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -24,7 +24,7 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const stage = searchParams?.get('stage') || defaultStage;
-  const status = searchParams?.get('status');
+  const status = searchParams?.get('status') || defaultStatus;
 
   // 키보드 랜덤 배열
   useEffect(() => {
@@ -174,8 +174,12 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
     if (stage == 'auth') {
       console.log(pinNumber); // 입력한 pin번호
       console.log(data); // 위에서 props로 내려준 data
-      if (status == 'transfer') {
-        // 이체 로직
+      console.log(status);
+      if (status == 'transferMyage') {
+        // 마이페이지 이체 로직
+      }
+      if (status == 'transferAgit') {
+        // 아지트 이체 로직
       }
       if (status == 'payment') {
         // 결제 로직
@@ -248,7 +252,7 @@ export default function PinNumber({ defaultStage, dafaultStatus, data }) {
           <Box className="btn_group">
             {stage == 'create' && status == undefined && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
             {(status == 'confirm' ||
-              (stage == 'auth' && status == undefined) ||
+              stage == 'auth' ||
               (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
               <ButtonM rightButton={{ type: 'submit', text: '확인', isLoading }} />
             )}

@@ -113,7 +113,7 @@ export default function Service() {
                 }}
               >
                 <Suspense>
-                  <PinNumber defaultStage={'auth'} defaultStatus={'transfer'} data={'함께 보내야 하는 데이터'} />
+                  <PinNumber defaultStage={'auth'} defaultStatus={'transferMyage'} data={'함께 보내야 하는 데이터'} />
                 </Suspense>
               </Modal>
             </Box>
