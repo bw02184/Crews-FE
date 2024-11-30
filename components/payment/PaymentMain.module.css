@@ -1,0 +1,25 @@
+.swiper {
+  width: 190px;
+  height: 300px;
+}
+
+.swiperAppendSlide {
+  border: 1px dashed #f0f0f0;
+}
+
+.swiperCardSlide {
+  border-radius: 10px;
+  background-color: #fbfbfb;
+}
+
+.plusIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
+.textAlign {
+  justify-items: center;
+}

@@ -126,6 +126,37 @@ export const products = [
   },
 ];
 
+export const cardLists = [
+  {
+    name: '모임명1',
+    cardName: '',
+    cardCode: '',
+    src: '',
+    agitRole: false,
+  },
+  {
+    name: '모임명2',
+    cardName: '',
+    cardCode: '',
+    src: '',
+    agitRole: true,
+  },
+  {
+    name: '모임명3',
+    cardName: '우리카드 카드의 정석 EVERY POINT',
+    cardCode: '3475',
+    src: 'img_woori_card.png',
+    agitRole: false,
+  },
+  {
+    name: '모임명4',
+    cardName: '우리카드 카드의 정석 EVERY POINT',
+    cardCode: '3475',
+    src: 'img_woori_card.png',
+    agitRole: true,
+  },
+];
+
 export const date = {
   dueAmount: 20000,
   dueDay: 4,
