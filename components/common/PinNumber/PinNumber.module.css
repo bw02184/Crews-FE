@@ -1,3 +1,7 @@
+.modal .input_list span {
+  height: 50px;
+  line-height: 60px;
+}
 .input_list span {
   display: block;
   height: 56px;
@@ -8,7 +12,7 @@
 .input_list .active span {
   border: 1px solid #000;
 }
-.input_list input[type="text"] {
+.input_list input[type='text'] {
   display: inline;
   padding: 0;
   height: 30px;
@@ -19,7 +23,7 @@
   color: var(--point-yellow-3);
   border: none;
 }
-.input_list input[type="text"]:focus {
+.input_list input[type='text']:focus {
   outline: none;
 }
 
