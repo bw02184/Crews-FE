@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useModal, useToast } from '@/hooks';
 import { useState } from 'react';
 import instance from '@/apis/instance';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { detachAgitCard } from '@/apis/mypageAPI';
 import { useRouter } from 'next/navigation';
 
@@ -29,7 +29,7 @@ export default function AgitCard(cardData) {
     } else {
       alert('성공적으로 삭제 되었습니다.');
       closeDetachModal();
-      router.refresh();
+      mutate('members/me/agits-cards');
     }
   };
   const handleDetachClick = (cardId) => {
