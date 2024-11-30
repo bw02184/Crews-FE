@@ -191,6 +191,31 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
           />
         }
       />
+      {/* <Modal
+        isOpen={pinIsOpen}
+        closeModal={pinCloseModal}
+        header={{
+          title: (
+            <>
+              <span className="underline">PIN번호를 인증</span>해 주세요.
+            </>
+          ),
+          text: '정확히 일치해야 합니다.',
+        }}
+      >
+        <Suspense>
+          <PinNumber
+            defaultStage={'auth'}
+            dafaultStatus={'transfer'}
+            data={{
+              agitId: selectedCrewAccount.agitId,
+              crewAccountId: selectedCrewAccount.accountId,
+              myAccountId: selectedMyAccount.accountId,
+              amount: selectedCrewAccount.remainingAmount,
+            }}
+          />
+        </Suspense>
+      </Modal> */}
     </Flex>
   );
 }
