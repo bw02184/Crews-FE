@@ -20,16 +20,10 @@ export default function TransferHistory() {
     ([crewAccountId, myAccountId]) => fetcher(crewAccountId, myAccountId),
     {
       fallbackData: [],
-      revalidateOnFocus: false,
     },
   );
+  console.log(transactionData);
 
-  if (error) {
-    console.error('SWR Error:', error);
-  }
-  console.log('Transaction Data:', transactionData);
-
-  console.log('ss Account:', JSON.stringify(transactionData));
   return (
     <Flex direction="column" gap="20px">
       <Title>이체내역</Title>
@@ -70,7 +64,7 @@ export default function TransferHistory() {
             ))}
           </ul>
         ) : (
-          !isLoading && <p>이체 내역이 없습니다.</p>
+          !isLoading && !error && <p>이체 내역이 없습니다.</p>
         )}
       </div>
     </Flex>

@@ -4,14 +4,17 @@ import { Box, Callout, Card, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './MembershipFee.module.css';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { ButtonL, ButtonM, Modal, SelectFilter } from '@/components/common';
+import { ButtonL, ButtonM, Modal, SelectFilter, Toast } from '@/components/common';
 import { useModal } from '@/hooks';
-import { useRouter } from 'next/navigation';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import instance from '@/apis/instance';
 import { useMembershipStore } from '@/stores/mypageStore';
+import { payCrewFee } from '@/apis/mypageAPI';
+import { useToast } from '@/hooks';
 
 export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
+  const { toast, setToast, toastMessage, showToast } = useToast();
+
   const { data: crewData = [] } = useSWR('members/me/agits-accounts', () => instance.get('members/me/agits-accounts'), {
     fallbackData: crewFallbackData,
   });
@@ -21,17 +24,17 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
   });
   const storeSelectedCrewAccount = useMembershipStore((state) => state.selectedCrewAccount);
   const storeSelectedMyAccount = useMembershipStore((state) => state.selectedMyAccount);
-  const selectedCrewAccount = storeSelectedCrewAccount || crewFallbackData?.[0] || null;
-  const selectedMyAccount = storeSelectedMyAccount || myFallbackData?.[0] || null;
+
+  const selectedCrewAccount = storeSelectedCrewAccount || crewFallbackData?.[0] || {};
+  const selectedMyAccount = storeSelectedMyAccount || myFallbackData?.[0] || {};
 
   const setSelectedCrewAccount = useMembershipStore((state) => state.setSelectedCrewAccount);
   const setSelectedMyAccount = useMembershipStore((state) => state.setSelectedMyAccount);
+
   useEffect(() => {
-    // 스토어의 selectedCrewAccount가 설정되어 있지 않다면 기본값 설정
     if (!storeSelectedCrewAccount && crewFallbackData?.[0]) {
       setSelectedCrewAccount(crewFallbackData[0]);
     }
-    // 스토어의 selectedMyAccount가 설정되어 있지 않다면 기본값 설정
     if (!storeSelectedMyAccount && myFallbackData?.[0]) {
       setSelectedMyAccount(myFallbackData[0]);
     }
@@ -44,22 +47,47 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
     setSelectedMyAccount,
   ]);
   const { isOpen, openModal, closeModal } = useModal();
-  const router = useRouter();
 
   const handleCrewSelect = (filter, params) => {
     const selected = crewData.find((item) => item.agitId === params);
     setSelectedCrewAccount(selected);
+    mutate('members/me/agits-accounts', undefined, { revalidate: true });
+    mutate('members/me/my-accounts', undefined, { revalidate: true });
   };
 
   const handleMySelect = (filter, params) => {
     const selected = myData.find((item) => item.accountId === params);
     setSelectedMyAccount(selected);
+    mutate('members/me/agits-accounts', undefined, { revalidate: true });
+    mutate('members/me/my-accounts', undefined, { revalidate: true });
+  };
+
+  const handleWithdrawFee = async ({ pinNumber, selectedCrewAccount, selectedMyAccount }) => {
+    const agitId = selectedCrewAccount.agitId;
+    const crewAccountId = selectedCrewAccount.accountId;
+    const myAccountId = selectedMyAccount.accountId;
+    const amount = selectedCrewAccount.remainingAmount;
+    console.log(pinNumber, agitId, crewAccountId, myAccountId, amount);
+
+    const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
+
+    if (response?.errorCode) {
+      console.log(`계좌 이체 실패: ${response.message}`);
+      closeModal();
+      showToast(`${response.message}`);
+    } else {
+      alert('성공적으로 이제되었습니다.');
+      mutate([crewAccountId, myAccountId]);
+      handleCrewSelect();
+      closeModal();
+    }
   };
 
   return (
     <Flex direction="column" gap="20px">
       <Flex direction="column" gap="10px">
         <SelectFilter
+          key={selectedCrewAccount?.paid}
           selectList={crewData.map((account) => ({
             ...account,
             text: account.agitName,
@@ -69,6 +97,9 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
         >
           {selectedCrewAccount?.agitName || '크루 계좌 선택'}
         </SelectFilter>
+        <Toast as="alert" isActive={toast} onClose={() => setToast(false)} autoClose={1500}>
+          <Text>{toastMessage}</Text>
+        </Toast>
         <Card>
           <Flex align="center" gap="10px">
             {selectedCrewAccount && (
@@ -128,7 +159,7 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
               </Text>
             </Flex>
             <Flex justify="between" align="center">
-              <Strong>{selectedCrewAccount.ammount}</Strong>
+              <Strong>{selectedCrewAccount.remainingAmount}</Strong>
               <Text size="2" className="gray_t2">
                 원 만큼
               </Text>
@@ -148,7 +179,15 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
         footer={
           <ButtonM
             leftButton={{ text: '취소', onClick: closeModal }}
-            rightButton={{ text: '확인', onClick: closeModal }}
+            rightButton={{
+              text: '확인',
+              onClick: () =>
+                handleWithdrawFee({
+                  pinNumber: '000000',
+                  selectedCrewAccount,
+                  selectedMyAccount,
+                }),
+            }}
           />
         }
       />

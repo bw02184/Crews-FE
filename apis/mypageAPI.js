@@ -116,13 +116,14 @@ export const attachBankAccount = async (accountNumbers) => {
 // 회비 납부 정보 조회
 export const getFeePaymentInfo = async (crewId) => {
   const response = await instance.get(`members/me/agits-accounts`);
-  console.log('여기-> 1번 :', JSON.stringify(response));
   return response;
 };
 
 // 회비 납부하기
-export const payCrewFee = async (crewId, amount, accountId) => {
-  const response = await instance.post(`crews/${crewId}/fees/payment`, {});
+export const payCrewFee = async (pinNumber, agitId, crewAccountId, myAccountId, amount) => {
+  const response = await instance.post(`members/me/fees/payment`, {
+    body: JSON.stringify({ pinNumber, agitId, crewAccountId, myAccountId, amount }),
+  });
   revalidatePath('/service/mypage/fee');
   return response;
 };
