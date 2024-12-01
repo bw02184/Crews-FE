@@ -177,6 +177,7 @@ export default function PinNumber({ defaultStage, defaultStatus, data }) {
       console.log(status);
       if (status == 'transferMyage') {
         // 마이페이지 이체 로직
+        console.log('잘되겠지?');
       }
       if (status == 'transferAgit') {
         // 아지트 이체 로직

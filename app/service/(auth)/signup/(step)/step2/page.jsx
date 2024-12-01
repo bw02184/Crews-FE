@@ -1,6 +1,7 @@
 import Step from '@/components/auth/signup/Step';
 import { Box, Flex, Text } from '@radix-ui/themes';
-import { AddressPostcode, Title } from '@/components/common';
+import { Title } from '@/components/common';
+import ActivityArea from '@/components/auth/signup/ActivityArea';
 
 export default function Page() {
   return (
@@ -19,7 +20,7 @@ export default function Page() {
               </Text>
             </Box>
           </Flex>
-          <AddressPostcode status="signup" />
+          <ActivityArea />
         </Flex>
       </section>
     </>

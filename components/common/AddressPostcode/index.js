@@ -1,3 +1,4 @@
-import AddressPostcode from './AddressPostcode';
+import AddressFormField from './AddressFormField';
+import AddressSearchModal from './AddressSearchModal';
 
-export { AddressPostcode };
+export { AddressFormField, AddressSearchModal };
