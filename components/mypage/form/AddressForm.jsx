@@ -11,7 +11,7 @@ import { updateAddresses } from '@/apis/mypageAPI';
 
 export default function AddressForm({ initialAddress }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       address: initialAddress || initEmpty,
     },
@@ -57,7 +57,6 @@ export default function AddressForm({ initialAddress }) {
                 value={field.value}
                 onChange={(newAddress) => {
                   field.onChange(newAddress);
-                  setValue('address', newAddress);
                 }}
                 showToast={showToast}
               />

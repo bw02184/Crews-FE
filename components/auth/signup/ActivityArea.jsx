@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ActivityArea() {
   const { toast, setToast, toastMessage, showToast } = useToast();
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       address: initEmpty,
     },
@@ -55,7 +55,6 @@ export default function ActivityArea() {
                 value={field.value}
                 onChange={(newAddress) => {
                   field.onChange(newAddress);
-                  setValue('address', newAddress);
                 }}
                 showToast={showToast}
               />
