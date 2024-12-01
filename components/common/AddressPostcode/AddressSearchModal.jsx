@@ -6,7 +6,7 @@ import { doList, majorCities, NONE } from '@/constants/address';
 
 export default function AddressSearchModal({ isOpen, onClose, onSelect, showToast }) {
   const handleCompletePostcode = async (data) => {
-    if (!data.roadAddress) {
+    if (!data.jibunAddress) {
       showToast('잘못된 주소입니다. 다시 선택해주세요.');
       onClose();
       return;
@@ -20,10 +20,18 @@ export default function AddressSearchModal({ isOpen, onClose, onSelect, showToas
     let dongName = NONE;
 
     fullAddress.split(' ').forEach((part) => {
-      if (majorCities.includes(part)) siName = part;
-      else if (doList.includes(part)) doName = part;
-      else if (part.endsWith('구') || part.endsWith('군')) guName = part;
-      else if (part.endsWith('동') || part.endsWith('면')) dongName = part;
+      if (majorCities.includes(part)) {
+        siName = part;
+        doName = NONE;
+      } else if (doList.includes(part)) {
+        doName = part;
+      } else if (part.endsWith('시')) {
+        siName = part;
+      } else if (part.endsWith('구') || part.endsWith('군')) {
+        guName = part;
+      } else if (part.endsWith('동') || part.endsWith('면')) {
+        dongName = part;
+      }
     });
 
     if (siName === NONE || dongName === NONE) {
