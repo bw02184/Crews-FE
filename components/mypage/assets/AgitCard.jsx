@@ -13,7 +13,6 @@ import { detachAgitCard } from '@/apis/mypageAPI';
 import { useRouter } from 'next/navigation';
 
 export default function AgitCard(cardData) {
-  const router = useRouter();
   const { data } = useSWR('members/me/agits-cards', () => instance.get('members/me/agits-cards'), {
     fallbackData: cardData.agitCardData,
   });
