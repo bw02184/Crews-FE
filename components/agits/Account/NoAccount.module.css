@@ -1,0 +1,11 @@
+.img_box .img {
+  border-radius: 100%;
+  overflow: hidden;
+  margin-top: 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.card_dot {
+  border: 1px dashed #f0f0f0;
+}
