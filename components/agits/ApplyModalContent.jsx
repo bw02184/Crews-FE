@@ -10,22 +10,15 @@ import { BASE_URL } from '@/constants/auth';
 import { getAddressValue } from '@/utils/address';
 
 export default function ApplyModalContent({ agitId }) {
+  const { data: introducingData } = useSWR(`${BASE_URL}agits/${agitId}/introducing`, async () => {
+    const response = await searchIntroducing(agitId);
+    return response;
+  });
 
-  const { data: introducingData } = useSWR(
-    `${BASE_URL}agits/${agitId}/introducing`,
-    async () => {
-      const response = await searchIntroducing(agitId);
-      return response;
-    }
-  );
-
-  const { data: meetingsData } = useSWR(
-    `${BASE_URL}agits/${agitId}/meetings/recent`,
-    async () => {
-      const response = await searchMeetings(agitId);
-      return response;
-    }
-  );
+  const { data: meetingsData } = useSWR(`${BASE_URL}agits/${agitId}/meetings/recent`, async () => {
+    const response = await searchMeetings(agitId);
+    return response;
+  });
 
   // const { duesData, duesError, duesMutate } = useSWR(
   //   `${BASE_URL}agits/${agitId}/managements/dues/common`,
@@ -77,10 +70,10 @@ export default function ApplyModalContent({ agitId }) {
         <div className={styles.interest_list}>
           <Flex wrap="wrap" gap="10px" asChild>
             <ul>
-              {introducingData?.interests.map((interest, i) => {
+              {introducingData?.interests.map((interest) => {
                 <li>
                   <Label key={`interest${interest?.id}`} style="deep">{`#${interest?.name}`}</Label>
-                </li>
+                </li>;
               })}
             </ul>
           </Flex>
