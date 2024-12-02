@@ -2,18 +2,19 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Callout, Card, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './MembershipFee.module.css';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import Image from 'next/image';
-import { ButtonL, ButtonM, Modal, SelectFilter, Toast } from '@/components/common';
+import { ButtonL, Modal, PinNumber, SelectFilter, Toast } from '@/components/common';
 import { useModal } from '@/hooks';
 import useSWR, { mutate } from 'swr';
 import instance from '@/apis/instance';
 import { useMembershipStore } from '@/stores/mypageStore';
-import { payCrewFee } from '@/apis/mypageAPI';
 import { useToast } from '@/hooks';
+import { useRouter } from 'next/navigation';
 
 export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
+  const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
 
   const { data: crewData = [] } = useSWR('members/me/agits-accounts', () => instance.get('members/me/agits-accounts'), {
     fallbackData: crewFallbackData,
@@ -22,6 +23,9 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
   const { data: myData = [] } = useSWR('members/me/my-accounts', () => instance.get('members/me/my-accounts'), {
     fallbackData: myFallbackData,
   });
+
+  const router = useRouter();
+
   const storeSelectedCrewAccount = useMembershipStore((state) => state.selectedCrewAccount);
   const storeSelectedMyAccount = useMembershipStore((state) => state.selectedMyAccount);
 
@@ -46,7 +50,6 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
     myFallbackData,
     setSelectedMyAccount,
   ]);
-  const { isOpen, openModal, closeModal } = useModal();
 
   const handleCrewSelect = (filter, params) => {
     const selected = crewData.find((item) => item.agitId === params);
@@ -62,24 +65,17 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
     mutate('members/me/my-accounts', undefined, { revalidate: true });
   };
 
-  const handleWithdrawFee = async ({ pinNumber, selectedCrewAccount, selectedMyAccount }) => {
-    const agitId = selectedCrewAccount.agitId;
-    const crewAccountId = selectedCrewAccount.accountId;
-    const myAccountId = selectedMyAccount.accountId;
-    const amount = selectedCrewAccount.remainingAmount;
-    console.log(pinNumber, agitId, crewAccountId, myAccountId, amount);
-
-    const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
-
-    if (response?.errorCode) {
-      console.log(`계좌 이체 실패: ${response.message}`);
-      closeModal();
-      showToast(`${response.message}`);
-    } else {
-      alert('성공적으로 이제되었습니다.');
+  const handleFeeCallback = async (isSuccess, message, crewAccountId, myAccountId) => {
+    if (isSuccess) {
+      pinCloseModal();
       mutate([crewAccountId, myAccountId]);
+      mutate('members/me/agits-accounts', undefined, { revalidate: true });
+      mutate('members/me/my-accounts', undefined, { revalidate: true });
       handleCrewSelect();
-      closeModal();
+      showToast(message);
+      router.push('/service/mypage/fee');
+    } else {
+      showToast(`이체 실패: ${message}`);
     }
   };
 
@@ -108,7 +104,7 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
                   className="back_img"
                   style={{ backgroundImage: `url(${selectedCrewAccount.bankImage || '/default-image.jpg'})` }}
                 >
-                  <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt={selectedCrewAccount.name} />
+                  <Image src="/imgs/img_bg_bank.jpg" width={36} height={36} alt="은행로고" />
                 </Box>
               </Box>
             )}
@@ -165,33 +161,13 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
               </Text>
             </Flex>
           </Card>
-          <ButtonL style="deep" onClick={openModal} disabled={selectedCrewAccount.paid}>
+          <ButtonL style="deep" onClick={pinOpenModal} disabled={selectedCrewAccount.paid}>
             이체하기
           </ButtonL>
         </Flex>
       </Flex>
+
       <Modal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        header={{
-          title: `이체 하시겠습니까?`,
-        }}
-        footer={
-          <ButtonM
-            leftButton={{ text: '취소', onClick: closeModal }}
-            rightButton={{
-              text: '확인',
-              onClick: () =>
-                handleWithdrawFee({
-                  pinNumber: '000000',
-                  selectedCrewAccount,
-                  selectedMyAccount,
-                }),
-            }}
-          />
-        }
-      />
-      {/* <Modal
         isOpen={pinIsOpen}
         closeModal={pinCloseModal}
         header={{
@@ -206,16 +182,17 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
         <Suspense>
           <PinNumber
             defaultStage={'auth'}
-            dafaultStatus={'transfer'}
+            defaultStatus={'transferMyage'}
             data={{
               agitId: selectedCrewAccount.agitId,
               crewAccountId: selectedCrewAccount.accountId,
               myAccountId: selectedMyAccount.accountId,
               amount: selectedCrewAccount.remainingAmount,
             }}
+            callback={handleFeeCallback}
           />
         </Suspense>
-      </Modal> */}
+      </Modal>
     </Flex>
   );
 }

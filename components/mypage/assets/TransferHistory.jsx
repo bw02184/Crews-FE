@@ -22,7 +22,6 @@ export default function TransferHistory() {
       fallbackData: [],
     },
   );
-  console.log(transactionData);
 
   return (
     <Flex direction="column" gap="20px">
@@ -31,8 +30,8 @@ export default function TransferHistory() {
         {isLoading && <p>로딩 중...</p>}
         {!isLoading && transactionData && transactionData.length > 0 ? (
           <ul>
-            {transactionData.map((transaction) => (
-              <li key={transaction.id}>
+            {transactionData.map((transaction, index) => (
+              <li key={`${transaction.id}-${index}`}>
                 <Flex direction="column" gap="10px">
                   <div className={styles.top}>
                     <Text as="span" size="1" className="gray_t2">
