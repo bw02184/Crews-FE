@@ -11,6 +11,8 @@ import {
   ImageCard,
   Label,
   Modal,
+  PinNumber,
+  PinNumberText,
   SelectFilter,
   TabMenu,
   Title,
@@ -26,6 +28,7 @@ import { useModal, useToast } from '@/hooks';
 export default function Service() {
   const { toast, setToast, toastMessage, showToast } = useToast();
   const { isOpen, openModal, closeModal } = useModal();
+  const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
   const {
     register,
     handleSubmit,
@@ -84,6 +87,35 @@ export default function Service() {
               >
                 토스트 버튼2
               </ButtonL>
+            </Box>
+          </section>
+        </Flex>
+        <Flex direction="column" gap="10px" asChild>
+          <section>
+            <Title>PIN번호 인증 모달</Title>
+            <Box>
+              <Text as="p" weight="medium" mb="1">
+                이체는 defaultStatus=transfer 결제는 payment
+              </Text>
+              <ButtonL style="deep" onClick={pinOpenModal}>
+                모달 열기
+              </ButtonL>
+              <Modal
+                isOpen={pinIsOpen}
+                closeModal={pinCloseModal}
+                header={{
+                  title: (
+                    <>
+                      <span className="underline">PIN번호를 인증</span>해 주세요.
+                    </>
+                  ),
+                  text: '정확히 일치해야 합니다.',
+                }}
+              >
+                <Suspense>
+                  <PinNumber defaultStage={'auth'} defaultStatus={'transferMyage'} data={'함께 보내야 하는 데이터'} />
+                </Suspense>
+              </Modal>
             </Box>
           </section>
         </Flex>

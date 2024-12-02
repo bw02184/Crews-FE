@@ -3,14 +3,18 @@
 import { Title } from '@/components/common';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ArrowButton = ({ data }) => {
+const ArrowButton = ({ data, handleDateChange = () => {} }) => {
   const today = new Date(); // 현재 날짜 가져오기
   const [date, setDate] = useState({
     year: today.getFullYear(),
     month: today.getMonth() + 1, // 월은 0부터 시작하므로 +1
   });
+
+  useEffect(() => {
+    handleDateChange(date);
+  }, [date, handleDateChange]);
 
   const handlePreviousMonth = () => {
     setDate((prevDate) => {

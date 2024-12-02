@@ -39,6 +39,7 @@
 .modal_wrap.open .modal {
   opacity: 1;
   transform: scale(1);
+  overflow: hidden;
 }
 .modal .modal_header p {
   color: var(--gray-txt-1);

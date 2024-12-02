@@ -43,7 +43,7 @@ export default function ProfileCard({ profileData }) {
         <Flex align="center" gap="20px" className={styles.top}>
           <div className={styles.img_box}>
             <div
-              className={`${styles.profile_img} back_img ${data.profileImage == null ? styles.blank : ''}`}
+              className={`${styles.profile_img} back_img ${data.profileImage == (null || '') ? styles.blank : ''}`}
               style={{ backgroundImage: `url(${data.profileImage})` }}
             >
               <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.profileImage} 프로필 이미지`} />

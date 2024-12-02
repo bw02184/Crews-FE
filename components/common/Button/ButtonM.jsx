@@ -3,17 +3,18 @@ import styles from './Button.module.css';
 import Link from 'next/link';
 
 export default function ButtonM({ leftButton, rightButton }) {
-  const renderButton = ({ as = 'button', href, type = 'button', style, onClick, text }) => {
+  const renderButton = ({ as = 'button', href, type = 'button', style, onClick, text, isLoading = false }) => {
+    const buttonText = isLoading ? '로딩 중...' : text;
     if (as == 'link' && href) {
       return (
-        <Link href={href} className={style}>
-          {text}
+        <Link href={href} className={style} disabled={isLoading}>
+          {buttonText}
         </Link>
       );
     } else {
       return (
-        <button type={type} onClick={onClick} className={style}>
-          {text}
+        <button type={type} onClick={onClick} className={style} disabled={isLoading}>
+          {buttonText}
         </button>
       );
     }

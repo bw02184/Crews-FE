@@ -3,22 +3,21 @@
 import { useToast } from '@/hooks';
 import { Flex, Text } from '@radix-ui/themes';
 import { Controller, useForm } from 'react-hook-form';
-import { AddressFormField, ButtonM, Toast } from '@/components/common';
-import { initEmpty } from '@/constants/address';
-import { useSignupStore } from '@/stores/authStore';
+import { AddressFormField, ButtonL, Toast } from '@/components/common';
+import { initEmpty, NONE } from '@/constants/address';
 import { isAddressEmpty } from '@/utils/address';
 import { useRouter } from 'next/navigation';
+import { updateAddresses } from '@/apis/mypageAPI';
 
-export default function ActivityArea() {
+export default function AddressForm({ initialAddress }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      address: initEmpty,
+      address: initialAddress || initEmpty,
     },
   });
   const router = useRouter();
 
-  const { user, setUserField } = useSignupStore();
   const handleUpdateAddress = async (data) => {
     const isEmpty = isAddressEmpty(data.address);
     if (isEmpty) {
@@ -26,18 +25,21 @@ export default function ActivityArea() {
       return;
     }
 
-    if ((user.email == '') | (user.password == '') | (user.name == '') | (user.phoneNumber == '')) {
-      alert('회원정보를 먼저 입력해주세요!');
-      router.push('/service/signup/step1');
-      return;
+    const address = {
+      doName: data.address.doName || NONE,
+      siName: data.address.siName || NONE,
+      guName: data.address.guName || NONE,
+      dongName: data.address.dongName || NONE,
+    };
+
+    const response = await updateAddresses(address);
+    if (response?.errorCode) {
+      console.error(`활동지역 변경 실패: ${response.message}`);
+      showToast('활동지역 저장에 실패했습니다.');
+    } else {
+      alert('주소가 성공적으로 저장되었습니다.');
+      router.push('/service/mypage');
     }
-
-    setUserField('addressDo', data.address.doName);
-    setUserField('addressSi', data.address.siName);
-    setUserField('addressGuGun', data.address.guName);
-    setUserField('addressDong', data.address.dongName);
-
-    router.push('/service/signup/step3?stage=create');
   };
 
   return (
@@ -60,10 +62,9 @@ export default function ActivityArea() {
               />
             )}
           />
-          <ButtonM
-            leftButton={{ as: 'link', href: '/service/signup/step1', text: '이전' }}
-            rightButton={{ type: 'submit', text: '다음' }}
-          />
+          <ButtonL type="submit" style="deep">
+            수정
+          </ButtonL>
         </Flex>
       </form>
     </>

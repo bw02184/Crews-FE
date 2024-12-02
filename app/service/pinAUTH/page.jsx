@@ -13,9 +13,9 @@ export default function PinAuth({ searchParams }) {
       <div className="content">
         <section>
           <Flex direction="column" gap="20px">
-            <PinNumberText stage={searchParams.stage} defaultParams={'auth'} />
+            <PinNumberText stage={searchParams.stage} defaultStage={'auth'} />
             <Suspense>
-              <PinNumber defaultParams={'auth'} />
+              <PinNumber defaultStage={'auth'} />
             </Suspense>
           </Flex>
         </section>
