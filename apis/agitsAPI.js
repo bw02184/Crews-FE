@@ -44,3 +44,13 @@ export const getMyAccountHistory = async (date) => {
   const response = await instance.get(`accounts/history?year=${date.year}&month=${date.month}`);
   return response;
 };
+
+// 아지트 가입신청
+export const agitRequest = async (agitId) => {
+  const response = await instance.post('agits/registrations', {
+    body: JSON.stringify({ agitId }),
+    credentials: 'include',
+  });
+
+  return response;
+};

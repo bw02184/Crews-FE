@@ -15,6 +15,8 @@ import useModal from '@/hooks/useModal';
 import ButtonL from '@/components/common/Button/ButtonL';
 import useSWR from 'swr';
 import { searchAgits } from '@/apis/searchAPI';
+import instance from '@/apis/instance';
+import { agitRequest } from '@/apis/agitsAPI';
 
 
 export default function SearchResult({ params }) {
@@ -22,6 +24,9 @@ export default function SearchResult({ params }) {
   const [page, setPage] = useState(0); // 현재 페이지를 0으로 시작
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+  const [agitId, setAgitId] = useState(0);
+  const [agitName, setAgitName] = useState('');
+  const [isRequest, setIsRequest] = useState(false);
 
   const {
     register,
@@ -71,14 +76,20 @@ export default function SearchResult({ params }) {
     mutate();
   }, [params, mutate]);
 
-  const handleCardClick = () => {
+  const handleCardClick = (agitId, agitName) => {
     if (!session) {
       router.push('/service/login');
     } else {
+      setAgitId(agitId);
+      setAgitName(agitName);
       openModal();
     }
   };
 
+  const handleRequest = async (agitId) => {
+    setIsRequest(!isRequest);
+    const response = await agitRequest(agitId);
+  }
   return (
     <>
       <Header side="left">검색결과</Header>
@@ -113,8 +124,8 @@ export default function SearchResult({ params }) {
                   <ul>
                     {items.map((agit, i) => (
                       <li key={`agit${i}`}>
-                        <div onClick={handleCardClick}>
-                          <ImageCard data={agit}></ImageCard>
+                        <div onClick={() => handleCardClick(agit.id, agit.name)}>
+                          <ImageCard as="button" data={agit}></ImageCard>
                         </div>
                       </li>
                     ))}
@@ -131,12 +142,12 @@ export default function SearchResult({ params }) {
           isOpen={isOpen}
           closeModal={closeModal}
           header={{
-            title: '모임명 모임명',
+            title: `${agitName}`,
             text: '아지트에 가입하시려면 아래 사항을 확인해주세요.',
           }}
-          footer={<ButtonL style="deep">가입신청</ButtonL>}
+          footer={<ButtonL onClick={() => handleRequest(agitId)} type='button' style={isRequest ? 'light' : 'deep'} disabled={isRequest}>{isRequest ? `신청완료` : `가입신청`}</ButtonL>}
         >
-          <ApplyModalContent />
+          <ApplyModalContent agitId={agitId} />
         </Modal>
       )}
     </>

@@ -2,14 +2,21 @@
 import instance from './instance';
 
 export const searchAgits = async (keyword, page) => {
-  try {
-    const response = await instance.get(`agits/search?keyWord=${keyword}&page=${page}`);
-    if (!response || response.error) {
-      throw new Error(response.message || 'Failed to fetch search results');
-    }
-    return response;
-  } catch (error) {
-    console.error('searchAgits error:', error);
-    throw error;
-  }
+  const response = await instance.get(`agits/search?keyWord=${keyword}&page=${page}`);
+  return response;
+};
+
+export const searchIntroducing = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/introducing`);
+  return response;
+};
+
+export const searchMeetings = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/meetings/recent`);
+  return response;
+};
+
+export const searchDues = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/managements/dues/common`);
+  return response;
 };

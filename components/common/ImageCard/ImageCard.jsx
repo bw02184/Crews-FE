@@ -85,7 +85,7 @@ export default function ImageCard({ as = 'link', type = 'agits', data, dynamicId
           {content}
         </Link>
       ) : (
-        <button onClick={onClick}>{content}</button>
+        <button type='button' onClick={onClick}>{content}</button>
       )}
     </Card>
   );
