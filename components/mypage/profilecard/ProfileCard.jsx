@@ -4,7 +4,7 @@ import { Box, Text, Flex } from '@radix-ui/themes';
 import styles from './ProfileCard.module.css';
 import { ButtonS, Label, Dropdown } from '@/components/common';
 import Image from 'next/image';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { useNicknameStore } from '@/stores/mypageStore';
 import { useEffect } from 'react';
@@ -25,16 +25,69 @@ export default function ProfileCard({ profileData }) {
   const filteredInterests = (data?.interests || []).filter(
     (interest) => !EXCLUDED_INTEREST_IDS.includes(interest.interestingId),
   );
-  const onEditPhotoClick = () => {
-    alert('사진 수정하기가 클릭되었습니다.');
+
+  const onEditPhotoClick = async () => {
+    alert(`사진 수정하기가 클릭되었습니다. ${process.env.AWS_ACCESS_KEY_ID}`);
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.onchange = async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileName = `${Date.now()}_${file.name}`;
+      try {
+        const response = await fetch('/api/s3', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileName,
+            fileType: file.type,
+          }),
+        });
+
+        if (!response.ok) throw new Error('업로드 URL 생성 중 오류가 발생했습니다.');
+
+        const { signedUrl } = await response.json();
+
+        // S3에 파일 업로드
+        await fetch(signedUrl, {
+          method: 'PUT',
+          body: file,
+          headers: { 'Content-Type': file.type },
+        });
+
+        alert('사진이 업로드되었습니다.');
+        await mutate('members/me/profile');
+      } catch (error) {
+        console.error('사진 업로드 중 오류:', error);
+        alert(error.message);
+      }
+    };
+
+    fileInput.click();
   };
 
-  const onViewLargePhotoClick = () => {
-    alert('이미지 크게보기가 클릭되었습니다.');
-  };
-
-  const onDeletePhotoClick = () => {
+  const onDeletePhotoClick = async () => {
     alert('사진 삭제하기가 클릭되었습니다.');
+    try {
+      const fileName = data.profileImage.split('/').pop(); // URL에서 파일명 추출
+
+      const response = await fetch('/api/s3', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName }),
+      });
+
+      if (!response.ok) throw new Error('사진 삭제 중 오류가 발생했습니다.');
+
+      alert('사진이 삭제되었습니다.');
+      await mutate('members/me/profile');
+    } catch (error) {
+      console.error('사진 삭제 중 오류:', error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -52,7 +105,6 @@ export default function ProfileCard({ profileData }) {
               <Dropdown
                 menuList={[
                   { text: '사진 수정하기', onClick: onEditPhotoClick },
-                  { text: '이미지 크게보기', onClick: onViewLargePhotoClick },
                   { text: '사진 삭제하기', onClick: onDeletePhotoClick },
                 ]}
               >
