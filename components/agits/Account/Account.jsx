@@ -5,9 +5,8 @@ import styles from './Account.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
 
-export default function Account({ data }) {
+export default function Account({ data, hide = false }) {
   const [click, setClick] = useState(false);
-
   return (
     <div className={styles.account}>
       <Card>
@@ -34,14 +33,18 @@ export default function Account({ data }) {
                   <em>{data.balance.toLocaleString('ko-KR')}</em> 원
                 </Text>
               )}
-              <button
-                className={`deep ${styles.btn_hide}`}
-                onClick={() => {
-                  setClick(!click);
-                }}
-              >
-                {click ? '보기' : '숨김'}
-              </button>
+              {hide ? (
+                <button
+                  className={`deep ${styles.btn_hide}`}
+                  onClick={() => {
+                    setClick(!click);
+                  }}
+                >
+                  {click ? '보기' : '숨김'}
+                </button>
+              ) : (
+                ''
+              )}
             </Flex>
           </Box>
         </Flex>

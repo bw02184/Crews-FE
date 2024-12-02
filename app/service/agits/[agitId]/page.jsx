@@ -1,44 +1,24 @@
-import { ButtonL, ButtonM, ImageCard, Title } from '@/components/common';
-import { Box, Callout, Flex, Text } from '@radix-ui/themes';
+import { ButtonL, ImageCard, Title } from '@/components/common';
+import { Box, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
-
 import { feeds, events } from '@/constants/dummy';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import Account from '@/components/agits/Account/Account';
-import { getAccount } from '@/apis/agitsAPI';
+import { getAccount, getDues } from '@/apis/agitsAPI';
 import Link from 'next/link';
-import AgitHeader from '@/components/agits/AgitHeader';
+import AccountAndHeader from '@/components/agits/Account/AccountAndHeader';
 
 export default async function Page({ params }) {
+  const dues = await getDues(params.agitId);
+  if (dues?.errorCode) {
+    throw new Error(dues.message);
+  }
   const data = await getAccount(params.agitId);
+  if (data?.errorCode) {
+    throw new Error(data.message);
+  }
   return (
     <div className="page">
-      <AgitHeader currentId={params.agitId} />
-      <Flex direction="column" gap="10px" className="content">
-        <section>
-          <Flex direction="column" gap="20px">
-            <Callout.Root color="red">
-              <Callout.Icon>
-                <InfoCircledIcon />
-              </Callout.Icon>
-              <Callout.Text>회비 납부일이 지났어요! 빨리 0만원을 납부해주세요.</Callout.Text>
-            </Callout.Root>
-            <Callout.Root color="green">
-              <Callout.Icon>
-                <InfoCircledIcon />
-              </Callout.Icon>
-              <Callout.Text>매월 1일은 모임 회비를 납부하는 날입니다.</Callout.Text>
-            </Callout.Root>
-          </Flex>
-          <Flex direction="column" gap="20px">
-            <Title>모임통장</Title>
-            {data.ci == null ? <Text as="p">모임통장이 없습니다.</Text> : <Account data={data} />}
-            <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '상세 내역보기' }} />
-          </Flex>
-        </section>
-      </Flex>
-
+      <AccountAndHeader agitId={params.agitId} dues={dues} data={data}></AccountAndHeader>
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">

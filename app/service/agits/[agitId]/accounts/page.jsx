@@ -1,37 +1,27 @@
-import { ButtonM, SelectFilter, TabMenu, Title } from '@/components/common';
-import {
-  agitsSelectMenuList,
-  monthSelectMenuList,
-  orderSelectMenuList,
-  tranTypeSelectMenuList,
-} from '@/constants/selectMenuList/sample';
-import { Box, Flex, Text } from '@radix-ui/themes';
-import { accountDetail } from '@/constants/dummy';
+import { SelectFilter } from '@/components/common';
+import { monthSelectMenuList, orderSelectMenuList, tranTypeSelectMenuList } from '@/constants/selectMenuList/sample';
+import { Box, Flex } from '@radix-ui/themes';
+import { getAccount, getAccountDetails } from '@/apis/agitsAPI';
+import AgitHeader from '@/components/agits/AgitHeader';
+import AccountAndButton from '@/components/agits/Account/AccountAndButton';
 
-import { tabMenuList } from '@/constants/tabMenuList/agits';
-import Account from '@/components/agits/Account/Account';
-import { getAccount } from '@/apis/agitsAPI';
 import AccountDetail from '@/components/agits/Account/AccountDetail';
+
 export default async function Page({ params }) {
-  const [agits] = agitsSelectMenuList.filter((select) => select.id == params.agitId);
   const data = await getAccount(params.agitId);
+  if (data?.errorCode) {
+    throw new Error(data.message);
+  }
+  const accountDetails = await getAccountDetails(params.agitId, 3, 'ALL', 'DESC');
+  if (accountDetails?.errorCode) {
+    throw new Error(accountDetails.message);
+  }
   return (
     <div className="page">
-      <header>
-        <Box>
-          <SelectFilter isHeader={true} as="link" pathname="/service/agits" selectList={agitsSelectMenuList}>
-            {agits?.text}
-          </SelectFilter>
-        </Box>
-        <TabMenu tabMenuList={tabMenuList} baseUrl={`/service/agits/${params.agitId}`} activeTab={1} />
-      </header>
+      <AgitHeader currentId={params.agitId} />
       <Flex direction="column" gap="10px" className="content">
         <section>
-          <Flex direction="column" gap="20px">
-            <Title>모임통장 상세</Title>
-            {data.ci == null ? <Text as="p">모임통장이 없습니다.</Text> : <Account accounts={data} />}
-            <ButtonM leftButton={{ text: '권한 요청하기' }} rightButton={{ text: '회비 납부하기' }} />
-          </Flex>
+          <AccountAndButton agitId={params.agitId} data={data}></AccountAndButton>
         </section>
         <section>
           <Flex justify="end" gap="5px">
@@ -47,7 +37,7 @@ export default async function Page({ params }) {
           </Flex>
           <Box mt="1">
             <ul>
-              {accountDetail.map((detail, i) => {
+              {accountDetails?.tranList?.map((detail, i) => {
                 return <AccountDetail data={detail} key={`detail${i}`} />;
               })}
             </ul>

@@ -1,7 +1,6 @@
 'use client';
 
-import { ButtonL, ImageCard, Modal, SelectFilter, TabMenu, Title } from '@/components/common';
-import { agitsSelectMenuList } from '@/constants/selectMenuList/sample';
+import { ButtonL, ImageCard, Modal, TabMenu, Title } from '@/components/common';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import Image from 'next/image';

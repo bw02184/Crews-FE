@@ -1,8 +1,8 @@
 import AccountDetail from '@/components/agits/Account/AccountDetail';
-import ArrowButton from '@/components/agits/Account/ArrowButton';
-import DuesModal from '@/components/agits/Account/DuesModal';
-import ProfileCard from '@/components/agits/Account/ProfileCard';
-import { ButtonL, ButtonS, Header, Modal, Title } from '@/components/common';
+import ArrowButton from '@/components/agits/Account/dues/ArrowButton';
+import DuesModal from '@/components/agits/Account/manage/DuesModal';
+import ProfileCard from '@/components/agits/Account/manage/ProfileCard';
+import { ButtonL, Header, Title } from '@/components/common';
 import { accountDetail } from '@/constants/dummy';
 
 import { date } from '@/constants/dummy';
