@@ -1,4 +1,5 @@
 'use server';
+
 import instance from '@/apis/instance';
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
@@ -42,5 +43,11 @@ export const getAccountDetails = async (id, selectPeriod, transactionType, order
 // 모임통장에 이체정보 확인
 export const getMyAccountHistory = async (date) => {
   const response = await instance.get(`accounts/history?year=${date.year}&month=${date.month}`);
+  return response;
+};
+
+// 모집임박/신규 아지트 조회
+export const getRecruitNewAgits = async () => {
+  const response = await instance.get('agits/home');
   return response;
 };

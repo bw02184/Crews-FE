@@ -10,8 +10,15 @@ import Link from 'next/link';
 import ApplyModalContent from '@/components/agits/ApplyModalContent';
 import { Suspense } from 'react';
 import { useModal } from '@/hooks';
+import useSWR from 'swr';
+import { getRecruitNewAgits } from '@/apis/agitsAPI';
 
 export default function Service() {
+  const {
+    data: recruitNewAgits,
+    isLoading,
+    mutate,
+  } = useSWR('getRecruitNewAgits', async () => await getRecruitNewAgits());
   const { isOpen, openModal, closeModal } = useModal();
   return (
     <>
@@ -59,7 +66,7 @@ export default function Service() {
                 </div>
                 <Box className={styles.sec_con} mt="15px">
                   <Flex direction="column" gap="10px">
-                    {agits.map((agit, i) => {
+                    {recruitNewAgits?.recruitList.map((agit, i) => {
                       return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
                     })}
                   </Flex>
@@ -69,14 +76,14 @@ export default function Service() {
           </section>
           <section>
             <div className={styles.sec_tit}>
-              <Title>모집 마감 임박</Title>
+              <Title>신규 아지트</Title>
               <Text as="p" size="2" weight="light">
                 어쩌고 저쩌고 메뉴설명
               </Text>
             </div>
             <Box className={styles.sec_con} mt="15px">
               <Flex direction="column" gap="10px">
-                {agits.map((agit, i) => {
+                {recruitNewAgits?.newAgitList.map((agit, i) => {
                   return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
                 })}
               </Flex>
