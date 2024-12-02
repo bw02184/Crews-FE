@@ -7,7 +7,7 @@ import { ImageCard } from './ImageCard';
 import { Label } from './Label';
 import { Landing } from './Landing';
 import { Modal } from './Modal';
-import { Navigation } from './Navigation';
+import { NavigationService, NavigationAdmin } from './Navigation';
 import { PinNumber } from './PinNumber';
 import { PinNumberText } from './PinNumber';
 import { SelectFilter } from './SelectFilter';
@@ -28,7 +28,8 @@ export {
   Label,
   Landing,
   Modal,
-  Navigation,
+  NavigationService,
+  NavigationAdmin,
   PinNumber,
   PinNumberText,
   SelectFilter,
