@@ -10,7 +10,6 @@ import { useState } from 'react';
 import instance from '@/apis/instance';
 import useSWR, { mutate } from 'swr';
 import { detachAgitCard } from '@/apis/mypageAPI';
-import { useRouter } from 'next/navigation';
 
 export default function AgitCard(cardData) {
   const { data } = useSWR('members/me/agits-cards', () => instance.get('members/me/agits-cards'), {
