@@ -25,12 +25,18 @@ export const getProfile = async () => {
 };
 
 // 프로필 이미지 업데이트
-export const updateProfileImage = async (formData) => {
-  const response = await instance.put('members/me/profile/image', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+export const updateProfileImage = async (profileImagePath) => {
+  const response = await instance.put('members/me/profile', {
+    body: JSON.stringify(profileImagePath),
   });
+  revalidatePath('/service/mypage');
+  return response;
+};
+
+// 프로필 이미지 삭제
+export const deleteProfileImage = async () => {
+  const response = await instance.delete('members/me/profile', {});
+  revalidatePath('/service/mypage');
   return response;
 };
 
@@ -116,7 +122,7 @@ export const attachBankAccount = async (accountNumbers) => {
 };
 
 // 회비 납부 정보 조회
-export const getFeePaymentInfo = async (crewId) => {
+export const getFeePaymentInfo = async () => {
   const response = await instance.get(`members/me/agits-accounts`);
   return response;
 };
