@@ -5,28 +5,20 @@ import styles from './ApplyModalContent.module.css';
 import { Callout, Flex, Text } from '@radix-ui/themes';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import useSWR from 'swr';
-import { searchDues, searchIntroducing, searchMeetings } from '@/apis/searchAPI';
+import { getAgitIntroducing, getAgitMeetings } from '@/apis/searchAPI';
 import { BASE_URL } from '@/constants/auth';
 import { getAddressValue } from '@/utils/address';
 
 export default function ApplyModalContent({ agitId }) {
   const { data: introducingData } = useSWR(`${BASE_URL}agits/${agitId}/introducing`, async () => {
-    const response = await searchIntroducing(agitId);
+    const response = await getAgitIntroducing(agitId);
     return response;
   });
 
   const { data: meetingsData } = useSWR(`${BASE_URL}agits/${agitId}/meetings/recent`, async () => {
-    const response = await searchMeetings(agitId);
+    const response = await getAgitMeetings(agitId);
     return response;
   });
-
-  // const { duesData, duesError, duesMutate } = useSWR(
-  //   `${BASE_URL}agits/${agitId}/managements/dues/common`,
-  //   async () => {
-  //     const response = await searchDues(agitId);
-  //     return response;
-  //   }
-  // );
 
   return (
     <Flex direction="column" gap="20px">
@@ -71,8 +63,8 @@ export default function ApplyModalContent({ agitId }) {
           <Flex wrap="wrap" gap="10px" asChild>
             <ul>
               {introducingData?.interests.map((interest) => {
-                <li>
-                  <Label key={`interest${interest?.id}`} style="deep">{`#${interest?.name}`}</Label>
+                <li key={`interest${interest?.id}`}>
+                  <Label style="deep">{`#${interest?.name}`}</Label>
                 </li>;
               })}
             </ul>
@@ -83,7 +75,7 @@ export default function ApplyModalContent({ agitId }) {
             <InfoCircledIcon />
           </Callout.Icon>
           <Callout.Text>
-            최근 한달동안 정기모임이 <span className="underline">{`${meetingsData}번`}</span> 진행되었어요!
+            최근 한달동안 정기모임이 <span className="underline">{`${meetingsData} 번`}</span> 진행되었어요!
           </Callout.Text>
         </Callout.Root>
       </Flex>

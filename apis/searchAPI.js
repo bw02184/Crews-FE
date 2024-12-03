@@ -6,17 +6,17 @@ export const searchAgits = async (keyword, page) => {
   return response;
 };
 
-export const searchIntroducing = async (agitId) => {
+export const getAgitIntroducing = async (agitId) => {
   const response = await instance.get(`agits/${agitId}/introducing`);
   return response;
 };
 
-export const searchMeetings = async (agitId) => {
+export const getAgitMeetings = async (agitId) => {
   const response = await instance.get(`agits/${agitId}/meetings/recent`);
   return response;
 };
 
-export const searchDues = async (agitId) => {
+export const getAgitDues = async (agitId) => {
   const response = await instance.get(`agits/${agitId}/managements/dues/common`);
   return response;
 };

@@ -15,15 +15,14 @@ import useModal from '@/hooks/useModal';
 import ButtonL from '@/components/common/Button/ButtonL';
 import useSWR from 'swr';
 import { searchAgits } from '@/apis/searchAPI';
-import { agitRequest } from '@/apis/agitsAPI';
+import { applyForAgit } from '@/apis/agitsAPI';
 
 export default function SearchResult({ params }) {
   const [items, setItems] = useState([]); // 데이터 리스트
   const [page, setPage] = useState(0); // 현재 페이지를 0으로 시작
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
-  const [agitId, setAgitId] = useState(0);
-  const [agitName, setAgitName] = useState('');
+  const [agit, setAgit] = useState({ id: 0, name: '' });
   const [isRequest, setIsRequest] = useState(false);
 
   const {
@@ -36,57 +35,71 @@ export default function SearchResult({ params }) {
   const { isOpen, openModal, closeModal } = useModal(); // useModal 사용
   const router = useRouter();
 
-  const { mutate } = useSWR(
-    params && page >= 0 ? `${BASE_URL}agits/search?keyWord=${params}&page=${page}` : null,
-    async () => {
-      const response = await searchAgits(params, page);
-      setIsLoading(true);
-      setHasMore(response.hasNext);
-
-      setItems((prevItems) => {
-        // 중복 제거 로직 추가
-        const newItems = response.data.filter((newItem) => !prevItems.some((prevItem) => prevItem.id === newItem.id));
-        return [...prevItems, ...newItems];
-      });
-
-      setIsLoading(false);
-      return response;
-    },
-  );
-  const handleUpdatePage = (currentPage) => {
-    if (hasMore) {
-      setPage(currentPage + 1);
-    }
-  };
-  const onSubmit = async ({ keyword }) => {
-    router.push(`/service/search?q=${keyword}`);
-    setPage(0);
-    setItems([]);
-    setHasMore(true);
+  const fetchAgits = async (keyword, page) => {
+    const response = await searchAgits(keyword, page);
+    return response;
   };
 
   useEffect(() => {
-    setPage(0);
-    setItems([]);
-    setHasMore(true);
-    mutate();
-  }, [params, mutate]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetchAgits(params, 0);
+        setItems(response.data);
+        setHasMore(response.hasNext);
+        setPage(1); // 다음 페이지 설정
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleCardClick = (agitId, agitName) => {
+    if (params) {
+      fetchData();
+    }
+  }, [params]);
+
+  const loadMore = async () => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetchAgits(params, page);
+      setItems((prevItems) => [
+        ...prevItems,
+        ...response.data.filter(
+          (newItem) => !prevItems.some((prevItem) => prevItem.id === newItem.id)
+        ),
+      ]);
+      setHasMore(response.hasNext);
+      setPage((prevPage) => prevPage + 1);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onSubmit = async ({ keyword }) => {
+    router.push(`/service/search?q=${keyword}`);
+  };
+
+  const handleCardClick = (id, name) => {
     if (!session) {
       router.push('/service/login');
     } else {
-      setAgitId(agitId);
-      setAgitName(agitName);
+      setAgit({ id, name });
       openModal();
     }
   };
 
   const handleRequest = async (agitId) => {
-    setIsRequest(!isRequest);
-    console.log(agitId);
-    await agitRequest(agitId);
+    try {
+      await applyForAgit(agitId);
+      setItems((prevItems) => prevItems.filter((item) => item.id !== agitId));
+      closeModal();
+    } catch (error) {
+      console.error('가입 신청 중 에러 발생:', error);
+    }
   };
+
   return (
     <>
       <Header side="left">검색결과</Header>
@@ -106,29 +119,33 @@ export default function SearchResult({ params }) {
               </button>
             </form>
             <div className="result_list">
-              <InfiniteScroll
-                dataLength={items.length}
-                next={() => handleUpdatePage(page)}
-                hasMore={hasMore}
-                loader={isLoading && <h4>Loading...</h4>}
-                endMessage={
-                  <Text as="p" align="center">
-                    더 이상 불러올 데이터가 없습니다.
-                  </Text>
-                }
-              >
-                <Flex direction="column" gap="10px" asChild>
-                  <ul>
-                    {items.map((agit, i) => (
-                      <li key={`agit${i}`}>
-                        <div onClick={() => handleCardClick(agit.id, agit.name)}>
-                          <ImageCard as="button" data={agit}></ImageCard>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </Flex>
-              </InfiniteScroll>
+              {isLoading && items.length === 0 ? (
+                <Text as="p" align="center">로딩 중...</Text>
+              ) : (
+                <InfiniteScroll
+                  dataLength={items.length}
+                  next={loadMore}
+                  hasMore={hasMore}
+                  loader={isLoading && <h4>Loading...</h4>}
+                  endMessage={
+                    <Text as="p" align="center">
+                      더 이상 불러올 데이터가 없습니다.
+                    </Text>
+                  }
+                >
+                  <Flex direction="column" gap="10px" asChild>
+                    <ul>
+                      {items.map((agit, i) => (
+                        <li key={`agit${i}`}>
+                          <div onClick={() => handleCardClick(agit.id, agit.name)}>
+                            <ImageCard as="button" data={agit}></ImageCard>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </Flex>
+                </InfiniteScroll>
+              )}
             </div>
           </Flex>
         </section>
@@ -139,21 +156,20 @@ export default function SearchResult({ params }) {
           isOpen={isOpen}
           closeModal={closeModal}
           header={{
-            title: `${agitName}`,
+            title: `${agit.name}`,
             text: '아지트에 가입하시려면 아래 사항을 확인해주세요.',
           }}
           footer={
             <ButtonL
-              onClick={() => handleRequest(agitId)}
+              onClick={() => handleRequest(agit.id)}
               type="button"
-              style={isRequest ? 'light' : 'deep'}
-              disabled={isRequest}
+              style={'deep'}
             >
               {isRequest ? `신청완료` : `가입신청`}
             </ButtonL>
           }
         >
-          <ApplyModalContent agitId={agitId} />
+          <ApplyModalContent agitId={agit.id} />
         </Modal>
       )}
     </>

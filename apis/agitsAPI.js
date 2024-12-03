@@ -1,5 +1,6 @@
 'use server';
 import instance from '@/apis/instance';
+import { revalidatePath } from 'next/cache';
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
 export const getDues = async (id) => {
@@ -46,11 +47,11 @@ export const getMyAccountHistory = async (date) => {
 };
 
 // 아지트 가입신청
-export const agitRequest = async (agitId) => {
+export const applyForAgit = async (agitId, keyWord) => {
   const response = await instance.post('agits/registrations', {
     body: JSON.stringify({ agitId }),
-    credentials: 'include',
   });
+  revalidatePath(`/service/search?q=${keyWord}`);
 
   return response;
 };
