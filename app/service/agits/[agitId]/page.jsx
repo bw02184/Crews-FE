@@ -2,13 +2,17 @@ import { ButtonL, ImageCard, Title } from '@/components/common';
 import { Box, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { feeds, events } from '@/constants/dummy';
-import { getAccount, getDues } from '@/apis/agitsAPI';
+import { getAccount, getDues, getFeeds, getMeeting } from '@/apis/agitsAPI';
 import Link from 'next/link';
 import AccountAndHeader from '@/components/agits/Account/AccountAndHeader';
+import { date } from '@/utils/date';
 
 export default async function Page({ params }) {
-  const dues = await getDues(params.agitId);
+  const yearAndMonth = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+  };
+  const dues = await getDues(params.agitId, yearAndMonth);
   if (dues?.errorCode) {
     throw new Error(dues.message);
   }
@@ -16,6 +20,30 @@ export default async function Page({ params }) {
   if (data?.errorCode) {
     throw new Error(data.message);
   }
+
+  const events = await getMeeting(params.agitId, 0, 3);
+  if (events?.errorCode) {
+    throw new Error(events.message);
+  }
+
+  const feedsInfo = await getFeeds(params.agitId, 0);
+  if (feedsInfo?.errorCode) {
+    throw new Error(feedsInfo.message);
+  }
+  const feeds = feedsInfo.data.map((feed) => ({
+    id: feed.id,
+    title: feed.content,
+    image: feed.image,
+  }));
+
+  const eventsInfo = events.data.map((event) => ({
+    id: event.id,
+    introduction: event.content,
+    place: event.place.split(' ')[event.place.split(' ').length - 1],
+    image: event.image,
+    name: event.name,
+    date: date(event.date),
+  }));
   return (
     <div className="page">
       <AccountAndHeader agitId={params.agitId} dues={dues} data={data}></AccountAndHeader>
@@ -26,13 +54,15 @@ export default async function Page({ params }) {
             <Flex direction="column" gap="20px">
               <Box>
                 <Flex direction="column" gap="10px">
-                  {events.map((event, i) => {
+                  {eventsInfo.map((event, i) => {
                     return <ImageCard type="event" data={event} key={`event${i}`}></ImageCard>;
                   })}
                 </Flex>
               </Box>
             </Flex>
-            <ButtonL style="deep">정기모임 보러가기</ButtonL>
+            <ButtonL style="deep" as="link" href={`/service/agits/${params.agitId}/meetings`}>
+              정기모임 보러가기
+            </ButtonL>
           </Flex>
         </section>
         <section>
@@ -51,7 +81,9 @@ export default async function Page({ params }) {
                 </ul>
               </Flex>
             </Box>
-            <ButtonL style="deep">활동기록 보러가기</ButtonL>
+            <ButtonL style="deep" as="link" href={`/service/agits/${params.agitId}/feeds`}>
+              활동기록 보러가기
+            </ButtonL>
           </Flex>
         </section>
       </Flex>

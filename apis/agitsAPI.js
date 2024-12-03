@@ -2,8 +2,8 @@
 import instance from '@/apis/instance';
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
-export const getDues = async (id) => {
-  const response = await instance.get(`agits/${id}/dues`);
+export const getDues = async (id, date) => {
+  const response = await instance.get(`agits/${id}/dues?year=${date.year}&month=${date.month}`);
   return response;
 };
 
@@ -14,8 +14,8 @@ export const getCommonDues = async (id) => {
 };
 
 //모든 개인,모임통장 조회
-export const getAllAccounts = async () => {
-  const response = await instance.get(`accounts`);
+export const getAllAccounts = async (date) => {
+  const response = await instance.get(`accounts?year=${date.year}&month=${date.month}`);
   return response;
 };
 
@@ -42,5 +42,45 @@ export const getAccountDetails = async (id, selectPeriod, transactionType, order
 // 모임통장에 이체정보 확인
 export const getMyAccountHistory = async (date) => {
   const response = await instance.get(`accounts/history?year=${date.year}&month=${date.month}`);
+  return response;
+};
+
+// 모임통장에 이체정보 확인
+export const transfer = async (agitId, data) => {
+  const response = await instance.post(`agits/${agitId}/accounts/transfer`, {
+    body: JSON.stringify({ ...data }),
+  });
+  return response;
+};
+
+// 모임통장에 이체정보 확인
+export const getDuesProfile = async (agitId, date) => {
+  const response = await instance.get(`agits/${agitId}/managements/dues?year=${date.year}&month=${date.month}`);
+  return response;
+};
+
+// 모임통장에 입금내역 확인
+export const crewAccountDepositInfo = async (agitId, date) => {
+  const response = await instance.get(`agits/${agitId}/accounts/deposit?year=${date.year}&month=${date.month}`);
+  return response;
+};
+
+// 모임통장에 입금내역 확인
+export const setCommonDues = async (agitId, data) => {
+  const response = await instance.post(`agits/${agitId}/managements/dues/common`, {
+    body: JSON.stringify({ ...data }),
+  });
+  return response;
+};
+
+// 정모 조회
+export const getMeeting = async (agitId, page, pageSize) => {
+  const response = await instance.get(`agits/${agitId}/meetings?page=${page}&pageSize=${pageSize}`);
+  return response;
+};
+
+// 피드 조회
+export const getFeeds = async (agitId, page) => {
+  const response = await instance.get(`agits/${agitId}/feeds?page=${page}`);
   return response;
 };

@@ -11,6 +11,7 @@ import scrollToTop from '@/utils/scrollToTop';
 import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 import { updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
+import { transfer } from '@/apis/agitsAPI';
 
 export default function PinNumber({ defaultStage, defaultStatus, data }) {
   // 입력값 관리
@@ -180,6 +181,16 @@ export default function PinNumber({ defaultStage, defaultStatus, data }) {
       }
       if (status == 'transferAgit') {
         // 아지트 이체 로직
+        const { agitId, ...restData } = data;
+        const agitData = { ...restData, pinNumber: pinNumber };
+        const response = await transfer(agitId, agitData);
+        if (response?.errorCode) {
+          scrollToTop();
+          showToast(response.message);
+          return;
+        }
+        router.push(`/service/agits/${agitId}/accounts/dues`);
+        return;
       }
       if (status == 'payment') {
         // 결제 로직

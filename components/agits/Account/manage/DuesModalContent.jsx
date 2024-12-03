@@ -6,12 +6,14 @@ import { ButtonM, CheckBox, SelectFilter } from '@/components/common';
 import { daySelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { setCommonDues } from '@/apis/agitsAPI';
 
-export default function DuesModalContent() {
+export default function DuesModalContent({ agitId }) {
   const [formattedValue, setFormattedValue] = useState('');
+  const [selectedDay, setSelectedDay] = useState(1);
 
   const daySelect = (filter, params) => {
-    console.log(params);
+    setSelectedDay(params);
   };
   const {
     handleSubmit,
@@ -19,15 +21,26 @@ export default function DuesModalContent() {
     formState: { errors },
   } = useForm();
 
-  const handleSubmitPattern = (data) => {
-    console.log(data);
+  const handleSubmitPattern = async (data) => {
+    if (data.user_dueAmount == undefined || data.user_dueAmount == null) {
+      throw new Error('금액을 입력 해 주세요!');
+    }
+    const agitData = {
+      dueDay: selectedDay,
+      dueAmount: data.user_dueAmount,
+    };
+    console.log(agitData);
+    const response = await setCommonDues(agitId, agitData);
+    if (response?.errorCode) {
+      throw new Error(response.message);
+    }
   };
   const handleNumberChange = (e) => {
     let input = e.target.value;
     const numericValue = input.replace(/[^0-9]/g, '');
     const formatted = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     setFormattedValue(formatted);
-    setValue('user_dueDay', numericValue);
+    setValue('user_dueAmount', numericValue);
   };
   return (
     <form onSubmit={handleSubmit(handleSubmitPattern)}>
@@ -47,15 +60,15 @@ export default function DuesModalContent() {
               <Box className={styles.input}>
                 <input
                   type="text"
-                  id="user_dueDay"
+                  id="user_dueAmount"
                   onInput={handleNumberChange}
                   value={formattedValue}
-                  className={errors.user_dueDay ? 'error' : ''}
+                  className={errors.user_dueAmount ? 'error' : ''}
                 />
               </Box>
-              {errors.user_dueDay && (
+              {errors.user_dueAmount && (
                 <Text as="p" className="error">
-                  {errors.user_dueDay.message}
+                  {errors.user_dueAmount.message}
                 </Text>
               )}
             </Box>
