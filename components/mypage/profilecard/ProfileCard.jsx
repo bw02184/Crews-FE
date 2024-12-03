@@ -1,5 +1,4 @@
 'use client';
-
 import { Box, Text, Flex } from '@radix-ui/themes';
 import styles from './ProfileCard.module.css';
 import { ButtonS, Label, Dropdown } from '@/components/common';
@@ -8,14 +7,15 @@ import useSWR, { mutate } from 'swr';
 import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { useNicknameStore } from '@/stores/mypageStore';
 import { useEffect } from 'react';
-import instance from '@/apis/instance';
+import { deleteProfileImage, updateProfileImage } from '@/apis/mypageAPI';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileCard({ profileData }) {
-  const { data } = useSWR('members/me/profile', () => instance.get('members/me/profile'), {
+  const { data } = useSWR('members/me/profile', () => getProfile(), {
     fallbackData: profileData,
   });
   const { nickname, setNickname } = useNicknameStore();
-
+  const router = useRouter();
   useEffect(() => {
     if (data?.nickname && data.nickname !== nickname) {
       setNickname(data.nickname);
@@ -27,39 +27,54 @@ export default function ProfileCard({ profileData }) {
   );
 
   const onEditPhotoClick = async () => {
-    alert(`사진 수정하기가 클릭되었습니다. ${process.env.AWS_ACCESS_KEY_ID}`);
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-
+    fileInput.accept = 'image/png, image/jpeg';
     fileInput.onchange = async (event) => {
       const file = event.target.files[0];
       if (!file) return;
 
-      const fileName = `${Date.now()}_${file.name}`;
+      if (!['image/png', 'image/jpeg'].includes(file.type)) {
+        alert('지원하지 않는 파일 형식입니다. png 또는 jpg 이미지만 업로드할 수 있습니다.');
+        return;
+      }
+
       try {
+        const folder = 'profiles';
         const response = await fetch('/api/s3', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fileName,
-            fileType: file.type,
-          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fileType: file.type, folder }),
         });
 
-        if (!response.ok) throw new Error('업로드 URL 생성 중 오류가 발생했습니다.');
-
-        const { signedUrl } = await response.json();
-
-        // S3에 파일 업로드
-        await fetch(signedUrl, {
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`파일 업로드 중 오류가 발생했습니다: ${errorText}`);
+        }
+        const { signedUrl, fileName } = await response.json();
+        const uploadResponse = await fetch(signedUrl, {
           method: 'PUT',
+          headers: {
+            'Content-Type': file.type,
+          },
           body: file,
-          headers: { 'Content-Type': file.type },
         });
 
-        alert('사진이 업로드되었습니다.');
-        await mutate('members/me/profile');
+        if (!uploadResponse.ok) {
+          throw new Error('S3 파일 업로드 중 오류가 발생했습니다.');
+        }
+
+        const updateRespons = await updateProfileImage({ profileImagePath: fileName });
+        if (updateRespons?.errorCode) {
+          alert(updateRespons.message);
+        } else {
+          console.log('업로드된 파일 이름:', fileName);
+          await mutate('members/me/profile', undefined, { revalidate: true });
+          alert('사진이 등록 되었습니다.');
+          router.push('/service/mypage');
+        }
       } catch (error) {
         console.error('사진 업로드 중 오류:', error);
         alert(error.message);
@@ -70,20 +85,32 @@ export default function ProfileCard({ profileData }) {
   };
 
   const onDeletePhotoClick = async () => {
-    alert('사진 삭제하기가 클릭되었습니다.');
     try {
-      const fileName = data.profileImage.split('/').pop(); // URL에서 파일명 추출
+      const fileName = data.profileImage;
+      const folder = 'profiles';
+      console.log(fileName);
+
+      if (!fileName) {
+        throw new Error('삭제할 파일명이 없습니다.');
+      }
 
       const response = await fetch('/api/s3', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileName }),
+        body: JSON.stringify({ fileName, folder }),
       });
 
-      if (!response.ok) throw new Error('사진 삭제 중 오류가 발생했습니다.');
+      if (!response.ok) {
+        throw new Error('사진 삭제 중 오류가 발생했습니다.');
+      }
 
-      alert('사진이 삭제되었습니다.');
-      await mutate('members/me/profile');
+      const updateRespons = await deleteProfileImage();
+      if (updateRespons?.errorCode) {
+        alert(updateRespons.message);
+      } else {
+        await mutate('members/me/profile', undefined, { revalidate: true });
+        alert('사진이 삭제되었습니다.');
+      }
     } catch (error) {
       console.error('사진 삭제 중 오류:', error);
       alert(error.message);
@@ -97,14 +124,20 @@ export default function ProfileCard({ profileData }) {
           <div className={styles.img_box}>
             <div
               className={`${styles.profile_img} back_img ${data.profileImage == (null || '') ? styles.blank : ''}`}
-              style={{ backgroundImage: `url(${data.profileImage})` }}
+              style={{ backgroundImage: `url(https://djogyo1sj025q.cloudfront.net/${data.profileImage})` }}
             >
               <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.profileImage} 프로필 이미지`} />
             </div>
             <div className={styles.dropdown}>
               <Dropdown
                 menuList={[
-                  { text: '사진 수정하기', onClick: onEditPhotoClick },
+                  {
+                    text: '사진 수정하기',
+                    onClick: () => {
+                      onEditPhotoClick();
+                      document.activeElement.blur();
+                    },
+                  },
                   { text: '사진 삭제하기', onClick: onDeletePhotoClick },
                 ]}
               >
