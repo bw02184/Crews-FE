@@ -44,3 +44,24 @@ export const getMyAccountHistory = async (date) => {
   const response = await instance.get(`accounts/history?year=${date.year}&month=${date.month}`);
   return response;
 };
+
+export const validateAgitName = async (agitName) => {
+  const response = await instance.get(`agits/validate-name?agitName=${agitName}`);
+  return response;
+};
+
+export const getInterest = async () => {
+  const response = await instance.get(`interests`);
+  return response;
+};
+
+export const createAgitRequest = async (formData) => {
+  console.log(formData);
+  const response = await instance.post('agits', {
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+};
