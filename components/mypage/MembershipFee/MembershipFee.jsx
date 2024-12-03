@@ -7,33 +7,30 @@ import Image from 'next/image';
 import { ButtonL, Modal, PinNumber, SelectFilter, Toast } from '@/components/common';
 import { useModal } from '@/hooks';
 import useSWR, { mutate } from 'swr';
-import instance from '@/apis/instance';
 import { useMembershipStore } from '@/stores/mypageStore';
 import { useToast } from '@/hooks';
 import { useRouter } from 'next/navigation';
+import { getPersonalAccounts } from '@/apis/mypageAPI';
 
 export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
 
-  const { data: crewData = [] } = useSWR('members/me/agits-accounts', () => instance.get('members/me/agits-accounts'), {
+  const { data: crewData = [] } = useSWR('members/me/agits-accounts', async () => await getFeePaymentInfo(), {
     fallbackData: crewFallbackData,
   });
 
-  const { data: myData = [] } = useSWR('members/me/my-accounts', () => instance.get('members/me/my-accounts'), {
+  const { data: myData = [] } = useSWR('members/me/my-accounts', async () => await getPersonalAccounts(), {
     fallbackData: myFallbackData,
   });
 
   const router = useRouter();
 
-  const storeSelectedCrewAccount = useMembershipStore((state) => state.selectedCrewAccount);
-  const storeSelectedMyAccount = useMembershipStore((state) => state.selectedMyAccount);
+  const { setSelectedCrewAccount, storeSelectedCrewAccount, setSelectedMyAccount, storeSelectedMyAccount } =
+    useMembershipStore();
 
   const selectedCrewAccount = storeSelectedCrewAccount || crewFallbackData?.[0] || {};
   const selectedMyAccount = storeSelectedMyAccount || myFallbackData?.[0] || {};
-
-  const setSelectedCrewAccount = useMembershipStore((state) => state.setSelectedCrewAccount);
-  const setSelectedMyAccount = useMembershipStore((state) => state.setSelectedMyAccount);
 
   useEffect(() => {
     if (!storeSelectedCrewAccount && crewFallbackData?.[0]) {
@@ -84,7 +81,7 @@ export default function MembershipFee({ crewData: crewFallbackData, myData: myFa
       <Flex direction="column" gap="10px">
         <SelectFilter
           key={selectedCrewAccount?.paid}
-          selectList={crewData.map((account) => ({
+          selectList={crewData?.map((account) => ({
             ...account,
             text: account.agitName,
             params: account.agitId,
