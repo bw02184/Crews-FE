@@ -9,9 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks';
 import { isAddressEmpty } from '@/utils/address';
 import { createAgitRequest, validateAgitName } from '@/apis/agitsAPI';
-import { NONE } from '@/constants/address'
-
-
+import { NONE } from '@/constants/address';
 export default function AgitCreateForm({ subjects }) {
   const [currentSubject, setCurrentSubject] = useState(subjects[0]?.subjectId || 1);
   const [selectedInterests, setSelectedInterests] = useState([]);
@@ -110,7 +108,6 @@ export default function AgitCreateForm({ subjects }) {
       return newSelected;
     });
   };
-
 
   return (
     <div className="page">
