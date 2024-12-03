@@ -278,9 +278,7 @@ export default function PinNumber({ defaultStage, defaultStatus, data, callback 
           </Flex>
           <Box className="btn_group">
             {stage == 'create' && status == undefined && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
-            {(status == 'confirm' ||
-              stage == 'auth' ||
-              (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
+            {(status == 'confirm' || (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
               <ButtonM rightButton={{ type: 'submit', text: '확인', isLoading }} />
             )}
             {stage == 'update' && status == 'change' && (
@@ -294,6 +292,12 @@ export default function PinNumber({ defaultStage, defaultStatus, data, callback 
             )}
             {stage == 'auth' && status == 'error' && (
               <ButtonM rightButton={{ type: 'button', text: '재입력', onClick: handleReset }} />
+            )}
+            {stage == 'auth' && status != 'error' && (
+              <ButtonM
+                leftButton={{ type: 'button', text: '재입력', onClick: handleReset }}
+                rightButton={{ type: 'submit', text: '확인' }}
+              />
             )}
           </Box>
         </form>
