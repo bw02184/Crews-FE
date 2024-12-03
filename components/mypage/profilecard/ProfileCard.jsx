@@ -7,7 +7,7 @@ import useSWR, { mutate } from 'swr';
 import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { useNicknameStore } from '@/stores/mypageStore';
 import { useEffect } from 'react';
-import { deleteProfileImage, updateProfileImage } from '@/apis/mypageAPI';
+import { deleteProfileImage, getProfile, updateProfileImage } from '@/apis/mypageAPI';
 import { useRouter } from 'next/navigation';
 
 export default function ProfileCard({ profileData }) {

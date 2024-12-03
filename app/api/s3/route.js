@@ -19,7 +19,7 @@ const s3 = new S3Client({
   },
 });
 
-export async function POST(request) {
+export const POST = async (request) => {
   try {
     const session = await auth();
     if (!session?.accessToken) {
@@ -51,8 +51,9 @@ export async function POST(request) {
     }
 
     const extension = fileType === 'image/png' ? 'png' : 'jpg';
-    const fileName = `${folder}/${memberId}/${memberId}_profile.${extension}`;
-    // 기존 폴더 내 파일 삭제
+    const timestamp = Date.now();
+    const fileName = `${folder}/${memberId}/${memberId}_profile_${timestamp}.${extension}`;
+
     const listParams = {
       Bucket: process.env.AWS_S3_BUCKET,
       Prefix: `${folder}/${memberId}/`,
@@ -82,9 +83,9 @@ export async function POST(request) {
     console.error('S3 업로드 URL 생성 오류:', error);
     return NextResponse.json({ error: 'S3 업로드 URL 생성 중 오류가 발생했습니다.' }, { status: 500 });
   }
-}
+};
 
-export async function DELETE(request) {
+export const DELETE = async (request) => {
   try {
     const session = await auth();
     if (!session?.accessToken) {
@@ -109,4 +110,4 @@ export async function DELETE(request) {
     console.error('S3 파일 삭제 오류:', error);
     return NextResponse.json({ error: 'S3 파일 삭제 중 오류가 발생했습니다.' }, { status: 500 });
   }
-}
+};

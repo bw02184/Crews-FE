@@ -10,7 +10,7 @@ import useSWR, { mutate } from 'swr';
 import { useMembershipStore } from '@/stores/mypageStore';
 import { useToast } from '@/hooks';
 import { useRouter } from 'next/navigation';
-import { getPersonalAccounts } from '@/apis/mypageAPI';
+import { getFeePaymentInfo, getPersonalAccounts } from '@/apis/mypageAPI';
 
 export default function MembershipFee({ crewData: crewFallbackData, myData: myFallbackData }) {
   const { toast, setToast, toastMessage, showToast } = useToast();
