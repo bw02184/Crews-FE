@@ -4,22 +4,37 @@ import styles from './AccountCreate.module.css';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import { ButtonS } from '@/components/common';
+import { generateAccount } from '@/apis/agitsAPI';
 
-export default function DepositProduct({ product }) {
+export default function DepositProduct({ agitId, product }) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  const handleGenerateAccount = async () => {
+    console.log(product.id);
+    const response = await generateAccount(agitId, product.id);
+    if (response?.errorCode) {
+      throw new Error(response.message);
+    }
+    console.log(response);
+  };
+
   return (
     <li>
       <Card>
         <Flex gap="10px" direction="row">
           <Box className={styles.img_box}>
             <div className={`${styles.img} img`}>
-              <Image src="/imgs/dev/img_bank.jpg" width={30} height={30} alt={`${product.bank} 이미지`} />
+              <Image src={product.bankImage} width={30} height={30} alt={`${product.bankName} 이미지`} />
             </div>
           </Box>
           <Flex direction="column" gap="10px" className={styles.txt_box}>
             <Box className={styles.top}>
-              <em>{product.name}</em>
+              <em>{product.productName}</em>
               <Text as="p" size="1" weight="medium">
-                {product.bank}
+                {product.bankName}
               </Text>
             </Box>
             <Box className={styles.rate}>
@@ -30,7 +45,7 @@ export default function DepositProduct({ product }) {
                       최고
                     </Text>
                     <Text as="label" size="3" weight="bold" className="light">
-                      {product.highestRate}
+                      {`연 ${formatter.format(product.highestRate)}%`}
                     </Text>
                   </li>
                   <li>
@@ -38,7 +53,7 @@ export default function DepositProduct({ product }) {
                       최저
                     </Text>
                     <Text as="label" size="3" weight="bold" className="light">
-                      {product.lowestRate}
+                      {`연 ${formatter.format(product.lowestRate)}%`}
                     </Text>
                   </li>
                 </ul>
@@ -47,10 +62,9 @@ export default function DepositProduct({ product }) {
           </Flex>
         </Flex>
         <Flex justify="end" gap="10px" pt="3">
-          <ButtonS as="link" href="/" style="light">
-            상세정보
+          <ButtonS style="deep" onClick={handleGenerateAccount}>
+            상품선택
           </ButtonS>
-          <ButtonS style="deep">상품선택</ButtonS>
         </Flex>
       </Card>
     </li>

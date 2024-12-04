@@ -13,7 +13,7 @@ import { signUp } from '@/apis/authAPI';
 import { updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 import { transfer } from '@/apis/agitsAPI';
 
-export default function PinNumber({ defaultStage, defaultStatus, data }) {
+export default function PinNumber({ defaultStage, defaultStatus, data, closeModal }) {
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -189,6 +189,7 @@ export default function PinNumber({ defaultStage, defaultStatus, data }) {
           showToast(response.message);
           return;
         }
+        closeModal();
         router.push(`/service/agits/${agitId}/accounts/dues`);
         return;
       }

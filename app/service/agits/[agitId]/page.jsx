@@ -73,7 +73,7 @@ export default async function Page({ params }) {
                 <ul>
                   {feeds.map((feed, index) => (
                     <li className="back_img" style={{ backgroundImage: `url(${feed?.image})` }} key={`feed${index}`}>
-                      <Link href={`/service/agits/feeds/${feed?.id}`}>
+                      <Link href={`/service/agits/${params.agitId}/feeds/${feed?.id}`}>
                         <Image src={'/imgs/img_bg_feed.jpg'} width={190} height={190} alt={`${feed.title} 이미지`} />
                       </Link>
                     </li>

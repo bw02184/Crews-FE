@@ -51,10 +51,17 @@ export default function AccountAndHeader({ agitId, dues, data }) {
             <Flex direction="column" gap="20px">
               <Title>모임통장</Title>
               {data.ci == null ? <NoAccount></NoAccount> : <Account data={data} hide={true} />}
-              <ButtonM
-                leftButton={{ text: '권한 요청하기' }}
-                rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
-              />
+              {data.ci == null ? (
+                <ButtonM
+                  leftButton={{ text: '연결하기' }}
+                  rightButton={{ text: '생성하기', as: 'link', href: `/service/agits/${agitId}/accounts/create` }}
+                />
+              ) : (
+                <ButtonM
+                  leftButton={{ text: '권한 요청하기' }}
+                  rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
+                />
+              )}
             </Flex>
           )}
         </section>

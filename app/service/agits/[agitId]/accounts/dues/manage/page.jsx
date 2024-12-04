@@ -10,6 +10,7 @@ export default async function Page({ params }) {
   if (commonDues?.errorCode) {
     throw new Error(commonDues.message);
   }
+  console.log(commonDues);
   const profileDatas = await getDuesProfile(params.agitId, yearAndMonth);
   if (profileDatas?.errorCode) {
     throw new Error(profileDatas.message);

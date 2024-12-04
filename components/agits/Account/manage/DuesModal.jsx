@@ -17,7 +17,7 @@ export default function DuesModal({ agitId }) {
         회비설정
       </ButtonS>
       <Modal isOpen={isOpen} closeModal={closeModal} header={{ title: '회비 설정을 변경하시겠습니까?' }}>
-        <DuesModalContent agitId={agitId}></DuesModalContent>
+        <DuesModalContent agitId={agitId} closeModal={closeModal}></DuesModalContent>
       </Modal>
     </Flex>
   );

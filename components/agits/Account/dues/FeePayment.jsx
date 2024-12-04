@@ -91,7 +91,7 @@ export default function FeePayment({ agitId, data, yearAndMonth }) {
         }}
       >
         <Suspense>
-          <PinNumber defaultStage={'auth'} defaultStatus={'transferAgit'} data={pinData} />
+          <PinNumber defaultStage={'auth'} defaultStatus={'transferAgit'} data={pinData} closeModal={pinCloseModal} />
         </Suspense>
       </Modal>
     </Flex>

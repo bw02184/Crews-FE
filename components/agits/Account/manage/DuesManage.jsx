@@ -5,7 +5,7 @@ import DuesModal from './DuesModal';
 import ArrowButton from '../dues/ArrowButton';
 import ProfileCard from './ProfileCard';
 import AccountDetail from '../AccountDetail';
-import { crewAccountDepositInfo, getDuesProfile } from '@/apis/agitsAPI';
+import { callDues, crewAccountDepositInfo, getDuesProfile } from '@/apis/agitsAPI';
 import { useState } from 'react';
 import useSWR from 'swr';
 
@@ -40,7 +40,26 @@ export default function DuesManage({ agitId, commonDues, profileDatas, accountDe
       fallbackData: profileDatas,
     },
   );
+  const memberIds = profileDatasInfo.profileResponses.map((profile) => profile.memberId);
 
+  const handleCall = async () => {
+    if (profileDatasInfo.memberCount > 0) {
+      const duesData = {
+        memberId: memberIds,
+        duesAmount: commonDues?.dueAmount,
+        year: yearAndMonth?.year,
+        month: yearAndMonth?.month,
+      };
+      const response = await callDues(agitId, duesData);
+
+      if (response?.errorCode) {
+        console.log(response.message);
+        alert('에러가 발생했습니다. 다시 실행 해 주세요.');
+      } else if (response) {
+        alert('문자가 발송되었습니다.');
+      }
+    }
+  };
   return (
     <div className="page">
       <Header side="center">회비 납부 관리</Header>
@@ -60,11 +79,21 @@ export default function DuesManage({ agitId, commonDues, profileDatas, accountDe
             <Flex direction="column" asChild>
               <ul>
                 {profileDatasInfo?.profileResponses?.map((profileData, i) => {
-                  return <ProfileCard key={i} profileData={profileData}></ProfileCard>;
+                  return (
+                    <ProfileCard
+                      key={i}
+                      profileData={profileData}
+                      agitId={agitId}
+                      commonDues={commonDues}
+                      yearAndMonth={yearAndMonth}
+                    ></ProfileCard>
+                  );
                 })}
               </ul>
             </Flex>
-            <ButtonL style="deep">일괄요청</ButtonL>
+            <ButtonL style="deep" onClick={handleCall}>
+              일괄요청
+            </ButtonL>
           </Flex>
         </section>
         <section>

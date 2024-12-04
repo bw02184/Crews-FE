@@ -2,38 +2,53 @@
 
 import { Box, Flex, Text } from '@radix-ui/themes';
 import styles from './DuesModalContent.module.css';
-import { ButtonM, CheckBox, SelectFilter } from '@/components/common';
+import { ButtonM, SelectFilter } from '@/components/common';
 import { daySelectMenuList } from '@/constants/selectMenuList/sample';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { setCommonDues } from '@/apis/agitsAPI';
+import DuesCheckBox from './DuesCheckbox';
 
-export default function DuesModalContent({ agitId }) {
+export default function DuesModalContent({ agitId, closeModal }) {
   const [formattedValue, setFormattedValue] = useState('');
   const [selectedDay, setSelectedDay] = useState(1);
-
+  const [isChecked, setIsChecked] = useState(true);
   const daySelect = (filter, params) => {
     setSelectedDay(params);
   };
+
   const {
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
 
+  const handleCheckboxChange = (checked) => {
+    setIsChecked(checked);
+  };
+
   const handleSubmitPattern = async (data) => {
-    if (data.user_dueAmount == undefined || data.user_dueAmount == null) {
-      throw new Error('금액을 입력 해 주세요!');
+    if (data.user_dueAmount === undefined || data.user_dueAmount === null) {
+      alert('금액 및 날짜를 확인해 주세요!');
+      return;
     }
+
+    if (!isChecked) {
+      alert('동의문에 체크 해 주세요');
+      return;
+    }
+
     const agitData = {
       dueDay: selectedDay,
       dueAmount: data.user_dueAmount,
     };
-    console.log(agitData);
+
     const response = await setCommonDues(agitId, agitData);
     if (response?.errorCode) {
-      throw new Error(response.message);
+      console.log(response.message);
+      alert('에러가 발생했습니다. 다시 실행 해 주세요.');
     }
+    closeModal();
   };
   const handleNumberChange = (e) => {
     let input = e.target.value;
@@ -78,9 +93,9 @@ export default function DuesModalContent({ agitId }) {
           </Flex>
         </div>
         <Flex justify="end">
-          <CheckBox value="2" defaultChecked={true}>
+          <DuesCheckBox checked={isChecked} onCheckedChange={handleCheckboxChange}>
             금액 및 날짜를 확인하셨나요?
-          </CheckBox>
+          </DuesCheckBox>
         </Flex>
         <ButtonM leftButton={{ text: '취소' }} rightButton={{ type: 'submit', text: '신청' }} />
       </Flex>

@@ -84,3 +84,25 @@ export const getFeeds = async (agitId, page) => {
   const response = await instance.get(`agits/${agitId}/feeds?page=${page}`);
   return response;
 };
+
+// 모든 계좌상품 조회
+export const getProducts = async () => {
+  const response = await instance.get(`products`);
+  return response;
+};
+
+// 모임통장 계좌 생성
+export const generateAccount = async (agitId, productId) => {
+  const response = await instance.post(`agits/${agitId}/accounts`, {
+    body: JSON.stringify({ productId }),
+  });
+  return response;
+};
+
+// 모임통장 회비 납부 요청
+export const callDues = async (agitId, data) => {
+  const response = await instance.post(`agits/${agitId}/member/call`, {
+    body: JSON.stringify({ ...data }),
+  });
+  return response;
+};
