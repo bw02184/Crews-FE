@@ -8,12 +8,10 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect, useState } from 'react';
-import { BASE_URL } from '@/constants/auth';
 import ApplyModalContent from '@/components/agits/ApplyModalContent';
 import { useSession } from 'next-auth/react';
 import useModal from '@/hooks/useModal';
 import ButtonL from '@/components/common/Button/ButtonL';
-import useSWR from 'swr';
 import { searchAgits } from '@/apis/searchAPI';
 import { applyForAgit } from '@/apis/agitsAPI';
 
@@ -23,7 +21,6 @@ export default function SearchResult({ params }) {
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const [agit, setAgit] = useState({ id: 0, name: '' });
-  const [isRequest, setIsRequest] = useState(false);
 
   const {
     register,
@@ -94,6 +91,13 @@ export default function SearchResult({ params }) {
     try {
       await applyForAgit(agitId);
       setItems((prevItems) => prevItems.filter((item) => item.id !== agitId));
+
+      // 삭제 후 데이터 부족 시 추가 데이터 로드
+      if (items.length <= 5 && hasMore) {
+        await loadMore();
+      }
+
+      alert('가입 신청이 완료되었습니다.');
       closeModal();
     } catch (error) {
       console.error('가입 신청 중 에러 발생:', error);
@@ -119,33 +123,31 @@ export default function SearchResult({ params }) {
               </button>
             </form>
             <div className="result_list">
-              {isLoading && items.length === 0 ? (
-                <Text as="p" align="center">로딩 중...</Text>
-              ) : (
-                <InfiniteScroll
-                  dataLength={items.length}
-                  next={loadMore}
-                  hasMore={hasMore}
-                  loader={isLoading && <h4>Loading...</h4>}
-                  endMessage={
-                    <Text as="p" align="center">
-                      더 이상 불러올 데이터가 없습니다.
-                    </Text>
-                  }
-                >
-                  <Flex direction="column" gap="10px" asChild>
-                    <ul>
-                      {items.map((agit, i) => (
-                        <li key={`agit${i}`}>
-                          <div onClick={() => handleCardClick(agit.id, agit.name)}>
-                            <ImageCard as="button" data={agit}></ImageCard>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </Flex>
-                </InfiniteScroll>
-              )}
+              <InfiniteScroll
+                dataLength={items.length}
+                next={loadMore}
+                hasMore={hasMore}
+                loader={isLoading && <Text as="p" align="center">
+                  로드 중...
+                </Text>}
+                endMessage={
+                  <Text as="p" align="center">
+                    더 이상 불러올 데이터가 없습니다.
+                  </Text>
+                }
+              >
+                <Flex direction="column" gap="10px" asChild>
+                  <ul>
+                    {items.map((agit, i) => (
+                      <li key={`agit${i}`}>
+                        <div onClick={() => handleCardClick(agit.id, agit.name)}>
+                          <ImageCard as="button" data={agit}></ImageCard>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Flex>
+              </InfiniteScroll>
             </div>
           </Flex>
         </section>
@@ -165,7 +167,7 @@ export default function SearchResult({ params }) {
               type="button"
               style={'deep'}
             >
-              {isRequest ? `신청완료` : `가입신청`}
+              가입신청
             </ButtonL>
           }
         >
