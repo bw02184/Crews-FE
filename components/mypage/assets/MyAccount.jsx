@@ -133,7 +133,7 @@ export default function MyAccount({ data: fallbackData }) {
                 <Box className={styles.txt_box}>
                   <Text as="p" size="2" weight="medium">
                     개인 계좌를 연결하고 <i className="dpb"></i>
-                    어쩌고저쩌고...해보세요.
+                    모임 회비를 간단하게 납부/관리 해보세요.
                   </Text>
                 </Box>
               </Flex>
