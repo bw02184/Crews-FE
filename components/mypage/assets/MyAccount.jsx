@@ -34,32 +34,25 @@ export default function MyAccount({ data: fallbackData }) {
   });
 
   const handleDeleteAccount = async () => {
-    try {
-      const response = await detachPersonalAccount(selectedAccount);
-      if (response?.errorCode) {
-        console.error(`계좌 해지 실패: ${response.message}`);
-        showToast('계좌 해지에 실패했습니다.');
-      } else {
-        alert('성공적으로 해지 되었습니다.');
-        closeDetachModal();
-        router.refresh();
-      }
-    } catch (error) {
-      console.error('계좌 해지 오류:', error);
-      showToast('계좌 해지 중 오류가 발생했습니다.');
+    const response = await detachPersonalAccount(selectedAccount);
+    if (response?.errorCode) {
+      console.error(`계좌 해지 실패: ${response.message}`);
+      showToast('계좌 해지에 실패했습니다.');
+    } else {
+      alert('성공적으로 해지 되었습니다.');
+      closeDetachModal();
+      router.refresh();
     }
   };
 
   const handleDetachClick = (accountd) => {
     setSelectedAccount(accountd);
-    console.log(selectedAccount);
     openDetachModal();
   };
 
   // 계좌 연결 클릭 핸들러
   const handleAttachClick = () => {
     openAttachModal();
-    // SWR은 isAttachOpen이 true일 때 자동으로 fetch를 수행
   };
 
   // 자산 선택 핸들러

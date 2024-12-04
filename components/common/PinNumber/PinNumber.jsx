@@ -173,35 +173,23 @@ export default function PinNumber({ defaultStage, defaultStatus, data, callback 
     }
 
     if (stage == 'auth') {
-      // console.log(pinNumber); // 입력한 pin번호
-      // console.log(data); // 위에서 props로 내려준 data
-      // console.log(status);
       if (status == 'transferMyage') {
         // 마이페이지 이체 로직
-        try {
-          const agitId = data.agitId;
-          const crewAccountId = data.crewAccountId;
-          const myAccountId = data.myAccountId;
-          const amount = data.amount;
-
-          const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
-
-          if (response?.errorCode) {
-            console.log(`계좌 이체 실패: ${response.message}`);
-            if (callback) {
-              callback(false, response.message);
-            }
-          } else {
-            if (callback) {
-              mutate('members/me/agits-accounts', undefined, { revalidate: true });
-              mutate('members/me/my-accounts', undefined, { revalidate: true });
-              callback(true, '성공적으로 이체되었습니다.', crewAccountId, myAccountId);
-            }
-          }
-        } catch (error) {
-          console.error('이체 처리 중 오류 발생:', error);
+        const agitId = data.agitId;
+        const crewAccountId = data.crewAccountId;
+        const myAccountId = data.myAccountId;
+        const amount = data.amount;
+        const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
+        if (response?.errorCode) {
+          console.log(`계좌 이체 실패: ${response.message}`);
           if (callback) {
-            callback(false, '이체 처리 중 오류가 발생했습니다.');
+            callback(false, response.message);
+          }
+        } else {
+          if (callback) {
+            mutate('members/me/agits-accounts', undefined, { revalidate: true });
+            mutate('members/me/my-accounts', undefined, { revalidate: true });
+            callback(true, '성공적으로 이체되었습니다.', crewAccountId, myAccountId);
           }
         }
       }
