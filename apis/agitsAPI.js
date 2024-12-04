@@ -56,12 +56,8 @@ export const getInterest = async () => {
 };
 
 export const createAgitRequest = async (formData) => {
-  console.log(formData);
   const response = await instance.post('agits', {
     body: JSON.stringify(formData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
   });
   return response;
 };

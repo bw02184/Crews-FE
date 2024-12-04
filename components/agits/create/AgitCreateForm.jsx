@@ -35,7 +35,9 @@ export default function AgitCreateForm({ subjects }) {
     }
 
     const validateAgitNameData = await validateAgitName(getValues('name'));
-
+    if (validateAgitName.errorCode) {
+      throw new Error(validateAgitName.message);
+    }
     if (validateAgitNameData?.used) {
       scrollToTop();
       setAsState('alert');
@@ -54,26 +56,23 @@ export default function AgitCreateForm({ subjects }) {
     setCurrentSubject(parseInt(value, 10));
   };
 
-  const onSubmit = async (data) => {
+  const handleOnSubmit = async (data) => {
+    setAsState('alert');
     if (isUsed === 'nonClick') {
       scrollToTop();
-      setAsState('alert');
       showToast('아지트 이름 중복을 확인해주세요!');
       return;
     } else if (isUsed) {
       scrollToTop();
-      setAsState('alert');
       showToast('사용중인 아지트 이름으로 생성할 수 없습니다.');
       return;
     }
     if (selectedInterests.length < 1) {
       scrollToTop();
-      setAsState('alert');
       showToast('관심사를 1개 이상 선택해주세요!');
       return;
     } else if (selectedInterests.length > 4) {
       scrollToTop();
-      setAsState('alert');
       showToast('관심사를 3개 이하로 선택해주세요!');
       return;
     }
@@ -95,7 +94,6 @@ export default function AgitCreateForm({ subjects }) {
 
     const response = await createAgitRequest(agitData);
     if (response?.errorCode) {
-      setAsState('alert');
       showToast('에러가 발생했습니다. 잠시 후 다시 시도해주세요');
     } else {
       router.push(`/service/agits/create/done?q=${response.id}`);
@@ -116,7 +114,7 @@ export default function AgitCreateForm({ subjects }) {
         <Text>{toastMessage}</Text>
       </Toast>
       <div className="content">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleOnSubmit)}>
           <Flex direction="column" gap="10px" className="content">
             <Flex direction="column" gap="10px" asChild>
               <section>
