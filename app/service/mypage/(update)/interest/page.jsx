@@ -5,13 +5,13 @@ import { getAllInterests } from '@/apis/utilAPI';
 
 export default async function Page() {
   const interestData = await getInterests();
-  if (interestData?.error) {
-    throw new Error(interestData.error);
+  if (interestData?.errorCode) {
+    throw new Error(interestData.message);
   }
 
   const subjectsData = await getAllInterests();
-  if (subjectsData?.error) {
-    throw new Error(subjectsData.error);
+  if (subjectsData?.errorCode) {
+    throw new Error(subjectsData.message);
   }
 
   return (
