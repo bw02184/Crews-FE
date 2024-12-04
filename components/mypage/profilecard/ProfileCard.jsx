@@ -6,9 +6,10 @@ import Image from 'next/image';
 import useSWR, { mutate } from 'swr';
 import { EXCLUDED_INTEREST_IDS } from '@/constants/excludedIds';
 import { useNicknameStore } from '@/stores/mypageStore';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { deleteProfileImage, getProfile, updateProfileImage } from '@/apis/mypageAPI';
 import { useRouter } from 'next/navigation';
+import { deleteFileFromS3, getSignedS3Url, uploadFileToS3 } from '@/utils/s3utills';
 
 export default function ProfileCard({ profileData }) {
   const { data } = useSWR('members/me/profile', () => getProfile(), {
@@ -16,6 +17,8 @@ export default function ProfileCard({ profileData }) {
   });
   const { nickname, setNickname } = useNicknameStore();
   const router = useRouter();
+  const fileInputRef = useRef(null);
+
   useEffect(() => {
     if (data?.nickname && data.nickname !== nickname) {
       setNickname(data.nickname);
@@ -26,94 +29,48 @@ export default function ProfileCard({ profileData }) {
     (interest) => !EXCLUDED_INTEREST_IDS.includes(interest.interestingId),
   );
 
-  const onEditPhotoClick = async () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/png, image/jpeg';
-    fileInput.onchange = async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      if (!['image/png', 'image/jpeg'].includes(file.type)) {
-        alert('지원하지 않는 파일 형식입니다. png 또는 jpg 이미지만 업로드할 수 있습니다.');
-        return;
-      }
-
-      try {
-        const folder = 'profiles';
-        const response = await fetch('/api/s3', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ fileType: file.type, folder }),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`파일 업로드 중 오류가 발생했습니다: ${errorText}`);
-        }
-        const { signedUrl, fileName } = await response.json();
-        const uploadResponse = await fetch(signedUrl, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': file.type,
-          },
-          body: file,
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error('S3 파일 업로드 중 오류가 발생했습니다.');
-        }
-
-        const updateRespons = await updateProfileImage({ profileImagePath: fileName });
-        if (updateRespons?.errorCode) {
-          alert(updateRespons.message);
-        } else {
-          console.log('업로드된 파일 이름:', fileName);
-          await mutate('members/me/profile', undefined, { revalidate: true });
-          alert('사진이 등록 되었습니다.');
-          router.push('/service/mypage');
-        }
-      } catch (error) {
-        console.error('사진 업로드 중 오류:', error);
-        alert(error.message);
-      }
-    };
-
-    fileInput.click();
+  const handleEditProfile = () => {
+    fileInputRef.current?.click();
   };
 
-  const onDeletePhotoClick = async () => {
-    try {
-      const fileName = data.profileImage;
-      const folder = 'profiles';
-      console.log(fileName);
+  const handleChangeFile = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-      if (!fileName) {
-        throw new Error('삭제할 파일명이 없습니다.');
-      }
+    if (!['image/png', 'image/jpeg'].includes(file.type)) {
+      alert('지원하지 않는 파일 형식입니다. png 또는 jpg 이미지만 업로드할 수 있습니다.');
+      return;
+    }
 
-      const response = await fetch('/api/s3', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileName, folder }),
-      });
+    const { signedUrl, fileName } = await getSignedS3Url(file.type, 'profiles');
+    await uploadFileToS3(signedUrl, file);
 
-      if (!response.ok) {
-        throw new Error('사진 삭제 중 오류가 발생했습니다.');
-      }
+    const updateResponse = await updateProfileImage({ profileImagePath: fileName });
+    if (updateResponse?.errorCode) {
+      alert(updateResponse.message);
+    } else {
+      await mutate('members/me/profile', undefined, { revalidate: true });
+      alert('사진이 등록되었습니다.');
+      router.push('/service/mypage');
+    }
+  };
 
-      const updateRespons = await deleteProfileImage();
-      if (updateRespons?.errorCode) {
-        alert(updateRespons.message);
-      } else {
-        await mutate('members/me/profile', undefined, { revalidate: true });
-        alert('사진이 삭제되었습니다.');
-      }
-    } catch (error) {
-      console.error('사진 삭제 중 오류:', error);
-      alert(error.message);
+  const handleDeleteProfile = async () => {
+    const fileName = data.profileImage;
+    const folder = 'profiles';
+
+    if (!fileName) {
+      console.log('삭제할 파일이 없습니다.');
+    }
+
+    deleteFileFromS3(fileName, folder);
+
+    const updateRespons = await deleteProfileImage();
+    if (updateRespons?.errorCode) {
+      alert(updateRespons.message);
+    } else {
+      await mutate('members/me/profile', undefined, { revalidate: true });
+      alert('사진이 삭제되었습니다.');
     }
   };
 
@@ -140,11 +97,11 @@ export default function ProfileCard({ profileData }) {
                   {
                     text: '사진 수정하기',
                     onClick: () => {
-                      onEditPhotoClick();
+                      handleEditProfile();
                       document.activeElement.blur();
                     },
                   },
-                  { text: '사진 삭제하기', onClick: onDeletePhotoClick },
+                  { text: '사진 삭제하기', onClick: handleDeleteProfile },
                 ]}
               >
                 <button className={styles.btn_camera}>
@@ -201,6 +158,13 @@ export default function ProfileCard({ profileData }) {
           )}
         </div>
       </div>
+      <input
+        type="file"
+        accept={'image/png, image/jpeg'}
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleChangeFile}
+      />
     </Flex>
   );
 }
