@@ -6,12 +6,12 @@ import { Flex } from '@radix-ui/themes';
 
 export default async function Page() {
   const agitCardData = await getMyAgitCards();
-  if (agitCardData?.error) {
-    throw new Error(agitCardData.error);
+  if (agitCardData?.errorCode) {
+    throw new Error(agitCardData.message);
   }
 
   const accountData = (await getPersonalAccounts()) || [];
-  if (accountData?.error) {
+  if (accountData?.errorCode) {
     throw new Error(accountData.message);
   }
 
