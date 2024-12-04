@@ -5,10 +5,10 @@ import { getMyAgit } from '@/apis/mypageAPI';
 
 export default async function Page() {
   const AgitData = await getMyAgit();
-
-  if (AgitData?.error) {
-    throw new Error(AgitData.error);
+  if (AgitData?.errorCode) {
+    throw new Error(AgitData.message);
   }
+
   return (
     <Flex direction="column" gap="10px">
       <MyAgitList data={AgitData} />
