@@ -36,7 +36,7 @@ export default function AgitCreateForm({ subjects }) {
 
     const validateAgitNameData = await validateAgitName(getValues('name'));
     if (validateAgitName.errorCode) {
-      throw new Error(validateAgitName.message);
+      showToast(validateAgitName.message);
     }
     if (validateAgitNameData?.used) {
       scrollToTop();
@@ -94,7 +94,7 @@ export default function AgitCreateForm({ subjects }) {
 
     const response = await createAgitRequest(agitData);
     if (response?.errorCode) {
-      showToast('에러가 발생했습니다. 잠시 후 다시 시도해주세요');
+      showToast(response.message);
     } else {
       router.push(`/service/agits/create/done?q=${response.id}`);
     }
