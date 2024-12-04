@@ -14,7 +14,6 @@ export default async function Page() {
   if (myAccountData?.errorCode) {
     throw new Error(myAccountData.message);
   }
-  console.log(myAccountData);
 
   return (
     <div className="page">
