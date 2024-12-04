@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <Flex direction="column" gap="20px">
       <MyAccount data={accountData} />
-      {agitCardData.length && <AgitCard agitCardData={agitCardData} />}
+      {agitCardData.length > 0 ? <AgitCard agitCardData={agitCardData} /> : null}
       <ButtonL as="link" href="/service/mypage/fee" style="deep">
         회비 납부하기
       </ButtonL>
