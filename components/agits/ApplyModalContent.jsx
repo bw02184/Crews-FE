@@ -75,7 +75,7 @@ export default function ApplyModalContent({ agitId }) {
             <InfoCircledIcon />
           </Callout.Icon>
           <Callout.Text>
-            최근 한달동안 정기모임이 <span className="underline">{`${meetingsData} 번`}</span> 진행되었어요!
+            최근 한달동안 정기모임이 <span className="underline">{meetingsData}번</span> 진행되었어요!
           </Callout.Text>
         </Callout.Root>
       </Flex>

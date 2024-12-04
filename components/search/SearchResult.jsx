@@ -86,20 +86,21 @@ export default function SearchResult({ params }) {
   };
 
   const handleRequest = async (agitId) => {
-    try {
-      await applyForAgit(agitId);
-      setItems((prevItems) => prevItems.filter((item) => item.id !== agitId));
-
-      // 삭제 후 데이터 부족 시 추가 데이터 로드
-      if (items.length <= 5 && hasMore) {
-        await loadMore();
-      }
-
-      alert('가입 신청이 완료되었습니다.');
-      closeModal();
-    } catch (error) {
-      console.error('가입 신청 중 에러 발생:', error);
+    const response = await applyForAgit(agitId);
+    if (response?.errorCode) {
+      alert(response?.message);
+      return;
     }
+
+    setItems((prevItems) => prevItems.filter((item) => item.id !== agitId));
+
+    // 삭제 후 데이터 부족 시 추가 데이터 로드
+    if (items.length <= 5 && hasMore) {
+      await loadMore();
+    }
+
+    alert('가입 신청이 완료되었습니다.');
+    closeModal();
   };
 
   return (
