@@ -63,9 +63,7 @@ export default function SearchResult({ params }) {
       const response = await fetchAgits(params, page);
       setItems((prevItems) => [
         ...prevItems,
-        ...response.data.filter(
-          (newItem) => !prevItems.some((prevItem) => prevItem.id === newItem.id)
-        ),
+        ...response.data.filter((newItem) => !prevItems.some((prevItem) => prevItem.id === newItem.id)),
       ]);
       setHasMore(response.hasNext);
       setPage((prevPage) => prevPage + 1);
@@ -127,9 +125,13 @@ export default function SearchResult({ params }) {
                 dataLength={items.length}
                 next={loadMore}
                 hasMore={hasMore}
-                loader={isLoading && <Text as="p" align="center">
-                  로드 중...
-                </Text>}
+                loader={
+                  isLoading && (
+                    <Text as="p" align="center">
+                      로드 중...
+                    </Text>
+                  )
+                }
                 endMessage={
                   <Text as="p" align="center">
                     더 이상 불러올 데이터가 없습니다.
@@ -162,11 +164,7 @@ export default function SearchResult({ params }) {
             text: '아지트에 가입하시려면 아래 사항을 확인해주세요.',
           }}
           footer={
-            <ButtonL
-              onClick={() => handleRequest(agit.id)}
-              type="button"
-              style={'deep'}
-            >
+            <ButtonL onClick={() => handleRequest(agit.id)} type="button" style={'deep'}>
               가입신청
             </ButtonL>
           }
