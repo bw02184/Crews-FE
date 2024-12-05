@@ -2,7 +2,7 @@ import { ButtonL, ImageCard, Title } from '@/components/common';
 import { Box, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { cardIssuance, getAccount, getAgitInfo, getDues, getFeeds, getMeeting } from '@/apis/agitsAPI';
+import { cardIssuance, getAccount, getDues, getFeeds, getMeeting } from '@/apis/agitsAPI';
 import Link from 'next/link';
 import AccountAndHeader from '@/components/agits/Account/AccountAndHeader';
 import { date } from '@/utils/date';

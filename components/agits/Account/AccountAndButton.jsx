@@ -17,7 +17,6 @@ export default function AccountAndHeader({ agitId, data }) {
       setAgit(filtered);
     }
   }, [agitInfoList]);
-
   const handlePermission = async () => {
     const response = await sendPermission(agitId);
     if (response?.errorCode) {

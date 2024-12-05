@@ -14,7 +14,6 @@ export default async function Page({ params }) {
     year: today.getFullYear(),
     month: today.getMonth() + 1,
   };
-  console.log(date);
   const history = await getMyAccountHistory(date);
   if (history?.errorCode) {
     throw new Error(history.message);

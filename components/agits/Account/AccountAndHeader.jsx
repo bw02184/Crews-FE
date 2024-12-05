@@ -9,24 +9,23 @@ import Account from './Account';
 import { ButtonM, Title } from '@/components/common';
 import { cardIssuance, cardIssued, cardRemoved, getAgitInfo, sendPermission } from '@/apis/agitsAPI';
 import useSWR from 'swr';
+import { useCallAgitInfo } from '@/hooks';
+import { useAgitInfoStore } from '@/stores/authStore';
 
 export default function AccountAndHeader({ agitId, dues, data, isCard }) {
-  const [agitInfoList, setAgitInfo] = useState({});
-
   useEffect(() => {
     const fetchAgitInfo = async () => {
       const response = await getAgitInfo();
       if (!response.errorCode) {
         localStorage.setItem('agitInfoList', JSON.stringify(response.agitInfoList));
-        setAgitInfo(response.agitInfoList);
       }
     };
 
     fetchAgitInfo();
   }, []);
-
+  const { agitInfoList } = useAgitInfoStore();
   const [agit, setAgit] = useState(null);
-
+  useCallAgitInfo();
   useEffect(() => {
     if (agitInfoList?.length > 0) {
       const [filtered] = agitInfoList.filter((select) => select.id == agitId);
@@ -47,7 +46,6 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
   const handleCardIssued = async () => {
     const cardInfo = await cardIssued(agitId);
     if (cardInfo?.errorCode) {
-      console.log(cardInfo.message);
       alert(cardInfo.message);
     } else if (cardInfo) {
       alert('카드 발급이 되었습니다.');
@@ -64,18 +62,15 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
       fallbackData: isCard,
     },
   );
-  console.log(cardIssuanceInfo);
 
   const handleCardRemoved = async () => {
     const cardRemoveData = {
       cardNumber: cardIssuanceInfo.cardNumber,
     };
-    console.log(cardRemoveData);
 
     const cardRemove = await cardRemoved(agitId, cardRemoveData);
     if (cardRemove?.errorCode) {
-      console.log(cardRemove.message);
-      alert('에러가 발생했습니다. 다시 실행 해 주세요.');
+      alert(cardRemove.message);
     } else if (cardRemove) {
       alert('카드 해지되었습니다.');
     }
@@ -123,7 +118,7 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
                     leftButton={{ text: '권한 요청하기', isLoading: 'true' }}
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
                   />
-                ) : cardIssuanceInfo.isCardExist === false ? (
+                ) : !cardIssuanceInfo.isCardExist ? (
                   <ButtonM
                     leftButton={{ text: '카드 발급하기', onClick: handleCardIssued }}
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
@@ -134,7 +129,7 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
                   />
                 )
-              ) : cardIssuanceInfo.isCardExist === false ? (
+              ) : !cardIssuanceInfo.isCardExist ? (
                 <ButtonM
                   leftButton={{ text: '카드 발급하기', onClick: handleCardIssued }}
                   rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
