@@ -20,7 +20,7 @@ export default async function Page() {
       <Header side="center">회비 납부</Header>
       <Flex direction="column" gap="10px" className="content">
         <section>
-          <MembershipFee crewData={feePaymentData.crewAccounts} myData={myAccountData} />
+          <MembershipFee crewData={feePaymentData} myData={myAccountData} />
         </section>
         <section>
           <TransferHistory />

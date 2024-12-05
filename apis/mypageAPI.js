@@ -124,7 +124,8 @@ export const attachBankAccount = async (accountNumbers) => {
 // 회비 납부 정보 조회
 export const getFeePaymentInfo = async () => {
   const response = await instance.get(`members/me/agits-accounts`);
-  return response;
+  revalidatePath('/service/mypage/fee');
+  return response.crewAccounts;
 };
 
 // 회비 납부하기
@@ -141,7 +142,6 @@ export const getTransactionHistory = async (crewAccountId, myAccountId) => {
   const response = await instance.get(
     `members/me/account-withdraws?crewAccountId=${crewAccountId}&myAccountId=${myAccountId}`,
   );
-  console.log('Transaction History Response:', response); // 디버깅용 로그
   return response;
 };
 

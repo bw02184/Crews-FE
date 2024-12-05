@@ -181,14 +181,11 @@ export default function PinNumber({ defaultStage, defaultStatus, data, callback 
         const amount = data.amount;
         const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
         if (response?.errorCode) {
-          console.log(`계좌 이체 실패: ${response.message}`);
           if (callback) {
             callback(false, response.message);
           }
         } else {
           if (callback) {
-            mutate('members/me/agits-accounts', undefined, { revalidate: true });
-            mutate('members/me/my-accounts', undefined, { revalidate: true });
             callback(true, '성공적으로 이체되었습니다.', crewAccountId, myAccountId);
           }
         }
