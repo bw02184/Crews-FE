@@ -2,15 +2,15 @@
 
 import { ButtonL, ImageCard, Modal, TabMenu, Title, Toast } from '@/components/common';
 import { tabMenuList } from '@/constants/tabMenuList/service';
-import { Box, Card, Flex, Heading, Skeleton, Text } from '@radix-ui/themes';
+import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
 import ApplyModalContent from '@/components/agits/ApplyModalContent';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useModal, useToast } from '@/hooks';
 import useSWR from 'swr';
-import { getRecruitNewAgits } from '@/apis/agitsAPI';
+import { getAgits, getRecruitNewAgits } from '@/apis/agitsAPI';
 import { useSearchParams } from 'next/navigation';
 import ImageCardSkeleton from '@/components/common/Skeleton/ImageCardSkeleton';
 
@@ -18,15 +18,38 @@ export default function Service() {
   const { isOpen, openModal, closeModal } = useModal();
   const { toast, setToast, toastMessage, showToast } = useToast();
   const { data: recruitNewAgits, isLoading: recruitNewLoading } = useSWR(
-    'getRecruitNewAgits',
+    `agits/home`,
     async () => await getRecruitNewAgits(),
   );
 
   if (recruitNewAgits?.errorCode) {
     showToast(recruitNewAgits.message);
   }
+
+  const [id, setId] = useState(3);
+  const [page, setPage] = useState(0);
+  const {
+    data: cateAgits,
+    isLoading: cateLoading,
+    mutate: cateMutate,
+  } = useSWR(`agits?subject-id=${id}&page=${page}`, async () => await getAgits(id, page));
+  if (cateAgits?.errorCode) {
+    showToast(cateAgits.message);
+  }
   const searchParams = useSearchParams();
-  console.log(searchParams);
+  useEffect(() => {
+    const searchId = searchParams?.get('id');
+    if (searchId && searchId !== id) {
+      setId(searchId);
+    }
+  }, [searchParams, id]);
+
+  useEffect(() => {
+    if (id !== undefined && page !== undefined) {
+      cateMutate();
+      console.log(cateAgits);
+    }
+  }, [id, page]);
 
   return (
     <Suspense>

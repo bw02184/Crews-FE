@@ -2,6 +2,12 @@
 
 import instance from '@/apis/instance';
 
+// 카테고리별 조회
+export const getAgits = async (id, page) => {
+  const response = await instance.get(`agits?subject-id=${id}&page=${page}`);
+  return response;
+};
+
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
 export const getDues = async (id) => {
   const response = await instance.get(`agits/${id}/dues`);
