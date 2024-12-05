@@ -71,7 +71,7 @@ export default function AgitCreateForm({ subjects }) {
       scrollToTop();
       showToast('관심사를 1개 이상 선택해주세요!');
       return;
-    } else if (selectedInterests.length > 4) {
+    } else if (selectedInterests.length >= 4) {
       scrollToTop();
       showToast('관심사를 3개 이하로 선택해주세요!');
       return;
