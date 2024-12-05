@@ -1,27 +1,35 @@
 'use client';
 
-import { ButtonL, ImageCard, Modal, TabMenu, Title } from '@/components/common';
+import { ButtonL, ImageCard, Modal, TabMenu, Title, Toast } from '@/components/common';
 import { tabMenuList } from '@/constants/tabMenuList/service';
-import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Card, Flex, Heading, Skeleton, Text } from '@radix-ui/themes';
 import Image from 'next/image';
 import styles from './page.module.css';
-import { agits } from '@/constants/dummy';
 import Link from 'next/link';
 import ApplyModalContent from '@/components/agits/ApplyModalContent';
 import { Suspense } from 'react';
-import { useModal } from '@/hooks';
+import { useModal, useToast } from '@/hooks';
 import useSWR from 'swr';
 import { getRecruitNewAgits } from '@/apis/agitsAPI';
+import { useSearchParams } from 'next/navigation';
+import ImageCardSkeleton from '@/components/common/Skeleton/ImageCardSkeleton';
 
 export default function Service() {
-  const {
-    data: recruitNewAgits,
-    isLoading,
-    mutate,
-  } = useSWR('getRecruitNewAgits', async () => await getRecruitNewAgits());
   const { isOpen, openModal, closeModal } = useModal();
+  const { toast, setToast, toastMessage, showToast } = useToast();
+  const { data: recruitNewAgits, isLoading: recruitNewLoading } = useSWR(
+    'getRecruitNewAgits',
+    async () => await getRecruitNewAgits(),
+  );
+
+  if (recruitNewAgits?.errorCode) {
+    showToast(recruitNewAgits.message);
+  }
+  const searchParams = useSearchParams();
+  console.log(searchParams);
+
   return (
-    <>
+    <Suspense>
       <Modal
         isOpen={isOpen}
         closeModal={closeModal}
@@ -30,6 +38,15 @@ export default function Service() {
       >
         <ApplyModalContent />
       </Modal>
+      <Toast
+        as="alert"
+        isActive={toast}
+        onClose={() => {
+          setToast(false);
+        }}
+      >
+        {toastMessage}
+      </Toast>
       <div className="page">
         <header>
           <Flex justify="between" align="center" className={styles.header_top}>
@@ -38,59 +55,71 @@ export default function Service() {
               <Image src="/icons/ico_payment.svg" width={18} height={18} alt="결제하기" />
             </Link>
           </Flex>
-          <Suspense>
-            <TabMenu as="button" tabMenuList={tabMenuList} />
-          </Suspense>
+          <TabMenu as="button" tabMenuList={tabMenuList} />
         </header>
         <Flex direction="column" gap="10px" className="content">
-          <section>
-            <Flex direction="column" gap="20px">
-              <Box className={styles.main_visual}>
-                <Flex justify="end" align="center" className={styles.title}>
-                  <h1>크루즈</h1>
+          {searchParams.size <= 0 && (
+            <>
+              <section>
+                <Flex direction="column" gap="20px">
+                  <Box className={styles.main_visual}>
+                    <Flex justify="end" align="center" className={styles.title}>
+                      <h1>크루즈</h1>
+                    </Flex>
+                    <div className={styles.hashtag}>
+                      <ul>
+                        <li className={styles.tag_1}>#소모임</li>
+                        <li className={styles.tag_2}>#모임통장</li>
+                        <li className={styles.tag_3}>#통합서비스</li>
+                      </ul>
+                    </div>
+                  </Box>
+                  <Box>
+                    <div className={styles.sec_tit}>
+                      <Title>모집 마감 임박</Title>
+                      <Text as="p" size="2" weight="light">
+                        곧 정원이 마감되는 아지트에 가입해보세요!
+                      </Text>
+                    </div>
+                    <Box className={styles.sec_con} mt="15px">
+                      <Flex direction="column" gap="10px">
+                        {recruitNewLoading
+                          ? [0, 1, 2].map((_, i) => {
+                              return <ImageCardSkeleton key={`recruitSkeleton${i}`} />;
+                            })
+                          : recruitNewAgits?.recruitList.map((agit, i) => {
+                              return (
+                                <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>
+                              );
+                            })}
+                      </Flex>
+                    </Box>
+                  </Box>
                 </Flex>
-                <div className={styles.hashtag}>
-                  <ul>
-                    <li className={styles.tag_1}>#ㅇㅇ</li>
-                    <li className={styles.tag_2}>#ㄴㄴ</li>
-                    <li className={styles.tag_3}>#뭔가소개멘트</li>
-                  </ul>
-                </div>
-              </Box>
-              <Box>
+              </section>
+              <section>
                 <div className={styles.sec_tit}>
-                  <Title>모집 마감 임박</Title>
+                  <Title>신규 아지트</Title>
                   <Text as="p" size="2" weight="light">
-                    어쩌고 저쩌고 메뉴설명
+                    방금 새로 개설된 아지트를 살펴보세요!
                   </Text>
                 </div>
                 <Box className={styles.sec_con} mt="15px">
                   <Flex direction="column" gap="10px">
-                    {recruitNewAgits?.recruitList.map((agit, i) => {
-                      return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
-                    })}
+                    {recruitNewLoading
+                      ? [3, 4, 5].map((_, i) => {
+                          return <ImageCardSkeleton key={`newSkeleton${i}`} />;
+                        })
+                      : recruitNewAgits?.newAgitList.map((agit, i) => {
+                          return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
+                        })}
                   </Flex>
                 </Box>
-              </Box>
-            </Flex>
-          </section>
-          <section>
-            <div className={styles.sec_tit}>
-              <Title>신규 아지트</Title>
-              <Text as="p" size="2" weight="light">
-                어쩌고 저쩌고 메뉴설명
-              </Text>
-            </div>
-            <Box className={styles.sec_con} mt="15px">
-              <Flex direction="column" gap="10px">
-                {recruitNewAgits?.newAgitList.map((agit, i) => {
-                  return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
-                })}
-              </Flex>
-            </Box>
-          </section>
+              </section>
+            </>
+          )}
         </Flex>
       </div>
-    </>
+    </Suspense>
   );
 }
