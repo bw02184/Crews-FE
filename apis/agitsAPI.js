@@ -2,14 +2,14 @@
 import instance from '@/apis/instance';
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
-export const getDues = async (id, date) => {
-  const response = await instance.get(`agits/${id}/dues?year=${date.year}&month=${date.month}`);
+export const getDues = async (agitId, date) => {
+  const response = await instance.get(`agits/${agitId}/dues?year=${date.year}&month=${date.month}`);
   return response;
 };
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
-export const getCommonDues = async (id) => {
-  const response = await instance.get(`agits/${id}/managements/dues/common`);
+export const getCommonDues = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/managements/dues/common`);
   return response;
 };
 
@@ -26,15 +26,15 @@ export const getAgitInfo = async () => {
 };
 
 // 모임통장 정보
-export const getAccount = async (id) => {
-  const response = await instance.get(`agits/${id}/accounts`);
+export const getAccount = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/accounts`);
   return response;
 };
 
 //모임통장 기록 확인
-export const getAccountDetails = async (id, selectPeriod, transactionType, order) => {
+export const getAccountDetails = async (agitId, selectPeriod, transactionType, order) => {
   const response = await instance.get(
-    `agits/${id}/accounts/details?selectPeriod=${selectPeriod}&transactionType=${transactionType}&order=${order}`,
+    `agits/${agitId}/accounts/details?selectPeriod=${selectPeriod}&transactionType=${transactionType}&order=${order}`,
   );
   return response;
 };
@@ -102,6 +102,32 @@ export const generateAccount = async (agitId, productId) => {
 // 모임통장 회비 납부 요청
 export const callDues = async (agitId, data) => {
   const response = await instance.post(`agits/${agitId}/member/call`, {
+    body: JSON.stringify({ ...data }),
+  });
+  return response;
+};
+
+// 모임통장 권한 요청하기
+export const sendPermission = async (agitId) => {
+  const response = await instance.post(`agits/${agitId}/accounts/permissions`);
+  return response;
+};
+
+// 모임통장 카드 발급여부 확인
+export const cardIssuance = async (agitId) => {
+  const response = await instance.get(`agits/${agitId}/accounts/cards`);
+  return response;
+};
+
+// 모임통장 카드 발급하기
+export const cardIssued = async (agitId) => {
+  const response = await instance.post(`agits/${agitId}/accounts/cards`);
+  return response;
+};
+
+// 모임통장 카드 발급해지하기
+export const cardRemoved = async (agitId, data) => {
+  const response = await instance.delete(`agits/${agitId}/accounts/cards`, {
     body: JSON.stringify({ ...data }),
   });
   return response;

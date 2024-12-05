@@ -2,7 +2,7 @@ import { ButtonL, ImageCard, Title } from '@/components/common';
 import { Box, Flex } from '@radix-ui/themes';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { getAccount, getDues, getFeeds, getMeeting } from '@/apis/agitsAPI';
+import { cardIssuance, getAccount, getAgitInfo, getDues, getFeeds, getMeeting } from '@/apis/agitsAPI';
 import Link from 'next/link';
 import AccountAndHeader from '@/components/agits/Account/AccountAndHeader';
 import { date } from '@/utils/date';
@@ -20,11 +20,24 @@ export default async function Page({ params }) {
   if (data?.errorCode) {
     throw new Error(data.message);
   }
-
   const events = await getMeeting(params.agitId, 0, 3);
   if (events?.errorCode) {
     throw new Error(events.message);
   }
+
+  const isCard = await cardIssuance(params.agitId);
+  if (isCard?.errorCode) {
+    throw new Error(isCard.message);
+  }
+
+  const eventsInfo = events.data.map((event) => ({
+    id: event.id,
+    introduction: event.content,
+    place: event.place.split(' ')[event.place.split(' ').length - 1],
+    image: event.image,
+    name: event.name,
+    date: date(event.date),
+  }));
 
   const feedsInfo = await getFeeds(params.agitId, 0);
   if (feedsInfo?.errorCode) {
@@ -36,17 +49,9 @@ export default async function Page({ params }) {
     image: feed.image,
   }));
 
-  const eventsInfo = events.data.map((event) => ({
-    id: event.id,
-    introduction: event.content,
-    place: event.place.split(' ')[event.place.split(' ').length - 1],
-    image: event.image,
-    name: event.name,
-    date: date(event.date),
-  }));
   return (
     <div className="page">
-      <AccountAndHeader agitId={params.agitId} dues={dues} data={data}></AccountAndHeader>
+      <AccountAndHeader agitId={params.agitId} dues={dues} data={data} isCard={isCard}></AccountAndHeader>
       <Flex direction="column" gap="10px" className="content">
         <section>
           <Flex direction="column" gap="20px">
@@ -71,10 +76,16 @@ export default async function Page({ params }) {
             <Box className={styles.feed_list}>
               <Flex gap="10px" wrap="wrap" asChild>
                 <ul>
-                  {feeds.map((feed, index) => (
-                    <li className="back_img" style={{ backgroundImage: `url(${feed?.image})` }} key={`feed${index}`}>
+                  {feeds.map((feed, i) => (
+                    <li
+                      className="back_img"
+                      style={{
+                        backgroundImage: `url(${feed?.image == null || feed?.image == '' ? '/imgs/img_bg_feed.jpg' : feed?.image})`,
+                      }}
+                      key={`feed${i}`}
+                    >
                       <Link href={`/service/agits/${params.agitId}/feeds/${feed?.id}`}>
-                        <Image src={'/imgs/img_bg_feed.jpg'} width={190} height={190} alt={`${feed.title} 이미지`} />
+                        <Image src={'/imgs/img_bg_feed.jpg'} width={190} height={190} alt={`${feed?.title} 이미지`} />
                       </Link>
                     </li>
                   ))}

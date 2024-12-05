@@ -41,7 +41,9 @@ export default function ProfileCard({ agitId, commonDues, profileData, yearAndMo
           <div className={styles.img_box}>
             <div
               className={`${styles.profile_img} back_img ${data.profileImage == null ? styles.blank : ''}`}
-              style={{ backgroundImage: `url(${data.profileImage})` }}
+              style={{
+                backgroundImage: `url(${data.profileImage == null || data.profileImage == '' ? '(/imgs/img_bg_profile.jpg)' : data.profileImage})`,
+              }}
             >
               <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${data.profileImage} 프로필 이미지`} />
             </div>
