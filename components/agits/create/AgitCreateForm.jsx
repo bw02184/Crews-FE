@@ -248,7 +248,7 @@ export default function AgitCreateForm({ subjects }) {
                     </div>
                   </Flex>
                   <ButtonL type="submit" style="deep">
-                    제출하기
+                    생성하기
                   </ButtonL>
                 </Flex>
               </section>
