@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonL, ImageCard, Modal, TabMenu, Title, Toast } from '@/components/common';
+import { ButtonL, ImageCard, ImageCardSkeleton, Modal, TabMenu, Title, Toast } from '@/components/common';
 import { tabMenuList } from '@/constants/tabMenuList/service';
 import { Box, Flex, Heading, Text } from '@radix-ui/themes';
 import Image from 'next/image';
@@ -12,7 +12,7 @@ import { useModal, useToast } from '@/hooks';
 import useSWR from 'swr';
 import { getAgits, getRecruitNewAgits } from '@/apis/agitsAPI';
 import { useSearchParams } from 'next/navigation';
-import ImageCardSkeleton from '@/components/common/Skeleton/ImageCardSkeleton';
+import SubjectAgitList from '@/components/agits/SubjectAgitList';
 
 export default function Service() {
   const { isOpen, openModal, closeModal } = useModal();
@@ -27,15 +27,7 @@ export default function Service() {
   }
 
   const [id, setId] = useState(3);
-  const [page, setPage] = useState(0);
-  const {
-    data: cateAgits,
-    isLoading: cateLoading,
-    mutate: cateMutate,
-  } = useSWR(`agits?subject-id=${id}&page=${page}`, async () => await getAgits(id, page));
-  if (cateAgits?.errorCode) {
-    showToast(cateAgits.message);
-  }
+
   const searchParams = useSearchParams();
   useEffect(() => {
     const searchId = searchParams?.get('id');
@@ -44,12 +36,40 @@ export default function Service() {
     }
   }, [searchParams, id]);
 
-  useEffect(() => {
-    if (id !== undefined && page !== undefined) {
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+
+  const {
+    data: cateAgits,
+    isLoading: cateLoading,
+    mutate: cateMutate,
+  } = useSWR(`agits?subject-id=${id}&page=${page}`, async () => await getAgits(id, page));
+
+  const fetchData = async () => {
+    if (cateLoading) return;
+
+    if (page == 0) setData([...cateAgits.data]);
+    else setData((prev) => [...prev, ...cateAgits.data]);
+  };
+
+  const loadMore = () => {
+    if (cateAgits?.hasNext && !cateLoading) {
+      setPage((prev) => prev + 1);
+      fetchData();
       cateMutate();
-      console.log(cateAgits);
     }
-  }, [id, page]);
+  };
+
+  useEffect(() => {
+    if (!cateLoading) fetchData();
+  }, [cateLoading]);
+
+  useEffect(() => {
+    setData([]);
+    setPage(0);
+    fetchData();
+    cateMutate();
+  }, [id]);
 
   return (
     <Suspense>
@@ -81,7 +101,7 @@ export default function Service() {
           <TabMenu as="button" tabMenuList={tabMenuList} />
         </header>
         <Flex direction="column" gap="10px" className="content">
-          {searchParams.size <= 0 && (
+          {searchParams.size <= 0 ? (
             <>
               <section>
                 <Flex direction="column" gap="20px">
@@ -105,16 +125,24 @@ export default function Service() {
                       </Text>
                     </div>
                     <Box className={styles.sec_con} mt="15px">
-                      <Flex direction="column" gap="10px">
-                        {recruitNewLoading
-                          ? [0, 1, 2].map((_, i) => {
-                              return <ImageCardSkeleton key={`recruitSkeleton${i}`} />;
-                            })
-                          : recruitNewAgits?.recruitList.map((agit, i) => {
-                              return (
-                                <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>
-                              );
-                            })}
+                      <Flex direction="column" gap="10px" asChild>
+                        <ul>
+                          {recruitNewLoading
+                            ? [0, 1, 2].map((_, i) => {
+                                return (
+                                  <li key={`recruitSkeleton${i}`}>
+                                    <ImageCardSkeleton />
+                                  </li>
+                                );
+                              })
+                            : recruitNewAgits?.recruitList.map((agit, i) => {
+                                return (
+                                  <li key={`agit${i}`}>
+                                    <ImageCard as="button" data={agit} onClick={openModal} />
+                                  </li>
+                                );
+                              })}
+                        </ul>
                       </Flex>
                     </Box>
                   </Box>
@@ -128,18 +156,36 @@ export default function Service() {
                   </Text>
                 </div>
                 <Box className={styles.sec_con} mt="15px">
-                  <Flex direction="column" gap="10px">
-                    {recruitNewLoading
-                      ? [3, 4, 5].map((_, i) => {
-                          return <ImageCardSkeleton key={`newSkeleton${i}`} />;
-                        })
-                      : recruitNewAgits?.newAgitList.map((agit, i) => {
-                          return <ImageCard as="button" data={agit} key={`agit${i}`} onClick={openModal}></ImageCard>;
-                        })}
+                  <Flex direction="column" gap="10px" asChild>
+                    <ul>
+                      {recruitNewLoading
+                        ? [3, 4, 5].map((_, i) => {
+                            return (
+                              <li key={`newSkeleton${i}`}>
+                                <ImageCardSkeleton />
+                              </li>
+                            );
+                          })
+                        : recruitNewAgits?.newAgitList.map((agit, i) => {
+                            return (
+                              <li key={`agit${i}`}>
+                                <ImageCard as="button" data={agit} onClick={openModal} />
+                              </li>
+                            );
+                          })}
+                    </ul>
                   </Flex>
                 </Box>
               </section>
             </>
+          ) : (
+            <SubjectAgitList
+              data={data}
+              hasMore={cateAgits?.hasNext}
+              loadMore={loadMore}
+              cateLoading={cateLoading}
+              openModal={openModal}
+            />
           )}
         </Flex>
       </div>
