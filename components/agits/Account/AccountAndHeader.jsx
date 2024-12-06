@@ -62,7 +62,6 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
       fallbackData: isCard,
     },
   );
-  console.log(cardIssuanceInfo);
 
   const handleCardRemoved = async () => {
     const cardRemoveData = {
