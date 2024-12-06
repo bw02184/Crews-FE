@@ -20,8 +20,6 @@ const ArrowButton = ({ data, handleDateChange = () => {} }) => {
     setDate((prevDate) => {
       const minYear = data?.minYear;
       const minMonth = data?.minMonth;
-      console.log(minYear);
-      console.log(minMonth);
       const newMonth = prevDate.month - 1;
       const newYear = newMonth === 0 ? prevDate.year - 1 : prevDate.year;
       const adjustedMonth = newMonth === 0 ? 12 : newMonth;

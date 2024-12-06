@@ -13,12 +13,10 @@ export default function DepositProduct({ agitId, product }) {
   });
 
   const handleGenerateAccount = async () => {
-    console.log(product.id);
     const response = await generateAccount(agitId, product.id);
     if (response?.errorCode) {
       throw new Error(response.message);
     }
-    console.log(response);
   };
 
   return (
