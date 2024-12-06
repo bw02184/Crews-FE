@@ -10,7 +10,7 @@ export default function ImageCard({ as = 'link', type = 'agits', data, dynamicId
       <Flex gap="15px">
         <Box className={styles.img_box}>
           <Box
-            className="back_img"
+            className={`back_img ${data.image ? '' : styles.blank}`}
             style={{
               backgroundImage: `url(${data?.image == null || data?.image == '' ? '/imgs/img_bg_card.jpg' : data?.image})`,
             }}

@@ -16,10 +16,10 @@ import { searchAgits } from '@/apis/searchAPI';
 import { applyForAgit } from '@/apis/agitsAPI';
 
 export default function SearchResult({ params }) {
-  const [items, setItems] = useState([]); // 데이터 리스트
-  const [page, setPage] = useState(0); // 현재 페이지를 0으로 시작
-  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [agit, setAgit] = useState({ id: 0, name: '' });
 
   const {
@@ -28,8 +28,8 @@ export default function SearchResult({ params }) {
     formState: { errors },
   } = useForm();
 
-  const { data: session } = useSession(); // 로그인 세션 확인
-  const { isOpen, openModal, closeModal } = useModal(); // useModal 사용
+  const { data: session } = useSession();
+  const { isOpen, openModal, closeModal } = useModal();
   const router = useRouter();
 
   const fetchAgits = async (keyword, page) => {
@@ -44,7 +44,7 @@ export default function SearchResult({ params }) {
         const response = await fetchAgits(params, 0);
         setItems(response.data);
         setHasMore(response.hasNext);
-        setPage(1); // 다음 페이지 설정
+        setPage(1);
       } finally {
         setIsLoading(false);
       }
@@ -94,7 +94,6 @@ export default function SearchResult({ params }) {
 
     setItems((prevItems) => prevItems.filter((item) => item.id !== agitId));
 
-    // 삭제 후 데이터 부족 시 추가 데이터 로드
     if (items.length <= 5 && hasMore) {
       await loadMore();
     }

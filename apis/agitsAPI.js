@@ -1,6 +1,13 @@
 'use server';
+
 import instance from '@/apis/instance';
 import { revalidatePath } from 'next/cache';
+
+// 카테고리별 조회
+export const getAgits = async (id, page) => {
+  const response = await instance.get(`agits?subject-id=${id}&page=${page}`);
+  return response;
+};
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
 export const getDues = async (agitId, date) => {
@@ -60,6 +67,7 @@ export const createAgitRequest = async (formData) => {
   const response = await instance.post('agits', {
     body: JSON.stringify(formData),
   });
+  return response;
 };
 
 // 아지트 가입신청
@@ -71,7 +79,13 @@ export const applyForAgit = async (agitId, keyWord) => {
   return response;
 };
 
-// 모임통장에 이체정보 확인
+// 모집임박/신규 아지트 조회
+export const getRecruitNewAgits = async () => {
+  const response = await instance.get('agits/home');
+  return response;
+};
+
+// 모임통장 회비납부
 export const transfer = async (agitId, data) => {
   const response = await instance.post(`agits/${agitId}/accounts/transfer`, {
     body: JSON.stringify({ ...data }),
