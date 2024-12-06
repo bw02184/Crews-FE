@@ -11,18 +11,22 @@ import { useState } from 'react';
 export default function DepositProduct({ agitId, product }) {
   const { isOpen, openModal, closeModal } = useModal();
   const [account, setAccount] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
   const handleGenerateAccount = async () => {
+    setIsLoading(true);
     const response = await generateAccount(agitId, product.id);
     if (response?.errorCode) {
       alert('계좌 개설 중에 오류가 발생했습니다!');
+      setIsLoading(false);
       return;
     }
     setAccount(response);
+    setIsLoading(false);
     openModal();
   };
 
@@ -115,8 +119,8 @@ export default function DepositProduct({ agitId, product }) {
             </Flex>
           </Flex>
           <Box pt="3">
-            <ButtonL style="deep" onClick={handleGenerateAccount}>
-              상품선택
+            <ButtonL style="deep" onClick={handleGenerateAccount} disabled={isLoading}>
+              {isLoading ? '개설중...' : '상품선택'}
             </ButtonL>
           </Box>
         </Card>
