@@ -11,7 +11,9 @@ export default function ImageCard({ as = 'link', type = 'agits', data, dynamicId
         <Box className={styles.img_box}>
           <Box
             className={`back_img ${data.image ? '' : styles.blank}`}
-            style={{ backgroundImage: `url(${data.image})` }}
+            style={{
+              backgroundImage: `url(${data?.image == null || data?.image == '' ? '/imgs/img_bg_card.jpg' : data?.image})`,
+            }}
           >
             <Image src="/imgs/img_bg_card.jpg" width={65} height={65} alt={`${data.name} 소개 이미지`} />
           </Box>
