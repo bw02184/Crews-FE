@@ -36,9 +36,14 @@ export default function AccountAndHeader({ agitId, data }) {
             leftButton={{ text: '회비 납부 관리', as: 'link', href: `/service/agits/${agitId}/accounts/dues/manage` }}
             rightButton={{ text: '회비 납부하기', as: 'link', href: `/service/agits/${agitId}/accounts/dues` }}
           />
-        ) : (
+        ) : agit?.memberRole === 'MEMBER' ? (
           <ButtonM
             leftButton={{ text: '권한 요청하기', onClick: handlePermission }}
+            rightButton={{ text: '회비 납부하기', as: 'link', href: `/service/agits/${agitId}/accounts/dues` }}
+          />
+        ) : (
+          <ButtonM
+            leftButton={{ text: '권한 요청하기', isLoading: 'true', isLoadingText: '권한 부여 대기중' }}
             rightButton={{ text: '회비 납부하기', as: 'link', href: `/service/agits/${agitId}/accounts/dues` }}
           />
         )}

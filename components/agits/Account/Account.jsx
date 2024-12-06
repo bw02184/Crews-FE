@@ -13,7 +13,12 @@ export default function Account({ data, hide = false }) {
         <Flex gap="10px">
           <Box className={styles.img_box}>
             <div className={`${styles.img} img`}>
-              <Image src="/imgs/dev/img_bank.jpg" width={30} height={30} alt={`${data.bankName} 이미지`} />
+              <Image
+                src={data.bankImage == '' || data.bankImage == null ? '/imgs/img_bg_bank.jpg' : data.bankImage}
+                width={30}
+                height={30}
+                alt={`${data.bankName} 이미지`}
+              />
             </div>
           </Box>
           <Box className={styles.account_info}>
