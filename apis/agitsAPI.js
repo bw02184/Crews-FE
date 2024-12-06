@@ -46,12 +46,26 @@ export const getMyAccountHistory = async (date) => {
   return response;
 };
 
+export const validateAgitName = async (agitName) => {
+  const response = await instance.get(`agits/validate-name?agitName=${agitName}`);
+  return response;
+};
+
+export const getInterest = async () => {
+  const response = await instance.get(`interests`);
+  return response;
+};
+
+export const createAgitRequest = async (formData) => {
+  const response = await instance.post('agits', {
+    body: JSON.stringify(formData),
+  });
+  
 // 아지트 가입신청
 export const applyForAgit = async (agitId, keyWord) => {
   const response = await instance.post('agits/registrations', {
     body: JSON.stringify({ agitId }),
   });
   revalidatePath(`/service/search?q=${keyWord}`);
-
   return response;
 };
