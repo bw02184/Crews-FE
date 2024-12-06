@@ -24,7 +24,11 @@ export default function ApplyModalContent({ agitId }) {
     <Flex direction="column" gap="20px">
       <div className={styles.img_box}>
         <div className="img">
-          <img src="/imgs/dev/img_apply.jpg" />
+          {introducingData?.image == '' || introducingData?.image == null ? (
+            <img src="/imgs/dev/img_apply.jpg" />
+          ) : (
+            <img src={introducingData.image} />
+          )}
         </div>
         <Label style="lime">{introducingData?.subject}</Label>
       </div>
@@ -50,12 +54,6 @@ export default function ApplyModalContent({ agitId }) {
                   {introducingData?.content}
                 </Text>
               </li>
-              {/* <li>
-                <em>모임회비</em>
-                <Text as="p" size="2" weight="medium" className="gray_t1">
-                매월 1일, 30,000원씩
-                </Text>
-                </li> */}
             </ul>
           </Flex>
         </div>
@@ -63,9 +61,11 @@ export default function ApplyModalContent({ agitId }) {
           <Flex wrap="wrap" gap="10px" asChild>
             <ul>
               {introducingData?.interests.map((interest) => {
-                <li key={`interest${interest?.id}`}>
-                  <Label style="deep">{`#${interest?.name}`}</Label>
-                </li>;
+                return (
+                  <li key={`interest${interest?.id}`}>
+                    <Label style="deep">{`#${interest?.name}`}</Label>
+                  </li>
+                );
               })}
             </ul>
           </Flex>

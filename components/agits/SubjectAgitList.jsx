@@ -4,7 +4,7 @@ import { Flex, Text } from '@radix-ui/themes';
 import { ImageCard, ImageCardSkeleton } from '@/components/common';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export default function SubjectAgitList({ data, hasMore, loadMore, cateLoading, openModal }) {
+export default function SubjectAgitList({ data, hasMore, loadMore, cateLoading, openModal, handleCardClick }) {
   return (
     <section>
       <InfiniteScroll dataLength={data?.length} hasMore={hasMore} next={loadMore} loader={<ImageCardSkeleton />}>
@@ -25,7 +25,12 @@ export default function SubjectAgitList({ data, hasMore, loadMore, cateLoading, 
             ) : (
               data.map((agit, i) => {
                 return (
-                  <li key={`agit${i}`}>
+                  <li
+                    key={`agit${i}`}
+                    onClick={() => {
+                      handleCardClick(agit.id, agit.name);
+                    }}
+                  >
                     <ImageCard as="button" data={agit} onClick={openModal} />
                   </li>
                 );

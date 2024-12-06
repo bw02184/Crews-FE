@@ -10,9 +10,11 @@ import ApplyModalContent from '@/components/agits/ApplyModalContent';
 import { Suspense, useEffect, useState } from 'react';
 import { useModal, useToast } from '@/hooks';
 import useSWR from 'swr';
-import { getAgits, getRecruitNewAgits } from '@/apis/agitsAPI';
+import { applyForAgit, getAgits, getRecruitNewAgits } from '@/apis/agitsAPI';
 import { useSearchParams } from 'next/navigation';
 import SubjectAgitList from '@/components/agits/SubjectAgitList';
+import scrollToTop from '@/utils/scrollToTop';
+import { useSession } from 'next-auth/react';
 
 export default function Service() {
   const { isOpen, openModal, closeModal } = useModal();
@@ -38,6 +40,7 @@ export default function Service() {
 
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
+  const [agit, setAgit] = useState({ id: 0, name: '' });
 
   const {
     data: cateAgits,
@@ -71,15 +74,42 @@ export default function Service() {
     cateMutate();
   }, [id]);
 
+  const handleCardClick = (id, name) => {
+    setAgit({ id, name });
+    openModal();
+  };
+
+  const handleRequest = async (agitId) => {
+    const response = await applyForAgit(agitId);
+    if (response?.errorCode) {
+      closeModal();
+      scrollToTop();
+      showToast(response?.message);
+      return;
+    }
+
+    setData((prev) => prev.filter((item) => item.id !== agitId));
+
+    alert('가입 신청이 완료되었습니다.');
+    closeModal();
+  };
+
+  const { data: session } = useSession();
   return (
     <Suspense>
       <Modal
         isOpen={isOpen}
         closeModal={closeModal}
-        header={{ title: '모임명 모임명', text: '아지트에 가입하시려면 아래 사항을 확인해주세요.' }}
-        footer={<ButtonL style="deep">가입신청</ButtonL>}
+        header={{ title: agit.name, text: '아지트에 가입하시려면 아래 사항을 확인해주세요.' }}
+        footer={
+          session && (
+            <ButtonL style="deep" onClick={() => handleRequest(agit.id)}>
+              가입신청
+            </ButtonL>
+          )
+        }
       >
-        <ApplyModalContent />
+        <ApplyModalContent agitId={agit.id} />
       </Modal>
       <Toast
         as="alert"
@@ -137,8 +167,13 @@ export default function Service() {
                               })
                             : recruitNewAgits?.recruitList.map((agit, i) => {
                                 return (
-                                  <li key={`agit${i}`}>
-                                    <ImageCard as="button" data={agit} onClick={openModal} />
+                                  <li
+                                    key={`agit${i}`}
+                                    onClick={() => {
+                                      handleCardClick(agit.id, agit.name);
+                                    }}
+                                  >
+                                    <ImageCard as="button" data={agit} />
                                   </li>
                                 );
                               })}
@@ -168,8 +203,13 @@ export default function Service() {
                           })
                         : recruitNewAgits?.newAgitList.map((agit, i) => {
                             return (
-                              <li key={`agit${i}`}>
-                                <ImageCard as="button" data={agit} onClick={openModal} />
+                              <li
+                                key={`agit${i}`}
+                                onClick={() => {
+                                  handleCardClick(agit.id, agit.name);
+                                }}
+                              >
+                                <ImageCard as="button" data={agit} />
                               </li>
                             );
                           })}
@@ -185,6 +225,7 @@ export default function Service() {
               loadMore={loadMore}
               cateLoading={cateLoading}
               openModal={openModal}
+              handleCardClick={handleCardClick}
             />
           )}
         </Flex>
