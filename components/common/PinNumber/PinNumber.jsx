@@ -10,10 +10,10 @@ import { useToast } from '@/hooks';
 import scrollToTop from '@/utils/scrollToTop';
 import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
-import { updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
+import { payCrewFee, updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 import { transfer } from '@/apis/agitsAPI';
 
-export default function PinNumber({ defaultStage, defaultStatus, data, closeModal }) {
+export default function PinNumber({ defaultStage, defaultStatus, data, closeModal, callback }) {
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -173,11 +173,22 @@ export default function PinNumber({ defaultStage, defaultStatus, data, closeModa
     }
 
     if (stage == 'auth') {
-      console.log(pinNumber); // 입력한 pin번호
-      console.log(data); // 위에서 props로 내려준 data
-      console.log(status);
       if (status == 'transferMyage') {
         // 마이페이지 이체 로직
+        const agitId = data.agitId;
+        const crewAccountId = data.crewAccountId;
+        const myAccountId = data.myAccountId;
+        const amount = data.amount;
+        const response = await payCrewFee(pinNumber, agitId, crewAccountId, myAccountId, amount);
+        if (response?.errorCode) {
+          if (callback) {
+            callback(false, response.message);
+          }
+        } else {
+          if (callback) {
+            callback(true, '성공적으로 이체되었습니다.', crewAccountId, myAccountId);
+          }
+        }
       }
       if (status == 'transferAgit') {
         // 아지트 이체 로직
@@ -263,9 +274,7 @@ export default function PinNumber({ defaultStage, defaultStatus, data, closeModa
           </Flex>
           <Box className="btn_group">
             {stage == 'create' && status == undefined && <ButtonM rightButton={{ type: 'submit', text: '생성' }} />}
-            {(status == 'confirm' ||
-              stage == 'auth' ||
-              (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
+            {(status == 'confirm' || (stage == 'update' && (status == undefined || status == 'changeConfirm'))) && (
               <ButtonM rightButton={{ type: 'submit', text: '확인', isLoading }} />
             )}
             {stage == 'update' && status == 'change' && (
@@ -279,6 +288,12 @@ export default function PinNumber({ defaultStage, defaultStatus, data, closeModa
             )}
             {stage == 'auth' && status == 'error' && (
               <ButtonM rightButton={{ type: 'button', text: '재입력', onClick: handleReset }} />
+            )}
+            {stage == 'auth' && status != 'error' && (
+              <ButtonM
+                leftButton={{ type: 'button', text: '재입력', onClick: handleReset }}
+                rightButton={{ type: 'submit', text: '확인' }}
+              />
             )}
           </Box>
         </form>
