@@ -1,6 +1,6 @@
 import { getProfile } from '@/apis/mypageAPI';
 import { Header, TabMenu } from '@/components/common';
-import ProfileCard from '@/components/mypage/ProfileCard/ProfileCard';
+import ProfileCard from '@/components/mypage/Profilecard/ProfileCard';
 import { tabMenuList } from '@/constants/tabMenuList/mypage';
 
 export default async function Layout({ children }) {
