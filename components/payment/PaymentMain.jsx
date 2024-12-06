@@ -9,17 +9,17 @@ import 'swiper/css/effect-cards';
 import { EffectCards } from 'swiper/modules';
 import styles from './PaymentMain.module.css';
 import { useState, useEffect } from 'react';
-import { cardLists } from '@/constants/dummy';
 import Image from 'next/image';
 import useModal from '@/hooks/useModal';
 import { useNavVisible } from '@/hooks/useNavVisible';
 
-export default function PaymentMain() {
+export default function PaymentMain({ paymentData }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [agitInfo, setAgitInfo] = useState({ name: '', cardName: '', cardCode: '', agitRole: false });
   const [paymentActivation, setPaymentActivation] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const [timeLeft, setTimeLeft] = useState(10);
+
   useNavVisible(false);
   // 타이머 동작 로직
   useEffect(() => {
@@ -33,13 +33,22 @@ export default function PaymentMain() {
   }, [paymentActivation]);
 
   useEffect(() => {
-    const currentCard = cardLists[activeIndex];
-    if (currentCard) {
+    const currentCard = paymentData[activeIndex];
+    if (currentCard && (currentCard.agitRole === 'LEADER' || currentCard.agitRole === 'STAFF')) {
+      console.log('role: true');
       setAgitInfo({
         name: currentCard.name,
         cardName: currentCard.cardName,
         cardCode: currentCard.cardCode,
-        agitRole: currentCard.agitRole,
+        agitRole: true,
+      });
+    } else if (currentCard && currentCard.agitRole === 'MEMBER') {
+      console.log('role: false');
+      setAgitInfo({
+        name: currentCard.name,
+        cardName: currentCard.cardName,
+        cardCode: currentCard.cardCode,
+        agitRole: false,
       });
     }
   }, [activeIndex]);
@@ -69,7 +78,7 @@ export default function PaymentMain() {
 
   return (
     <>
-      {agitInfo.agitRole == true && cardLists[activeIndex].cardName !== '' ? (
+      {agitInfo.agitRole && paymentData[activeIndex].cardName !== '' ? (
         <Modal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -81,7 +90,7 @@ export default function PaymentMain() {
             />
           }
         />
-      ) : agitInfo.agitRole === true && cardLists[activeIndex].cardName === '' ? (
+      ) : agitInfo.agitRole && paymentData[activeIndex].cardName === '' ? (
         <Modal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -151,7 +160,7 @@ export default function PaymentMain() {
                     className={styles.swiper}
                     onSlideChange={handleSlideChange}
                   >
-                    {cardLists.map((card, index) => (
+                    {paymentData.map((card, index) => (
                       <SwiperSlide
                         key={`card${index}`}
                         className={`${styles.swiperCardSlide} ${card.cardName == '' && styles.swiperAppendSlide}`}
@@ -167,7 +176,7 @@ export default function PaymentMain() {
                             />
                           </Box>
                         ) : (
-                          <Image src={`/imgs/${card.src}`} width={190} height={300} alt={`카드 이미지`} priority />
+                          <Image src={`${card.src}`} width={190} height={300} alt={`카드 이미지`} priority />
                         )}
                       </SwiperSlide>
                     ))}
@@ -184,7 +193,7 @@ export default function PaymentMain() {
                 <ButtonL style="deep" onClick={handleClickReset}>
                   취소하기
                 </ButtonL>
-              ) : cardLists[activeIndex].cardName !== '' ? (
+              ) : paymentData[activeIndex].cardName !== '' ? (
                 <ButtonL style="deep" onClick={openModal}>
                   결제하기
                 </ButtonL>
