@@ -1,5 +1,6 @@
 'use server';
 import instance from '@/apis/instance';
+import { revalidatePath } from 'next/cache';
 
 //공통 회비 조회(남은 회비 잔액, 회비 날짜)
 export const getDues = async (id) => {
@@ -42,5 +43,15 @@ export const getAccountDetails = async (id, selectPeriod, transactionType, order
 // 모임통장에 이체정보 확인
 export const getMyAccountHistory = async (date) => {
   const response = await instance.get(`accounts/history?year=${date.year}&month=${date.month}`);
+  return response;
+};
+
+// 아지트 가입신청
+export const applyForAgit = async (agitId, keyWord) => {
+  const response = await instance.post('agits/registrations', {
+    body: JSON.stringify({ agitId }),
+  });
+  revalidatePath(`/service/search?q=${keyWord}`);
+
   return response;
 };
