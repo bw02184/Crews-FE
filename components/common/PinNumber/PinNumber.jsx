@@ -12,8 +12,10 @@ import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 import { payCrewFee, updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 import { mutate } from 'swr';
+import { transfer } from '@/apis/agitsAPI';
 
-export default function PinNumber({ defaultStage, defaultStatus, data, callback }) {
+export default function PinNumber({ defaultStage, defaultStatus, data, closeModal, callback }) {
+
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -192,6 +194,17 @@ export default function PinNumber({ defaultStage, defaultStatus, data, callback 
       }
       if (status == 'transferAgit') {
         // 아지트 이체 로직
+        const { agitId, ...restData } = data;
+        const agitData = { ...restData, pinNumber: pinNumber };
+        const response = await transfer(agitId, agitData);
+        if (response?.errorCode) {
+          scrollToTop();
+          showToast(response.message);
+          return;
+        }
+        closeModal();
+        router.push(`/service/agits/${agitId}/accounts/dues`);
+        return;
       }
       if (status == 'payment') {
         // 결제 로직
