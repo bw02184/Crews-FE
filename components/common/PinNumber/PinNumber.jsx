@@ -11,11 +11,9 @@ import scrollToTop from '@/utils/scrollToTop';
 import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 import { payCrewFee, updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
-import { mutate } from 'swr';
 import { transfer } from '@/apis/agitsAPI';
 
 export default function PinNumber({ defaultStage, defaultStatus, data, closeModal, callback }) {
-
   // 입력값 관리
   const { control, handleSubmit, reset } = useForm();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
