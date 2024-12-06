@@ -67,6 +67,7 @@ export const createAgitRequest = async (formData) => {
   const response = await instance.post('agits', {
     body: JSON.stringify(formData),
   });
+  return response;
 };
 
 // 아지트 가입신청
@@ -84,7 +85,7 @@ export const getRecruitNewAgits = async () => {
   return response;
 };
 
-// 모임통장에 이체정보 확인
+// 모임통장 회비납부
 export const transfer = async (agitId, data) => {
   const response = await instance.post(`agits/${agitId}/accounts/transfer`, {
     body: JSON.stringify({ ...data }),

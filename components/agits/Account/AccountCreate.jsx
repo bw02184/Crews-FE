@@ -17,6 +17,8 @@ export default function DepositProduct({ agitId, product }) {
     if (response?.errorCode) {
       throw new Error(response.message);
     }
+
+    console.log('계좌개설', response);
   };
 
   return (

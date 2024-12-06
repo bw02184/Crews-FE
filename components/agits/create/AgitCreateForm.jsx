@@ -96,6 +96,8 @@ export default function AgitCreateForm({ subjects }) {
     if (response?.errorCode) {
       showToast(response.message);
     } else {
+      console.log('response', response);
+      console.log('response.id', response.id);
       router.push(`/service/agits/create/done?q=${response.id}`);
     }
   };
