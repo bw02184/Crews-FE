@@ -55,13 +55,14 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
   const { data: cardIssuanceInfo, mutate } = useSWR(
     `agits/${agitId}/accounts/cards`,
     async () => {
-      const response = await cardIssuance(params.agitId);
+      const response = await cardIssuance(agitId);
       return response;
     },
     {
       fallbackData: isCard,
     },
   );
+  console.log(cardIssuanceInfo);
 
   const handleCardRemoved = async () => {
     const cardRemoveData = {
@@ -118,7 +119,7 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
                     leftButton={{ text: '권한 요청하기', isLoading: 'true' }}
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
                   />
-                ) : !cardIssuanceInfo.isCardExist ? (
+                ) : !cardIssuanceInfo.cardExist ? (
                   <ButtonM
                     leftButton={{ text: '카드 발급하기', onClick: handleCardIssued }}
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
@@ -129,7 +130,7 @@ export default function AccountAndHeader({ agitId, dues, data, isCard }) {
                     rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
                   />
                 )
-              ) : !cardIssuanceInfo.isCardExist ? (
+              ) : !cardIssuanceInfo.cardExist ? (
                 <ButtonM
                   leftButton={{ text: '카드 발급하기', onClick: handleCardIssued }}
                   rightButton={{ text: '상세 내역보기', as: 'link', href: `/service/agits/${agitId}/accounts` }}
