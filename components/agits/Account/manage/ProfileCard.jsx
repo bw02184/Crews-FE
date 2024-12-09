@@ -39,7 +39,7 @@ export default function ProfileCard({ agitId, commonDues, profileData, yearAndMo
             <div
               className={`${styles.profile_img} back_img ${profileData.image == null ? styles.blank : ''}`}
               style={{
-                backgroundImage: `url(${profileData.image == null || profileData.image == '' ? '(/imgs/img_bg_profile.jpg)' : CDN_URL + profileData.image})`,
+                backgroundImage: `url(${profileData.image == null || profileData.image == '' ? '/imgs/img_bg_profile.jpg' : CDN_URL + profileData.image})`,
               }}
             >
               <Image src="/imgs/img_bg_profile.jpg" width={56} height={56} alt={`${profileData.image} 프로필 이미지`} />

@@ -87,7 +87,7 @@ export default function DepositProduct({ agitId, product }) {
               <div
                 className={`${styles.img} back_img ${product.bankImage == null ? styles.blank : ''}`}
                 style={{
-                  backgroundImage: `url(${product.bankImage == null || product.bankImage == '' ? '(/imgs/img_bg_bank.jpg)' : CDN_URL + product.bankImage})`,
+                  backgroundImage: `url(${product.bankImage == null || product.bankImage == '' ? '/imgs/img_bg_bank.jpg' : CDN_URL + product.bankImage})`,
                 }}
               >
                 <Image src="/imgs/img_bg_bank.jpg" width={30} height={30} alt={`${product.bankName} 이미지`} />

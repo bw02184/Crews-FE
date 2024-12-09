@@ -16,7 +16,7 @@ export default function Account({ data, hide = false }) {
             <div
               className={`${styles.img} back_img ${data.bankImage == null ? styles.blank : ''}`}
               style={{
-                backgroundImage: `url(${data.bankImage == null || data.bankImage == '' ? '(/imgs/img_bg_bank.jpg)' : CDN_URL + data.bankImage})`,
+                backgroundImage: `url(${data.bankImage == null || data.bankImage == '' ? '/imgs/img_bg_bank.jpg' : CDN_URL + data.bankImage})`,
               }}
             >
               <Image src="/imgs/img_bg_bank.jpg" width={30} height={30} alt={`${data.bankName} 이미지`} />
