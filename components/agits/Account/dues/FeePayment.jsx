@@ -22,11 +22,11 @@ export default function FeePayment({ agitId, data, yearAndMonth }) {
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
   const pinData = {
     agitId: agitId,
-    recvAccountNumber: selectedCrewAccouont.accountNumber,
-    accountId: selectedAccount.accountId,
-    amount: selectedCrewAccouont.duesAmount,
-    year: yearAndMonth.year,
-    month: yearAndMonth.month,
+    recvAccountNumber: selectedCrewAccouont?.accountNumber,
+    accountId: selectedAccount?.accountId,
+    amount: selectedCrewAccouont?.duesAmount,
+    year: yearAndMonth?.year,
+    month: yearAndMonth?.month,
   };
   return (
     <Flex direction="column" gap="20px">
@@ -35,15 +35,15 @@ export default function FeePayment({ agitId, data, yearAndMonth }) {
           <Flex align="center" gap="10px">
             <Box className={styles.img_box}>
               <Box className="back_img" style={{ backgroundImage: `url('/dev/img_bank.jpg')` }}>
-                <Image src={'/dev/img_bank.jpg'} width={36} height={36} alt={selectedCrewAccouont.bankName} />
+                <Image src={'/dev/img_bank.jpg'} width={36} height={36} alt={selectedCrewAccouont?.bankName} />
               </Box>
             </Box>
             <Flex direction="column" gap="2px">
               <Text as="p" size="2" weight="medium">
-                {selectedCrewAccouont.productName}
+                {selectedCrewAccouont?.productName}
               </Text>
               <Text as="p" size="3" className="gray_t2">
-                {selectedCrewAccouont.accountNumber}
+                {selectedCrewAccouont?.accountNumber}
               </Text>
             </Flex>
           </Flex>

@@ -7,7 +7,8 @@ module.exports = defineConfig({
     },
 
     baseUrl: 'http://localhost:3000',
-    experimentalSessionAndOrigin: true, // 세션 및 리다이렉트 지원 활성화
+    experimentalSessionAndOrigin: true,
     experimentalStudio: true,
+    chromeWebSecurity: false,
   },
 });

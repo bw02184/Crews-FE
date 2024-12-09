@@ -21,14 +21,14 @@ Cypress.Commands.add('login', (email, password) => {
 
 Cypress.Commands.add('setValue', (selector, value) => {
   cy.get(selector).then(($input) => {
-    $input[0].value = value; // value 속성 직접 설정
-    $input[0].dispatchEvent(new Event('input', { bubbles: true })); // input 이벤트 트리거
+    $input[0].value = value;
+    $input[0].dispatchEvent(new Event('input', { bubbles: true }));
   });
 });
 
 Cypress.Commands.add('setReadOnlyInputValue', (selector, value) => {
   cy.get(selector).then(($input) => {
-    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call($input[0], value); // 강제로 값 설정
-    $input[0].dispatchEvent(new Event('input', { bubbles: true })); // input 이벤트 트리거
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call($input[0], value);
+    $input[0].dispatchEvent(new Event('input', { bubbles: true }));
   });
 });
