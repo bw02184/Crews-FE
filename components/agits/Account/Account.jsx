@@ -19,7 +19,7 @@ export default function Account({ data, hide = false }) {
                 backgroundImage: `url(${data.bankImage == null || data.bankImage == '' ? '(/imgs/img_bg_bank.jpg)' : CDN_URL + data.bankImage})`,
               }}
             >
-              <Image src="/imgs/img_bg_bank.jpg" width={30} height={30} alt={`${data.bankName} 프로필 이미지`} />
+              <Image src="/imgs/img_bg_bank.jpg" width={30} height={30} alt={`${data.bankName} 이미지`} />
             </div>
           </div>
 
