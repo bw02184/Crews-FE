@@ -88,65 +88,71 @@ export default function ComplaintList({ initReports }) {
       >
         <ReportModalContent mutate={mutate} feedId={detailId.feedId} />
       </Modal>
-      <InfiniteScroll
-        dataLength={data?.length}
-        hasMore={reportData?.hasNext}
-        next={loadMore}
-        loader={<TableRowSkeleton />}
-      >
-        <div className={styles.table}>
-          <Table.Root variant="surface">
-            <colgroup>
-              <col width="80px" />
-              <col width="*" />
-              <col width="*" />
-              <col width="130px" />
-              <col width="80px" />
-            </colgroup>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell>no</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell align="left">활동기록</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell align="left">신고사유</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>상세보기</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>확인여부</Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {data.map((report, i) => {
-                return (
-                  <Table.Row key={`report${i}`}>
-                    <Table.RowHeaderCell>{i + 1}</Table.RowHeaderCell>
-                    <Table.Cell align="left">
-                      <Text as="p" className="txt_line">
-                        {report.feedContent}
-                      </Text>
-                    </Table.Cell>
-                    <Table.Cell align="left">
-                      <Text as="p" className="txt_line">
-                        {report.content}
-                      </Text>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <button
-                        className={`${styles.btn_detail} red`}
-                        onClick={() => {
-                          handleModalOpen(report.id, report.feedId, report.memberId);
-                        }}
-                      >
-                        신고상세
-                      </button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className={styles.svg}>{report.checked && <CheckIcon />}</div>
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })}
-            </Table.Body>
-          </Table.Root>
-        </div>
-      </InfiniteScroll>
+      {(data == undefined || data.length == 0) && !isLoading ? (
+        <Text as="p" weight="medium">
+          신고내역이 존재하지 않습니다.
+        </Text>
+      ) : (
+        <InfiniteScroll
+          dataLength={data?.length}
+          hasMore={reportData?.hasNext}
+          next={loadMore}
+          loader={<TableRowSkeleton />}
+        >
+          <div className={styles.table}>
+            <Table.Root variant="surface">
+              <colgroup>
+                <col width="80px" />
+                <col width="*" />
+                <col width="*" />
+                <col width="130px" />
+                <col width="80px" />
+              </colgroup>
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeaderCell>no</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell align="left">활동기록</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell align="left">신고사유</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>상세보기</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>확인여부</Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {data.map((report, i) => {
+                  return (
+                    <Table.Row key={`report${i}`}>
+                      <Table.RowHeaderCell>{i + 1}</Table.RowHeaderCell>
+                      <Table.Cell align="left">
+                        <Text as="p" className="txt_line">
+                          {report.feedContent}
+                        </Text>
+                      </Table.Cell>
+                      <Table.Cell align="left">
+                        <Text as="p" className="txt_line">
+                          {report.content}
+                        </Text>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <button
+                          className={`${styles.btn_detail} red`}
+                          onClick={() => {
+                            handleModalOpen(report.id, report.feedId, report.memberId);
+                          }}
+                        >
+                          신고상세
+                        </button>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <div className={styles.svg}>{report.checked && <CheckIcon />}</div>
+                      </Table.Cell>
+                    </Table.Row>
+                  );
+                })}
+              </Table.Body>
+            </Table.Root>
+          </div>
+        </InfiniteScroll>
+      )}
     </>
   );
 }
