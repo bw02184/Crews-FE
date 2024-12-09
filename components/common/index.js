@@ -11,7 +11,7 @@ import { NavigationService, NavigationAdmin } from './Navigation';
 import { PinNumber } from './PinNumber';
 import { PinNumberText } from './PinNumber';
 import { SelectFilter } from './SelectFilter';
-import { ImageCardSkeleton } from './Skeleton';
+import { ImageCardSkeleton, TableRowSkeleton } from './Skeleton';
 import { TabMenu } from './TabMenu';
 import { Title } from './Title';
 import { Toast } from './Toast';
@@ -35,6 +35,7 @@ export {
   PinNumberText,
   SelectFilter,
   ImageCardSkeleton,
+  TableRowSkeleton,
   TabMenu,
   Title,
   Toast,

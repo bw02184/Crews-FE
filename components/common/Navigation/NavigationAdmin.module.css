@@ -31,28 +31,8 @@
   border-radius: 3px;
   background-color: var(--point-lime-2);
 }
-.navigation nav ul li a {
+.navigation nav em {
   display: block;
   font-size: 16px;
   font-weight: 700;
-  color: var(--gray-txt-2);
-  transition: color 0.2s linear;
-}
-.navigation nav ul li a:hover {
-  color: #000;
-}
-.navigation nav ul li a.active {
-  position: relative;
-  color: #000;
-}
-.navigation nav ul li a.active::before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  margin-left: -50px;
-  width: 100px;
-  height: 5px;
-  background-color: var(--point-lime-2);
 }
