@@ -13,6 +13,7 @@ import Image from 'next/image';
 import useModal from '@/hooks/useModal';
 import { useNavVisible } from '@/hooks/useNavVisible';
 import { getQRCode, getPaymentResult } from '@/apis/paymentAPI';
+import { useRouter } from 'next/navigation';
 
 export default function PaymentMain({ paymentData }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -21,6 +22,7 @@ export default function PaymentMain({ paymentData }) {
   const { isOpen, openModal, closeModal } = useModal();
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
   const [timeLeft, setTimeLeft] = useState(5);
+  const router = useRouter();
 
   useNavVisible(false);
 
@@ -99,6 +101,10 @@ export default function PaymentMain({ paymentData }) {
     pinOpenModal();
   };
 
+  const handleCreateCard = () => {
+    router.push(`/service/agits/${agitInfo.agitId}`);
+  }
+
   return (
     <>
       <Modal
@@ -143,7 +149,7 @@ export default function PaymentMain({ paymentData }) {
             title: agitInfo.name,
             text: '해당 아지트에 개설된 모임 통장으로 발급받은 카드가 없습니다. 카드를 발급하시겠습니까?',
           }}
-          footer={<ButtonM leftButton={{ onClick: closeModal, text: '취소' }} rightButton={{ text: '발급' }} />}
+          footer={<ButtonM leftButton={{ onClick: closeModal, text: '취소' }} rightButton={{ onClick: handleCreateCard, text: '발급' }} />}
         />
       ) : (
         <Modal
