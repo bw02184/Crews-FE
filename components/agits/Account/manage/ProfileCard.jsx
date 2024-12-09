@@ -14,7 +14,7 @@ export default function ProfileCard({ agitId, commonDues, profileData, yearAndMo
 
   const handleCall = async () => {
     const duesData = {
-      memberId: [data.memberId],
+      memberId: [profileData.memberId],
       duesAmount: commonDues?.dueAmount,
       year: yearAndMonth?.year,
       month: yearAndMonth?.month,
