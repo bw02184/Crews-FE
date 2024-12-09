@@ -5,6 +5,7 @@ import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import { ButtonL, Modal, PinNumber, SelectFilter } from '@/components/common';
 import { useModal } from '@/hooks';
+import { CDN_URL } from '@/constants/auth';
 
 export default function FeePayment({ agitId, data, yearAndMonth }) {
   const crewaccountlist = data.crewAccountList;
@@ -34,8 +35,13 @@ export default function FeePayment({ agitId, data, yearAndMonth }) {
         <Card>
           <Flex align="center" gap="10px">
             <Box className={styles.img_box}>
-              <Box className="back_img" style={{ backgroundImage: `url('/dev/img_bank.jpg')` }}>
-                <Image src={'/dev/img_bank.jpg'} width={36} height={36} alt={selectedCrewAccouont?.bankName} />
+              <Box
+                className="back_img"
+                style={{
+                  backgroundImage: `url(${selectedCrewAccouont.bankImage == '' || selectedCrewAccouont.bankImage == null ? '/imgs/img_bg_bank.jpg' : CDN_URL + selectedCrewAccouont.bankImage})`,
+                }}
+              >
+                <Image src={'/imgs/img_bg_bank.jpg'} width={36} height={36} alt={selectedCrewAccouont?.bankName} />
               </Box>
             </Box>
             <Flex direction="column" gap="2px">
