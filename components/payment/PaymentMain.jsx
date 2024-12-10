@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/effect-cards';
 import { EffectCards } from 'swiper/modules';
 import styles from './PaymentMain.module.css';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import Image from 'next/image';
 import { useModal, useToast } from '@/hooks';
 import { useNavVisible } from '@/hooks/useNavVisible';
@@ -22,28 +22,44 @@ export default function PaymentMain({ paymentData }) {
   const { isOpen, openModal, closeModal } = useModal();
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
   const [timeLeft, setTimeLeft] = useState(5);
+  const timeLeftRef = useRef(5); // useRef는 컴포넌트 최상위에서 선언
   const router = useRouter();
   const { toast, setToast, toastMessage, showToast } = useToast();
 
   useNavVisible(false);
 
-  // 타이머 동작 및 결제 상태 확인 로직
   useEffect(() => {
     let timer;
+
+    // 항상 최신 timeLeft 값을 참조
+    timeLeftRef.current = timeLeft;
+
     if (paymentActivation) {
       timer = setInterval(async () => {
-        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+        // timeLeft 감소 로직
+        if (timeLeftRef.current > 0) {
+          setTimeLeft((prev) => {
+            timeLeftRef.current = prev - 1; // 최신 값 업데이트
+            return prev - 1;
+          });
+        } else {
+          setPaymentActivation(false);
+          clearInterval(timer);
+          setTimeLeft(5); // 타이머 초기화
+        }
+
         const response = await getPaymentResult(paymentData[activeIndex].agitId);
         if (response?.data !== null) {
           setPaymentActivation(false);
-          setTimeLeft(5);
-          return clearInterval(timer); // 타이머 중단
-        } else if (timeLeft == 0) {
-          return clearInterval(timer); // 타이머 중단
+          clearInterval(timer);
+          setTimeLeft(5); // 타이머 초기화
         }
       }, 1000);
     }
-    return () => clearInterval(timer);
+
+    return () => {
+      if (timer) clearInterval(timer); // 기존 타이머 정리
+    };
   }, [paymentActivation, activeIndex, paymentData]);
 
   useEffect(() => {
