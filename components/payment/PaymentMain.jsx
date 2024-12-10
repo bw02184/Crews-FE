@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/effect-cards';
 import { EffectCards } from 'swiper/modules';
 import styles from './PaymentMain.module.css';
-import { useState, useEffect, Suspense, useRef } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import { useModal, useToast } from '@/hooks';
 import { useNavVisible } from '@/hooks/useNavVisible';
@@ -21,45 +21,29 @@ export default function PaymentMain({ paymentData }) {
   const [paymentActivation, setPaymentActivation] = useState(false);
   const { isOpen, openModal, closeModal } = useModal();
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
-  const [timeLeft, setTimeLeft] = useState(5);
-  const timeLeftRef = useRef(5); // useRef는 컴포넌트 최상위에서 선언
+  const [timeLeft, setTimeLeft] = useState(59);
   const router = useRouter();
   const { toast, setToast, toastMessage, showToast } = useToast();
 
   useNavVisible(false);
 
+  // 타이머 동작 및 결제 상태 확인 로직
   useEffect(() => {
     let timer;
-
-    // 항상 최신 timeLeft 값을 참조
-    timeLeftRef.current = timeLeft;
-
     if (paymentActivation) {
       timer = setInterval(async () => {
-        // timeLeft 감소 로직
-        if (timeLeftRef.current > 0) {
-          setTimeLeft((prev) => {
-            timeLeftRef.current = prev - 1; // 최신 값 업데이트
-            return prev - 1;
-          });
-        } else {
-          setPaymentActivation(false);
-          clearInterval(timer);
-          setTimeLeft(5); // 타이머 초기화
-        }
-
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
         const response = await getPaymentResult(paymentData[activeIndex].agitId);
         if (response?.data !== null) {
           setPaymentActivation(false);
-          clearInterval(timer);
-          setTimeLeft(5); // 타이머 초기화
+          setTimeLeft(59);
+          return clearInterval(timer); // 타이머 중단
+        } else if (timeLeft == 0) {
+          return clearInterval(timer); // 타이머 중단
         }
       }, 1000);
     }
-
-    return () => {
-      if (timer) clearInterval(timer); // 기존 타이머 정리
-    };
+    return () => clearInterval(timer);
   }, [paymentActivation, activeIndex, paymentData]);
 
   useEffect(() => {
@@ -93,7 +77,7 @@ export default function PaymentMain({ paymentData }) {
     // const response = await getQRCode();
     setAgitInfo({ ...agitInfo, qrCode: response.qrCode, pinNumber: response.pinNumber });
     setPaymentActivation(true);
-    setTimeLeft(5); // 타이머 초기화
+    setTimeLeft(59); // 타이머 초기화
     closeModal(); // 모달 닫기
   };
 
@@ -102,13 +86,13 @@ export default function PaymentMain({ paymentData }) {
       // 시간이 초과된 경우 타이머를 다시 초기화\
       const response = await getQRCode({ agitId: paymentData[activeIndex].agitId, pinNumber: agitInfo.pinNumber });
       setAgitInfo({ ...agitInfo, qrCode: response.qrCode });
-      setTimeLeft(5);
+      setTimeLeft(59);
       setPaymentActivation(true); // 결제 활성화 상태 유지
     } else {
       // 결제 취소
       setAgitInfo({ ...agitInfo, qrCode: '' });
       setPaymentActivation(false);
-      setTimeLeft(5); // 타이머 초기화
+      setTimeLeft(59); // 타이머 초기화
       setActiveIndex(0);
     }
   };
