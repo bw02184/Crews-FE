@@ -21,3 +21,9 @@ export const getPaymentResult = async () => {
   const response = await instance.get('payments/result');
   return response;
 };
+
+// 결제 권한 요청
+export const requestAccountAuthority = async (agitsId) => {
+  const response = await instance.post(`agits/${agitsId}/accounts/permissions`);
+  return response;
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonL, ButtonM, Title, Modal, PinNumber } from '@/components/common';
+import { ButtonL, ButtonM, Title, Modal, PinNumber, Toast } from '@/components/common';
 import CardInfo from '@/components/payment/CardInfo';
 import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -10,9 +10,9 @@ import { EffectCards } from 'swiper/modules';
 import styles from './PaymentMain.module.css';
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
-import useModal from '@/hooks/useModal';
+import { useModal, useToast } from '@/hooks';
 import { useNavVisible } from '@/hooks/useNavVisible';
-import { getQRCode, getPaymentResult } from '@/apis/paymentAPI';
+import { getQRCode, getPaymentResult, requestAccountAuthority } from '@/apis/paymentAPI';
 import { useRouter } from 'next/navigation';
 
 export default function PaymentMain({ paymentData }) {
@@ -23,6 +23,7 @@ export default function PaymentMain({ paymentData }) {
   const { isOpen: pinIsOpen, openModal: pinOpenModal, closeModal: pinCloseModal } = useModal();
   const [timeLeft, setTimeLeft] = useState(5);
   const router = useRouter();
+  const { toast, setToast, toastMessage, showToast } = useToast();
 
   useNavVisible(false);
 
@@ -54,16 +55,16 @@ export default function PaymentMain({ paymentData }) {
         cardCode: currentCard.cardCode,
         agitRole: true,
         qrCode: '',
-        pinNumber: ''
+        pinNumber: '',
       });
-    } else if (currentCard && currentCard.agitRole === 'MEMBER') {
+    } else if ((currentCard && currentCard.agitRole === 'MEMBER') || currentCard.agitRole === 'ADVENCED') {
       setAgitInfo({
         name: currentCard.name,
         cardName: currentCard.cardName,
         cardCode: currentCard.cardCode,
         agitRole: false,
         qrCode: '',
-        pinNumber: ''
+        pinNumber: '',
       });
     }
   }, [activeIndex]);
@@ -103,10 +104,25 @@ export default function PaymentMain({ paymentData }) {
 
   const handleCreateCard = () => {
     router.push(`/service/agits/${agitInfo.agitId}`);
-  }
+  };
+
+  const handleAccountAuthority = async () => {
+    await requestAccountAuthority(paymentData[activeIndex].agitId);
+    closeModal();
+    showToast('모임통장 권한이 요청되었습니다.');
+  };
 
   return (
     <>
+      <Toast
+        as="info"
+        isActive={toast}
+        onClose={() => {
+          setToast(false);
+        }}
+      >
+        {toastMessage}
+      </Toast>
       <Modal
         isOpen={pinIsOpen}
         closeModal={pinCloseModal}
@@ -149,7 +165,12 @@ export default function PaymentMain({ paymentData }) {
             title: agitInfo.name,
             text: '해당 아지트에 개설된 모임 통장으로 발급받은 카드가 없습니다. 카드를 발급하시겠습니까?',
           }}
-          footer={<ButtonM leftButton={{ onClick: closeModal, text: '취소' }} rightButton={{ onClick: handleCreateCard, text: '발급' }} />}
+          footer={
+            <ButtonM
+              leftButton={{ onClick: closeModal, text: '취소' }}
+              rightButton={{ onClick: handleCreateCard, text: '발급' }}
+            />
+          }
         />
       ) : (
         <Modal
@@ -159,7 +180,12 @@ export default function PaymentMain({ paymentData }) {
             title: agitInfo.name,
             text: '해당 아지트에 개설된 모임 통장 권한이 없습니다. 출금 및 결제 권한을 요청할까요?',
           }}
-          footer={<ButtonM leftButton={{ onClick: closeModal, text: '취소' }} rightButton={{ text: '요청' }} />}
+          footer={
+            <ButtonM
+              leftButton={{ onClick: closeModal, text: '취소' }}
+              rightButton={{ onClick: handleAccountAuthority, text: '요청' }}
+            />
+          }
         />
       )}
 
