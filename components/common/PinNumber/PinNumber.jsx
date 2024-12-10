@@ -12,6 +12,7 @@ import { useSignupStore } from '@/stores/authStore';
 import { signUp } from '@/apis/authAPI';
 import { payCrewFee, updatePinNumber, verifyPinNumber } from '@/apis/mypageAPI';
 import { transfer } from '@/apis/agitsAPI';
+import { getQRCode } from '@/apis/paymentAPI';
 
 export default function PinNumber({ defaultStage, defaultStatus, data, closeModal, callback }) {
   // 입력값 관리
@@ -208,7 +209,14 @@ export default function PinNumber({ defaultStage, defaultStatus, data, closeModa
         return;
       }
       if (status == 'payment') {
-        // 결제 로직
+        const agitId = data;
+        const response = await getQRCode({ agitId, pinNumber });
+        if (response.error) {
+          showToast(response.error);
+          return;
+        }
+        callback({ ...response, pinNumber });
+        closeModal();
       }
     }
   };
