@@ -95,7 +95,6 @@ export default function SearchResult({ params }) {
     }
 
     const responseAgitInfo = await getAgitInfo();
-    console.log(responseAgitInfo);
     if (!responseAgitInfo.errorCode) {
       localStorage.setItem('agitInfoList', JSON.stringify(responseAgitInfo.agitInfoList));
     }
