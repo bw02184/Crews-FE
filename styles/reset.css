@@ -66,6 +66,11 @@
 .rt-BaseTabListTriggerInnerHidden {
   padding: 2px 8px;
 }
+.rt-TableCell {
+  padding: 10px 15px;
+  vertical-align: middle;
+}
+
 /* reset */
 * {
   text-size-adjust: none;
