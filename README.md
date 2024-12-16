@@ -166,3 +166,48 @@ button/submit/link가 아닌데 Button 스타일이라면 `Label`을 사용
 
 예시
 `[feat/#이슈번호]: 타워 추가`
+
+UI/UX
+로그인 하지 않은 홈 화면<br>
+![image](https://github.com/user-attachments/assets/eeea9aa9-f109-46aa-97f8-0b418d2961d9)
+
+마이페이지<br>
+![image](https://github.com/user-attachments/assets/5ebd85cd-1938-41ba-90f1-adfd233b0b61)
+
+마이페이지 - 자산관리<br>
+![image](https://github.com/user-attachments/assets/5d570f83-dfae-4d80-9cdc-5c7005f4c1a8)
+
+마이페이지 - 자산관리 - 회비납부<br>
+![image](https://github.com/user-attachments/assets/b80e386e-0b66-47bd-a939-8797948f57e2)
+
+검색<br>
+![image](https://github.com/user-attachments/assets/de392593-3174-4db7-938e-3339f5601e8e)
+
+아지트 가입 창<br>
+![image](https://github.com/user-attachments/assets/2c7ad68d-ef2f-492a-8138-dbdc39a2a8ad)
+
+직접 구현한 부분<br>
+-------------------------------------------------------------------------------------------------------------------
+아지트 홈 ( 모임장 - 모임통장 계설 안한 상태)<br>
+![image](https://github.com/user-attachments/assets/ed6ba677-7aca-4dfa-8886-0351fb88fdac)
+
+아지트 모임통장 가입<br>
+![image](https://github.com/user-attachments/assets/8c06e2df-bdbf-4844-aa65-2ba1b21df655)
+
+아지트 홈 ( 모임장 - 모임통장 계설 한 상태)<br>
+![image](https://github.com/user-attachments/assets/ab701d85-c576-406b-b8ae-4520145e1cbe)
+
+아지트 모임통장 상세<br>
+![image](https://github.com/user-attachments/assets/f8615a06-adce-4d78-9768-e4f1a8008a11)
+
+모임통장 공통회비 설정<br>
+![image](https://github.com/user-attachments/assets/4f915cac-b02e-485f-b1aa-df47d8a8e169)
+
+모임통장 회비 납부시 회비납부 화면<br>
+![image](https://github.com/user-attachments/assets/11c54098-e34a-4eec-bb1f-8ce5721e62b8)
+
+모임통장 회비 납부 안했을 시 회비납부 화면<br>
+![image](https://github.com/user-attachments/assets/8976d559-27b8-4255-aa5f-d779eb3987a2)
+
+모임통장 회비납부 핀번호 입력<br>
+![image](https://github.com/user-attachments/assets/d606e615-1dd8-4f3e-9620-65d14b26bc2a)
